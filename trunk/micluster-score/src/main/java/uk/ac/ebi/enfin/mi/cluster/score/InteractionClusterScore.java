@@ -9,7 +9,6 @@ import psidev.psi.mi.tab.PsimiTabWriter;
 import psidev.psi.mi.tab.model.BinaryInteraction;
 import psidev.psi.mi.tab.model.Confidence;
 import psidev.psi.mi.tab.model.ConfidenceImpl;
-import psidev.psi.mi.tab.model.CrossReference;
 import uk.ac.ebi.enfin.mi.cluster.*;
 import uk.ac.ebi.enfin.mi.score.ols.MIOntology;
 import uk.ac.ebi.enfin.mi.score.scores.MIScore;
@@ -208,13 +207,7 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
             }
 
             logger.debug("Calculate number of Pubmed ids");
-            int numberOfPubmedIds = 0;
-            List<CrossReference> publications = eI.getPublicationIds();
-            for(CrossReference publication:publications){
-                if(publication.getDatabase().equalsIgnoreCase("pubmed")){
-                    numberOfPubmedIds++;
-                }
-            }
+            int numberOfPubmedIds = eI.getDistinctPublications().size();
 
             logger.debug("Calculate confidence score");
             Float scoreResult = 0f;
@@ -301,6 +294,48 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
                 existingMethodTypeToPubmed.put(entry.getKey(), entry.getValue());
             }
         }
+    }
+
+    @Override
+    protected EncoreInteractionForScoring mergeWithExistingEncoreInteraction(EncoreInteractionForScoring encoreInteraction, int interactionIdFound) {
+        EncoreInteractionForScoring mappingEcoreInteraction;// include additional information about exp, pubmed, ... for this interaction id
+        mappingEcoreInteraction = interactionMapping.get(interactionIdFound);
+        if( mappingEcoreInteraction == null ) {
+            throw new IllegalStateException( "Could not find an EncoreInteraction with id: " + interactionIdFound );
+        }
+        /* Check that interactors are in the same order A=A and B=B */
+        boolean swapInteractors = true;
+        swap_loop:
+        for(String acc:mappingEcoreInteraction.getInteractorAccsA().values()){
+            if(encoreInteraction.getInteractorAccsA().containsValue(acc)){
+                swapInteractors = false;
+                break swap_loop;
+            }
+        }
+        if(swapInteractors){
+            mappingEcoreInteraction.addInteractorAccsA(encoreInteraction.getInteractorAccsB());
+            mappingEcoreInteraction.addInteractorAccsB(encoreInteraction.getInteractorAccsA());
+            mappingEcoreInteraction.addOtherInteractorAccsA(encoreInteraction.getOtherInteractorAccsB());
+            mappingEcoreInteraction.addOtherInteractorAccsB(encoreInteraction.getOtherInteractorAccsA());
+            mappingEcoreInteraction.addOrganismsA(encoreInteraction.getOrganismsB());
+            mappingEcoreInteraction.addOrganismsB(encoreInteraction.getOrganismsA());
+        } else{
+            mappingEcoreInteraction.addInteractorAccsA(encoreInteraction.getInteractorAccsA());
+            mappingEcoreInteraction.addInteractorAccsB(encoreInteraction.getInteractorAccsB());
+            mappingEcoreInteraction.addOtherInteractorAccsA(encoreInteraction.getOtherInteractorAccsA());
+            mappingEcoreInteraction.addOtherInteractorAccsB(encoreInteraction.getOtherInteractorAccsB());
+            mappingEcoreInteraction.addOrganismsA(encoreInteraction.getOrganismsA());
+            mappingEcoreInteraction.addOrganismsB(encoreInteraction.getOrganismsB());
+        }
+        mappingEcoreInteraction.addPublicationId(encoreInteraction.getPublicationIds());
+        mappingEcoreInteraction.addExperimentToPubmed(encoreInteraction.getExperimentToPubmed());
+        mappingEcoreInteraction.addExperimentToDatabase(encoreInteraction.getExperimentToDatabase());
+        processMethodAndType(encoreInteraction, mappingEcoreInteraction);
+        mappingEcoreInteraction.addAuthors(encoreInteraction.getAuthors());
+        mappingEcoreInteraction.addConfidenceValues(encoreInteraction.getConfidenceValues());
+        mappingEcoreInteraction.addSourceDatabases(encoreInteraction.getSourceDatabases());
+        mappingEcoreInteraction.getDistinctPublications().addAll(encoreInteraction.getDistinctPublications());
+        return mappingEcoreInteraction;
     }
 
     @Override
