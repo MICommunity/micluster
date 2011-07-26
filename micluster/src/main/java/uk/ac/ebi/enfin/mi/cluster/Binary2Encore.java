@@ -250,9 +250,64 @@ public class Binary2Encore {
                 }
             }
         }
+        else if (iMethods.isEmpty() && iTypes.size() > 0){
+            for (InteractionType type : iTypes){
+                MethodTypePair pair = new MethodTypePair(null, type.getIdentifier());
+
+                if (encoreInteraction.getMethodTypePairListMap().containsKey(pair)){
+                    encoreInteraction.getMethodTypePairListMap().get(pair).add(pubmed);
+                }
+                else {
+                    List<String> pubmeds = new ArrayList<String>();
+                    pubmeds.add(pubmed);
+
+                    encoreInteraction.getMethodTypePairListMap().put(pair, pubmeds);
+                }
+            }
+        }
+        else if (iTypes.isEmpty() && iMethods.size() > 0){
+            for (InteractionDetectionMethod meth : iMethods){
+                MethodTypePair pair = new MethodTypePair(meth.getIdentifier(), null);
+
+                if (encoreInteraction.getMethodTypePairListMap().containsKey(pair)){
+                    encoreInteraction.getMethodTypePairListMap().get(pair).add(pubmed);
+                }
+                else {
+                    List<String> pubmeds = new ArrayList<String>();
+                    pubmeds.add(pubmed);
+
+                    encoreInteraction.getMethodTypePairListMap().put(pair, pubmeds);
+                }
+            }
+        }
+        // do not associate any interaction type with any detection methods. It will be scored independantly
         else {
-            logger.error("Impossible to convert " + binaryInteraction.toString() + ". It is impossible to associate a detection method to an interaction type");
-            return null;
+            for (InteractionType type : iTypes){
+                MethodTypePair pair = new MethodTypePair(null, type.getIdentifier());
+
+                if (encoreInteraction.getMethodTypePairListMap().containsKey(pair)){
+                    encoreInteraction.getMethodTypePairListMap().get(pair).add(pubmed);
+                }
+                else {
+                    List<String> pubmeds = new ArrayList<String>();
+                    pubmeds.add(pubmed);
+
+                    encoreInteraction.getMethodTypePairListMap().put(pair, pubmeds);
+                }
+            }
+            for (InteractionDetectionMethod meth : iMethods){
+                MethodTypePair pair = new MethodTypePair(meth.getIdentifier(), null);
+
+                if (encoreInteraction.getMethodTypePairListMap().containsKey(pair)){
+                    encoreInteraction.getMethodTypePairListMap().get(pair).add(pubmed);
+                }
+                else {
+                    List<String> pubmeds = new ArrayList<String>();
+                    pubmeds.add(pubmed);
+
+                    encoreInteraction.getMethodTypePairListMap().put(pair, pubmeds);
+                }
+            }
         }
 
         return encoreInteraction;
