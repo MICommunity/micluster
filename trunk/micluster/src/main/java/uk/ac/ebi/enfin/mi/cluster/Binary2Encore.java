@@ -280,7 +280,7 @@ public class Binary2Encore {
                 }
             }
         }
-        // do not associate any interaction type with any detection methods. It will be scored independantly
+        // do not associate any interaction type with any detection methods. It will be scored independently
         else {
             for (InteractionType type : iTypes){
                 MethodTypePair pair = new MethodTypePair(null, type.getIdentifier());
