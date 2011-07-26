@@ -1,8 +1,6 @@
 package uk.ac.ebi.enfin.mi.cluster;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This encore interaction keeps a trace of the association method and interaction type in a clustered binary interaction.
@@ -16,6 +14,7 @@ import java.util.Map;
 public class EncoreInteractionForScoring extends AbstractEncoreInteraction{
 
     private Map<MethodTypePair, List<String>> methodTypePairListMap = new HashMap<MethodTypePair, List<String>>();
+    private Set<String> distinctPublications = new HashSet<String>();
 
     public Map<MethodTypePair, List<String>> getMethodTypePairListMap() {
         return methodTypePairListMap;
@@ -25,6 +24,14 @@ public class EncoreInteractionForScoring extends AbstractEncoreInteraction{
         if (methodTypePairListMap != null){
             this.methodTypePairListMap = methodTypePairListMap;
         }
+    }
+
+    public Set<String> getDistinctPublications() {
+        return distinctPublications;
+    }
+
+    public void setDistinctPublications(Set<String> distinctPublications) {
+        this.distinctPublications = distinctPublications;
     }
 
     public Map<String, List<String>> getMethodToPubmed() {

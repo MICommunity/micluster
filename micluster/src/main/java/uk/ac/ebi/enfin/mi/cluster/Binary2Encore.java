@@ -191,6 +191,7 @@ public class Binary2Encore {
         EncoreInteractionForScoring encoreInteraction = new EncoreInteractionForScoring();
 
         String pubmed = convertEncoreInteraction(encoreInteraction, binaryInteraction);
+        encoreInteraction.getDistinctPublications().add(pubmed);
 
         /* get all types for this interaction */
         List<InteractionType> iTypes = binaryInteraction.getInteractionTypes();
