@@ -318,42 +318,8 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
 
             /* If the interaction is in the interaction mapping object then update the interaction mapping object with additional information */
             if(interactionIdFound > 0){
-                // include additional information about exp, pubmed, ... for this interaction id
-                mappingEcoreInteraction = interactionMapping.get(interactionIdFound);
-                if( mappingEcoreInteraction == null ) {
-                    throw new IllegalStateException( "Could not find an EncoreInteraction with id: " + interactionIdFound );
-                }
-                /* Check that interactors are in the same order A=A and B=B */
-                boolean swapInteractors = true;
-                swap_loop:
-                for(String acc:mappingEcoreInteraction.getInteractorAccsA().values()){
-                    if(encoreInteraction.getInteractorAccsA().containsValue(acc)){
-                        swapInteractors = false;
-                        break swap_loop;
-                    }
-                }
-                if(swapInteractors){
-                    mappingEcoreInteraction.addInteractorAccsA(encoreInteraction.getInteractorAccsB());
-                    mappingEcoreInteraction.addInteractorAccsB(encoreInteraction.getInteractorAccsA());
-                    mappingEcoreInteraction.addOtherInteractorAccsA(encoreInteraction.getOtherInteractorAccsB());
-                    mappingEcoreInteraction.addOtherInteractorAccsB(encoreInteraction.getOtherInteractorAccsA());
-                    mappingEcoreInteraction.addOrganismsA(encoreInteraction.getOrganismsB());
-                    mappingEcoreInteraction.addOrganismsB(encoreInteraction.getOrganismsA());
-                } else{
-                    mappingEcoreInteraction.addInteractorAccsA(encoreInteraction.getInteractorAccsA());
-                    mappingEcoreInteraction.addInteractorAccsB(encoreInteraction.getInteractorAccsB());
-                    mappingEcoreInteraction.addOtherInteractorAccsA(encoreInteraction.getOtherInteractorAccsA());
-                    mappingEcoreInteraction.addOtherInteractorAccsB(encoreInteraction.getOtherInteractorAccsB());
-                    mappingEcoreInteraction.addOrganismsA(encoreInteraction.getOrganismsA());
-                    mappingEcoreInteraction.addOrganismsB(encoreInteraction.getOrganismsB());
-                }
-                mappingEcoreInteraction.addPublicationId(encoreInteraction.getPublicationIds());
-                mappingEcoreInteraction.addExperimentToPubmed(encoreInteraction.getExperimentToPubmed());
-                mappingEcoreInteraction.addExperimentToDatabase(encoreInteraction.getExperimentToDatabase());
-                processMethodAndType(encoreInteraction, mappingEcoreInteraction);
-                mappingEcoreInteraction.addAuthors(encoreInteraction.getAuthors());
-                mappingEcoreInteraction.addConfidenceValues(encoreInteraction.getConfidenceValues());
-                mappingEcoreInteraction.addSourceDatabases(encoreInteraction.getSourceDatabases());
+                mappingEcoreInteraction = mergeWithExistingEncoreInteraction(encoreInteraction, interactionIdFound);
+
 
                 interactionMapping.put(interactionIdFound, mappingEcoreInteraction);
             } else {
@@ -421,6 +387,52 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
                 }
             }
         }
+    }
+
+    /**
+     * Merge information with existing encore interaction and return the merged interaction
+     * @param encoreInteraction
+     * @param interactionIdFound
+     * @return
+     */
+    protected T mergeWithExistingEncoreInteraction(T encoreInteraction, int interactionIdFound) {
+        T mappingEcoreInteraction;// include additional information about exp, pubmed, ... for this interaction id
+        mappingEcoreInteraction = interactionMapping.get(interactionIdFound);
+        if( mappingEcoreInteraction == null ) {
+            throw new IllegalStateException( "Could not find an EncoreInteraction with id: " + interactionIdFound );
+        }
+        /* Check that interactors are in the same order A=A and B=B */
+        boolean swapInteractors = true;
+        swap_loop:
+        for(String acc:mappingEcoreInteraction.getInteractorAccsA().values()){
+            if(encoreInteraction.getInteractorAccsA().containsValue(acc)){
+                swapInteractors = false;
+                break swap_loop;
+            }
+        }
+        if(swapInteractors){
+            mappingEcoreInteraction.addInteractorAccsA(encoreInteraction.getInteractorAccsB());
+            mappingEcoreInteraction.addInteractorAccsB(encoreInteraction.getInteractorAccsA());
+            mappingEcoreInteraction.addOtherInteractorAccsA(encoreInteraction.getOtherInteractorAccsB());
+            mappingEcoreInteraction.addOtherInteractorAccsB(encoreInteraction.getOtherInteractorAccsA());
+            mappingEcoreInteraction.addOrganismsA(encoreInteraction.getOrganismsB());
+            mappingEcoreInteraction.addOrganismsB(encoreInteraction.getOrganismsA());
+        } else{
+            mappingEcoreInteraction.addInteractorAccsA(encoreInteraction.getInteractorAccsA());
+            mappingEcoreInteraction.addInteractorAccsB(encoreInteraction.getInteractorAccsB());
+            mappingEcoreInteraction.addOtherInteractorAccsA(encoreInteraction.getOtherInteractorAccsA());
+            mappingEcoreInteraction.addOtherInteractorAccsB(encoreInteraction.getOtherInteractorAccsB());
+            mappingEcoreInteraction.addOrganismsA(encoreInteraction.getOrganismsA());
+            mappingEcoreInteraction.addOrganismsB(encoreInteraction.getOrganismsB());
+        }
+        mappingEcoreInteraction.addPublicationId(encoreInteraction.getPublicationIds());
+        mappingEcoreInteraction.addExperimentToPubmed(encoreInteraction.getExperimentToPubmed());
+        mappingEcoreInteraction.addExperimentToDatabase(encoreInteraction.getExperimentToDatabase());
+        processMethodAndType(encoreInteraction, mappingEcoreInteraction);
+        mappingEcoreInteraction.addAuthors(encoreInteraction.getAuthors());
+        mappingEcoreInteraction.addConfidenceValues(encoreInteraction.getConfidenceValues());
+        mappingEcoreInteraction.addSourceDatabases(encoreInteraction.getSourceDatabases());
+        return mappingEcoreInteraction;
     }
 
     protected abstract void processMethodAndType(T encoreInteraction, T mappingEncoreInteraction);
