@@ -1,7 +1,6 @@
 package uk.ac.ebi.enfin.mi.cluster;
 
 import org.apache.log4j.Logger;
-import psidev.psi.mi.search.SearchResult;
 import psidev.psi.mi.tab.PsimiTabReader;
 import psidev.psi.mi.tab.model.BinaryInteraction;
 
@@ -175,7 +174,7 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
 
     protected abstract void setMappingForPsicquic();
 
-    protected void setMappingForPsicquic(String queryAcc, String querySource){
+    protected void setMappingForPsicquic(String queryAcc, String querySource) throws IOException {
         if(queryAcc != null && querySource != null){
             /* List of databses names to take into account when retrieving and mapping molecule accessions */
             String[] idDbNameList = mappingIdDbNames.split(",");
@@ -209,15 +208,15 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
                     if( logger.isInfoEnabled() ) logger.info("Psicquic source: " + pService.getServiceName() + " | Query num: " + i + " | start: " + start + ", stop: " + stop + ", range: " + range);
 
                     /* Query psiquic and populate mapping objects */
-                    SearchResult<BinaryInteraction> searchResult =  pService.getInteractions(queryAcc, start, range);
+                    List<BinaryInteraction> searchResult =  pService.getInteractions(queryAcc, start, range);
                     if(searchResult == null){
                         logger.warn("Psicquic result is null. Source: Psicquic source: " + pService.getServiceName() + " | Query num: " + i + " | start: " + start + ", stop: " + stop + ", range: " + range);
                     } else {
-                        if(searchResult.getData() == null){
+                        if(searchResult.isEmpty()){
                             logger.warn("Data inside the psicquic result is Null. Psicquic source: " + pService.getServiceName() + " | Query num: " + i + " | start: " + start + ", stop: " + stop + ", range: " + range);
                         } else {
                             int interactionCount = 0;
-                            for (BinaryInteraction interaction : searchResult.getData()) {
+                            for (BinaryInteraction interaction : searchResult) {
                                 interactionCount++;
                                 setMappings(interaction, idDbNameList);
                             }

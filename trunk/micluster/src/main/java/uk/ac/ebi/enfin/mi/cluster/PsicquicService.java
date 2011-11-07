@@ -1,25 +1,25 @@
 package uk.ac.ebi.enfin.mi.cluster;
 
-import org.apache.cxf.endpoint.Client;
-import org.apache.cxf.frontend.ClientProxy;
-import org.apache.cxf.transport.http.HTTPConduit;
-import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.hupo.psi.mi.psicquic.registry.ServiceType;
 import org.hupo.psi.mi.psicquic.registry.client.registry.PsicquicRegistryClient;
 import org.hupo.psi.mi.psicquic.registry.client.registry.DefaultPsicquicRegistryClient;
 import org.hupo.psi.mi.psicquic.registry.client.PsicquicRegistryClientException;
-import org.hupo.psi.mi.psicquic.wsclient.UniversalPsicquicClient;
-import org.hupo.psi.mi.psicquic.wsclient.PsicquicClientException;
+import org.hupo.psi.mi.psicquic.wsclient.PsicquicSimpleClient;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URLEncoder;
 import java.net.URL;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.zip.GZIPInputStream;
 
+import psidev.psi.mi.tab.PsimiTabReader;
 import psidev.psi.mi.tab.model.BinaryInteraction;
-import psidev.psi.mi.search.SearchResult;
 
 /**
  * Class to help on retriving Psicquic information for
@@ -57,58 +57,43 @@ public class PsicquicService {
         return serviceName;
     }
 
-    public Integer countInteractions(String query) {
+    public Integer countInteractions(String query) throws IOException {
         Integer psicquicCount = null;
         if (service.isActive()){
-            try {
                 String encoded = URLEncoder.encode(query, "UTF-8");
                 encoded = encoded.replaceAll("\\+", "%20");
-                System.out.println(service.getSoapUrl());
-                String url = service.getRestUrl()+"query/"+ encoded +"?format=count";
+
+                String url = service.getRestUrl();
+                PsicquicSimpleClient client = new PsicquicSimpleClient(url);
+
                 logger.info("Querying ..." + url);
-                final InputStream is = new URL( url ).openStream();
-                String strCount = IOUtils.toString( is );
-                is.close();
-                psicquicCount = Integer.parseInt(strCount);
-            } catch (IOException e) {
-                e.printStackTrace();
-                logger.error(e);
-            }
+                psicquicCount = Long.valueOf(client.countByQuery(query)).intValue();
         } else {
             logger.warn(serviceName + "psicquic service not active");
         }
         return psicquicCount;
     }
 
-    public SearchResult<BinaryInteraction> getFisrtTenInteractions(String query) {
-        return getInteractions(query, 0, 10);
-    }
+    public List<BinaryInteraction> getInteractions(String query, int firstResult, int maxNumberOfResults) throws IOException {
+        List<BinaryInteraction> results = new ArrayList<BinaryInteraction>(Math.min(2048, maxNumberOfResults));
 
-    public SearchResult<BinaryInteraction> getInteractions(String query, int firstResult, int maxNumberOfResults) {
+        String url = service.getRestUrl();
+        PsicquicSimpleClient client = new PsicquicSimpleClient(url);
 
-        // TODO we could use the simple PSICQUIC client and get the data using compressed MITAB output:
-        // TODO c.f. http://code.google.com/p/psicquic/wiki/ClientCodeSample
-        // TODO c.f. http://code.google.com/p/psicquic/source/browse/trunk/psicquic-simple-client/src/example/java/org/hupo/psi/mi/psicquic/wsclient/PsicquicSimpleExampleCompression.java
+        InputStream is = client.getByQuery(query, PsicquicSimpleClient.MITAB25_COMPRESSED, firstResult, maxNumberOfResults);
 
-        String url = service.getSoapUrl();
-        UniversalPsicquicClient client = new UniversalPsicquicClient(url);
+        GZIPInputStream gzipIs = new GZIPInputStream(is);
 
-        final Client c = ClientProxy.getClient(client.getService());
+        PsimiTabReader tabReader = new PsimiTabReader(false);
 
-        final HTTPConduit http = (HTTPConduit) c.getConduit();
-        final HTTPClientPolicy httpClientPolicy = http.getClient();
-
-        httpClientPolicy.setConnectionTimeout(0);
-        httpClientPolicy.setReceiveTimeout(0);
-
-        SearchResult<BinaryInteraction> searchResult = null;
-        try {
-            searchResult = client.getByQuery(query, firstResult, maxNumberOfResults);
-        } catch (PsicquicClientException e) {
-
-            // TODO deal with errors
-            e.printStackTrace();
+        BufferedReader in = new BufferedReader(new InputStreamReader(gzipIs));
+        String str;
+        while ((str = in.readLine()) != null) {
+            BinaryInteraction interaction = tabReader.readLine(str);
+            results.add(interaction);
         }
-        return searchResult;
+        in.close();
+
+        return results;
     }
 }
