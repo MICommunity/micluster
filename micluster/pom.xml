@@ -131,8 +131,14 @@
 
         <dependency>
             <groupId>org.hupo.psi.mi.psicquic</groupId>
-            <artifactId>psicquic-client</artifactId>
-            <version>1.2</version>
+            <artifactId>psicquic-simple-client</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>psidev.psi.mi</groupId>
+            <artifactId>psimitab</artifactId>
+            <version>1.7.9</version>
         </dependency>
 
         <!-- JSON dependencies -->

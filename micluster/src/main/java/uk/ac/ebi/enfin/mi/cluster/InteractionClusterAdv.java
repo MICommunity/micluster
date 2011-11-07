@@ -105,7 +105,11 @@ public class InteractionClusterAdv extends AbstractInteractionCluster<EncoreInte
             for(String queryAcc:queryAccs){
                 for(String querySource:querySources){
                     /* Run cluster service */
-                    super.setMappingForPsicquic(queryAcc, querySource);
+                    try {
+                        super.setMappingForPsicquic(queryAcc, querySource);
+                    } catch (IOException e) {
+                        logger.error("Problem setting mapping for PSICQUIC for query source: "+querySource, e);
+                    }
                 }
             }
         }

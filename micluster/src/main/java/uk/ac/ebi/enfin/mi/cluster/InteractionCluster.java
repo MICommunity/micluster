@@ -74,7 +74,11 @@ public class InteractionCluster extends AbstractInteractionCluster<EncoreInterac
     }
 
     protected void setMappingForPsicquic(){
-        super.setMappingForPsicquic(this.queryAcc, this.querySource);
+        try {
+            super.setMappingForPsicquic(this.queryAcc, this.querySource);
+        } catch (IOException e) {
+            logger.error("Problem setting mapping for PSICQUIC for query source: "+querySource, e);
+        }
     }
 
     @Override
