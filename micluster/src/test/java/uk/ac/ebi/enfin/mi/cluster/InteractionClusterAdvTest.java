@@ -2,10 +2,9 @@ package uk.ac.ebi.enfin.mi.cluster;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
+import psidev.psi.mi.tab.PsimiTabReader;
 import psidev.psi.mi.tab.model.BinaryInteraction;
 import psidev.psi.mi.xml.converter.ConverterException;
-import psidev.psi.mi.tab.PsimiTabReader;
-import uk.ac.ebi.enfin.mi.cluster.cache.CacheStrategy;
 import uk.ac.ebi.enfin.mi.cluster.utils.CompositeInputStream;
 
 import java.io.File;
@@ -18,7 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertTrue;
 
 
 /**
@@ -132,7 +131,7 @@ public class InteractionClusterAdvTest {
         try {
             /* Get binaryInteractions from PSI-MI files */
             URL intactQuery = new URL("http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/P07200");
-            URL irefindexQuery = new URL("http://biotin.uio.no:8080/psicquic-ws/webservices/current/search/query/P07200");
+            URL irefindexQuery = new URL("http://irefindex.uio.no:8080/psicquic-ws/webservices/current/search/query/P07200");
             URL APIDQuery = new URL("http://cicblade.dep.usal.es/psicquic-ws/webservices/current/search/interactor/P07200");
             URL biogridQuery = new URL("http://tyerslab.bio.ed.ac.uk:8080/psicquic-ws/webservices/current/search/interactor/brca2");
             PsimiTabReader mitabReader = new PsimiTabReader(false);
@@ -202,7 +201,7 @@ public class InteractionClusterAdvTest {
         try {
             /* Get binaryInteractions from PSI-MI files */
             URL intactQuery = new URL("http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/P37173");
-            URL irefindexQuery = new URL("http://biotin.uio.no:8080/psicquic-ws/webservices/current/search/query/P37173");
+            URL irefindexQuery = new URL("http://irefindex.uio.no:8080/psicquic-ws/webservices/current/search/query/P37173");
 
             List<BinaryInteraction> binaryInteractions = new ArrayList<BinaryInteraction>();
             binaryInteractions.addAll(mitabReader.read(intactQuery));
