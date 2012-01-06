@@ -43,6 +43,22 @@ public class InteractionClusterTest {
    }
 
     @Test
+    public void cluster_psicquic_inMemory2(){
+
+        ClusterContext.getInstance().setCacheStrategy( CacheStrategy.IN_MEMORY );
+
+//        InteractionCluster iC = new InteractionCluster("P37173", "intact", 0, 100);
+        InteractionCluster iC = new InteractionCluster("P06241", "mint", 0, 100);
+        iC.runService();
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
+        Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
+        int interactionMappingId = iC.getInteractionMappingId();
+        assertTrue(interactionMappingId > 0);
+        assertTrue(interactionMapping.size() > 0);
+        assertTrue(interactorMapping.size() > 0);
+    }
+
+    @Test
     public void cluster_inputstream_cached() throws Exception {
 
         // setup data

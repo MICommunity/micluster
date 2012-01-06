@@ -242,147 +242,170 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
     protected void setMappings(BinaryInteraction interaction, String[] idDbNameList){
         T encoreInteraction = convertEncoreInteractionFrom(interaction, idDbNameList);
 
-        if (encoreInteraction != null){
+        if (encoreInteraction != null ){
             Map<String,String> interactorAccsA = encoreInteraction.getInteractorAccsA();
             Map<String,String> interactorAccsB = encoreInteraction.getInteractorAccsB();
 
-            /* Get the first acc following the idCbNameList */
-            String interactorAccA = getInteractorFromAccs(interactorAccsA, idDbNameList);
-            String interactorAccB = getInteractorFromAccs(interactorAccsB, idDbNameList);
+            // if at leats one interactor column is given, we can process the encore interaction
+            if (!interactorAccsA.isEmpty() || !interactorAccsB.isEmpty()){
+                /* Get the first acc following the idCbNameList */
+                String interactorAccA = null;
+                String interactorAccB = null;
+                // two columns are given
+                if (!interactorAccsA.isEmpty() && !interactorAccsB.isEmpty()){
+                    interactorAccA = getInteractorFromAccs(interactorAccsA, idDbNameList);
+                    interactorAccB = getInteractorFromAccs(interactorAccsB, idDbNameList);
+                }
+                // first column given, not second. We do assume that we have an intramolecular interaction
+                else if (!interactorAccsA.isEmpty() && interactorAccsB.isEmpty()){
+                    interactorAccA = getInteractorFromAccs(interactorAccsA, idDbNameList);
+                    interactorAccB = interactorAccA;
 
+                    encoreInteraction.setInteractorAccsB(interactorAccsA);
+                    interactorAccsB = interactorAccsA;
+                }
+                // second column given, not first. We do assume that we have an intramolecular interaction
+                else {
+                    interactorAccB = getInteractorFromAccs(interactorAccsB, idDbNameList);
+                    interactorAccA = interactorAccB;
 
-            /* Find interactionMapping Ids for iA */
-            List<Integer> interactionMappingIdsForInteractorAccA = new ArrayList<Integer>();
-            if(interactorMapping.containsKey(interactorAccA)){
-                /* Try in the interactor mapping */
-                interactionMappingIdsForInteractorAccA = interactorMapping.get(interactorAccA);
-            } else if(synonymMapping.containsKey(interactorAccA)){
-                /* Otherwise look for synonyms */
-                interactorAccA = synonymMapping.get(interactorAccA);
-                interactionMappingIdsForInteractorAccA = interactorMapping.get(interactorAccA);
-            }
+                    encoreInteraction.setInteractorAccsA(interactorAccsB);
+                    interactorAccsA = interactorAccsB;
+                }
 
-            /* Find interactionMapping Ids for iB */
-            List<Integer> interactionMappingIdsForInteractorAccB = new ArrayList<Integer>();
-            if(interactorMapping.containsKey(interactorAccB)){
-                interactionMappingIdsForInteractorAccB = interactorMapping.get(interactorAccB);
-            } else if(synonymMapping.containsKey(interactorAccB)){
-                /* Otherwise look for synonyms */
-                interactorAccB = synonymMapping.get(interactorAccB);
-                interactionMappingIdsForInteractorAccB = interactorMapping.get(interactorAccB);
-            }
-
-            /* Find this interaction in the interaction mapping object*/
-            int interactionIdFound = 0;
-            T mappingEcoreInteraction;
-            if(interactorAccA.equalsIgnoreCase(interactorAccB)){
-                /* A and B are the same */
+                /* Find interactionMapping Ids for iA */
+                List<Integer> interactionMappingIdsForInteractorAccA = new ArrayList<Integer>();
                 if(interactorMapping.containsKey(interactorAccA)){
+                    /* Try in the interactor mapping */
+                    interactionMappingIdsForInteractorAccA = interactorMapping.get(interactorAccA);
+                } else if(synonymMapping.containsKey(interactorAccA)){
+                    /* Otherwise look for synonyms */
+                    interactorAccA = synonymMapping.get(interactorAccA);
+                    interactionMappingIdsForInteractorAccA = interactorMapping.get(interactorAccA);
+                }
 
-                    loop1:
-                    for(Integer iId:interactionMappingIdsForInteractorAccA){
-                        mappingEcoreInteraction = interactionMapping.get(iId);
-                        Map<String,String> mappingInteractorAccsA = mappingEcoreInteraction.getInteractorAccsA();
-                        Map<String,String> mappingInteractorAccsB = mappingEcoreInteraction.getInteractorAccsB();
-                        for(String acc:mappingInteractorAccsA.values()){
-                            if(mappingInteractorAccsB.values().contains(acc)){
-                                interactionIdFound = iId;
-                                break loop1;
+                /* Find interactionMapping Ids for iB */
+                List<Integer> interactionMappingIdsForInteractorAccB = new ArrayList<Integer>();
+                if(interactorMapping.containsKey(interactorAccB)){
+                    interactionMappingIdsForInteractorAccB = interactorMapping.get(interactorAccB);
+                } else if(synonymMapping.containsKey(interactorAccB)){
+                    /* Otherwise look for synonyms */
+                    interactorAccB = synonymMapping.get(interactorAccB);
+                    interactionMappingIdsForInteractorAccB = interactorMapping.get(interactorAccB);
+                }
+
+                /* Find this interaction in the interaction mapping object*/
+                int interactionIdFound = 0;
+                T mappingEcoreInteraction;
+                if(interactorAccA.equalsIgnoreCase(interactorAccB)){
+                    /* A and B are the same */
+                    if(interactorMapping.containsKey(interactorAccA)){
+
+                        loop1:
+                        for(Integer iId:interactionMappingIdsForInteractorAccA){
+                            mappingEcoreInteraction = interactionMapping.get(iId);
+                            Map<String,String> mappingInteractorAccsA = mappingEcoreInteraction.getInteractorAccsA();
+                            Map<String,String> mappingInteractorAccsB = mappingEcoreInteraction.getInteractorAccsB();
+                            for(String acc:mappingInteractorAccsA.values()){
+                                if(mappingInteractorAccsB.values().contains(acc)){
+                                    interactionIdFound = iId;
+                                    break loop1;
+                                }
                             }
                         }
                     }
-                }
-            } else {
-                /* A and B are different */
-                loop2:
-                for(Integer iId:interactionMappingIdsForInteractorAccA){
-                    if(interactionMappingIdsForInteractorAccB.contains(iId)){
-                        interactionIdFound = iId;
-                        break loop2;
+                } else {
+                    /* A and B are different */
+                    loop2:
+                    for(Integer iId:interactionMappingIdsForInteractorAccA){
+                        if(interactionMappingIdsForInteractorAccB.contains(iId)){
+                            interactionIdFound = iId;
+                            break loop2;
+                        }
                     }
                 }
-            }
 
-            /* Update synonym mapping with new accs from interactor A and B */
-            for(String acc:encoreInteraction.getInteractorAccsA().values()){
-                if(!synonymMapping.containsKey(acc) && !acc.equalsIgnoreCase(interactorAccA)){
-                    synonymMapping.put(acc, interactorAccA);
+                /* Update synonym mapping with new accs from interactor A and B */
+                for(String acc:encoreInteraction.getInteractorAccsA().values()){
+                    if(!synonymMapping.containsKey(acc) && !acc.equalsIgnoreCase(interactorAccA)){
+                        synonymMapping.put(acc, interactorAccA);
+                    }
                 }
-            }
-            for(String acc:encoreInteraction.getInteractorAccsB().values()){
-                if(!synonymMapping.containsKey(acc) && !acc.equalsIgnoreCase(interactorAccB)){
-                    synonymMapping.put(acc, interactorAccB);
+                for(String acc:encoreInteraction.getInteractorAccsB().values()){
+                    if(!synonymMapping.containsKey(acc) && !acc.equalsIgnoreCase(interactorAccB)){
+                        synonymMapping.put(acc, interactorAccB);
+                    }
                 }
-            }
 
-            /* If the interaction is in the interaction mapping object then update the interaction mapping object with additional information */
-            if(interactionIdFound > 0){
-                mappingEcoreInteraction = mergeWithExistingEncoreInteraction(encoreInteraction, interactionIdFound);
-
-
-                interactionMapping.put(interactionIdFound, mappingEcoreInteraction);
-            } else {
-                //*.- New interaction
-                //A.- include a new id in "interactionMapping"
-                //B.- include info in interactorMapping (3 cases)
-                //1.- Both interactors are new
-                //2.- One interactor is new
-                //2.1.- query interactor new
-                //2.2.- partner interactor new
-                //3.- Both interactors are already in (refering to different interactions)
+                /* If the interaction is in the interaction mapping object then update the interaction mapping object with additional information */
+                if(interactionIdFound > 0){
+                    mappingEcoreInteraction = mergeWithExistingEncoreInteraction(encoreInteraction, interactionIdFound);
 
 
-                //A.- include a new id in "interactionMapping"
-                interactionMappingId++;
-                encoreInteraction.setId(interactionMappingId);
-                interactionMapping.put(interactionMappingId, encoreInteraction);
+                    interactionMapping.put(interactionIdFound, mappingEcoreInteraction);
+                } else {
+                    //*.- New interaction
+                    //A.- include a new id in "interactionMapping"
+                    //B.- include info in interactorMapping (3 cases)
+                    //1.- Both interactors are new
+                    //2.- One interactor is new
+                    //2.1.- query interactor new
+                    //2.2.- partner interactor new
+                    //3.- Both interactors are already in (refering to different interactions)
 
-                //B.- include info in interactorMapping (3 cases)
-                //1.- Both interactors are new
-                if(interactionMappingIdsForInteractorAccA.size() == 0 && interactionMappingIdsForInteractorAccB.size() == 0){
-                    List<Integer> qM = new ArrayList<Integer>();
-                    qM.add(interactionMappingId);
-                    interactorMapping.put(interactorAccA, qM);
-                    if(!interactorAccA.equalsIgnoreCase(interactorAccB)){
+
+                    //A.- include a new id in "interactionMapping"
+                    interactionMappingId++;
+                    encoreInteraction.setId(interactionMappingId);
+                    interactionMapping.put(interactionMappingId, encoreInteraction);
+
+                    //B.- include info in interactorMapping (3 cases)
+                    //1.- Both interactors are new
+                    if(interactionMappingIdsForInteractorAccA.size() == 0 && interactionMappingIdsForInteractorAccB.size() == 0){
+                        List<Integer> qM = new ArrayList<Integer>();
+                        qM.add(interactionMappingId);
+                        interactorMapping.put(interactorAccA, qM);
+                        if(!interactorAccA.equalsIgnoreCase(interactorAccB)){
+                            List<Integer> pM = new ArrayList<Integer>();
+                            pM.add(interactionMappingId);
+                            interactorMapping.put(interactorAccB, pM);
+                        }
+                    }
+
+                    //B.- include info in interactorMapping (3 cases)
+                    //2.- One interactor is new
+                    //2.1.- query interactor new
+                    if(interactionMappingIdsForInteractorAccA.size() == 0 && interactionMappingIdsForInteractorAccB.size() > 0){
+                        List<Integer> qM = new ArrayList<Integer>();
+                        qM.add(interactionMappingId);
+                        interactorMapping.put(interactorAccA, qM);
+                        List<Integer> pA = interactionMappingIdsForInteractorAccB;
+                        pA.add(interactionMappingId);
+                        interactorMapping.put(interactorAccB, pA);
+                    }
+
+                    //B.- include info in interactorMapping (3 cases)
+                    //2.- One interactor is new
+                    //2.2.- partner interactor new
+                    if(interactionMappingIdsForInteractorAccA.size() > 0 && interactionMappingIdsForInteractorAccB.size() == 0){
                         List<Integer> pM = new ArrayList<Integer>();
                         pM.add(interactionMappingId);
                         interactorMapping.put(interactorAccB, pM);
+                        List<Integer> qA = interactionMappingIdsForInteractorAccA;
+                        qA.add(interactionMappingId);
+                        interactorMapping.put(interactorAccA, qA);
                     }
-                }
 
-                //B.- include info in interactorMapping (3 cases)
-                //2.- One interactor is new
-                //2.1.- query interactor new
-                if(interactionMappingIdsForInteractorAccA.size() == 0 && interactionMappingIdsForInteractorAccB.size() > 0){
-                    List<Integer> qM = new ArrayList<Integer>();
-                    qM.add(interactionMappingId);
-                    interactorMapping.put(interactorAccA, qM);
-                    List<Integer> pA = interactionMappingIdsForInteractorAccB;
-                    pA.add(interactionMappingId);
-                    interactorMapping.put(interactorAccB, pA);
-                }
-
-                //B.- include info in interactorMapping (3 cases)
-                //2.- One interactor is new
-                //2.2.- partner interactor new
-                if(interactionMappingIdsForInteractorAccA.size() > 0 && interactionMappingIdsForInteractorAccB.size() == 0){
-                    List<Integer> pM = new ArrayList<Integer>();
-                    pM.add(interactionMappingId);
-                    interactorMapping.put(interactorAccB, pM);
-                    List<Integer> qA = interactionMappingIdsForInteractorAccA;
-                    qA.add(interactionMappingId);
-                    interactorMapping.put(interactorAccA, qA);
-                }
-
-                //B.- include info in interactorMapping (3 cases)
-                //3.- Both interactor are already in (refering to different interactions)
-                if(interactionMappingIdsForInteractorAccA.size() > 0 && interactionMappingIdsForInteractorAccB.size() > 0){
-                    List<Integer> pA = interactionMappingIdsForInteractorAccB;
-                    pA.add(interactionMappingId);
-                    interactorMapping.put(interactorAccB, pA);
-                    List<Integer> qA = interactionMappingIdsForInteractorAccA;
-                    qA.add(interactionMappingId);
-                    interactorMapping.put(interactorAccA, qA);
+                    //B.- include info in interactorMapping (3 cases)
+                    //3.- Both interactor are already in (refering to different interactions)
+                    if(interactionMappingIdsForInteractorAccA.size() > 0 && interactionMappingIdsForInteractorAccB.size() > 0){
+                        List<Integer> pA = interactionMappingIdsForInteractorAccB;
+                        pA.add(interactionMappingId);
+                        interactorMapping.put(interactorAccB, pA);
+                        List<Integer> qA = interactionMappingIdsForInteractorAccA;
+                        qA.add(interactionMappingId);
+                        interactorMapping.put(interactorAccA, qA);
+                    }
                 }
             }
         }
