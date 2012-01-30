@@ -1,0 +1,215 @@
+= micluster =
+Java library to cluster molecular interactions.
+
+== Version 1.4, changes:==
+    * It clusters interactions including all the data available in PSI MITAB25
+    * It includes additional functionality to create PSI binary interaction from clustered interactions. Now clusters can be easily exported to PSI MITAB25 using PSI Java libraries.
+    * It includes caching options implemented by Sam Kerrien to avoid memory problems when clustering more than 400.000 interactions.
+    * It includes an new option to set a preference when mapping molecule accession to build the cluster.
+    * It includes an additional result (synonymMapping) to help users to find interactor synonyms. 
+
+== Maven dependency ==
+You could easily use the micluster through maven adding the miscore dependency and the EBI repository:
+{{{
+  <dependency>
+     <groupId>uk.ac.ebi.enfin.mi.cluster</groupId>
+     <artifactId>micluster</artifactId>
+     <version>1.4</version>
+  </dependency>
+}}}
+{{{
+  <repository>
+     <id>ebi-repo</id>
+     <name>The EBI internal repository</name>
+     <url>http://www.ebi.ac.uk/~maven/m2repo</url>
+  </repository>
+}}}
+<br>
+
+== Examples ==
+=== NOTE ===
+Loop the "interactionMapping" to find the clustering results. Each "EncoreInteraction" is an interaction cluster. "interactorMapping" and "synonymMapping" are helpers. With "interactorMapping" you can find which interactions in the "interactorMapping" contain one selected interactor. With "synonymMapping" you can find interactor synonyms for interactors from "interactorMapping".  
+
+=== Query two protein accessions from two PSICQUIC databases: === 
+<br>
+{{{
+...
+        InteractionClusterAdv iC = new InteractionClusterAdv();
+        /* Query one or more IDs */
+        iC.addQueryAcc("P37173");
+        iC.addQueryAcc("Q9UER7");
+        /* sources to query */
+        iC.addQuerySource("IntAct");
+        iC.addQuerySource("MINT");
+        /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
+        iC.setMappingIdDbNames("uniprotkb,irefindex,ddbj/embl/genbank,refseq,chebi");
+        /* Run clustering service */
+        iC.runService();
+        /* Cluster results */
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
+        Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
+        Map<String, String> synonymMapping = iC.getSynonymMapping();        
+        int interactionMappingId = iC.getInteractionMappingId();
+...
+}}}
+
+=== Convert clustering results into PSI binary interactions: === 
+{{{
+...
+        InteractionClusterAdv iC = new InteractionClusterAdv();
+        /* Query one or more IDs */
+        iC.addQueryAcc("brca2");
+        iC.addQueryAcc("P07200");
+        /* sources to query */
+        iC.addQuerySource("MINT");
+        iC.addQuerySource("intact");
+        iC.addQuerySource("irefindex");
+        /* Set priority for molecules accession mapping (Find database names in MI Ontology, MI:0473) */
+        iC.setMappingIdDbNames("uniprotkb,irefindex,ddbj/embl/genbank,refseq,chebi");
+        /* Run service */
+        iC.runService();
+        /* Retrieve results */
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
+        /* Get PSI binary Interactions */
+        Map<Integer, BinaryInteraction> binaryInteractionMapping = new HashMap<Integer,BinaryInteraction>();
+        Encore2Binary iConverter = new Encore2Binary(iC.getMappingIdDbNames());
+        for(int mappingId:interactionMapping.keySet()){
+            EncoreInteraction eI = interactionMapping.get(mappingId);
+            BinaryInteraction bI = iConverter.getBinaryInteraction(eI);
+            binaryInteractionMapping.put(mappingId,bI);
+        }
+...
+}}}
+
+=== Query PSI binary interactions: === 
+{{{
+...
+        /* Get binaryInteractions from PSI-MI files */
+        URL intactQuery = new URL("http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/P07200");
+        URL irefindexQuery = new URL("http://biotin.uio.no:8080/psicquic-ws/webservices/current/search/query/P07200");
+        PsimiTabReader mitabReader = new PsimiTabReader(false);
+        List<BinaryInteraction> binaryInteractions = new ArrayList<BinaryInteraction>();
+        binaryInteractions.addAll(mitabReader.read(intactQuery));
+        binaryInteractions.addAll(mitabReader.read(irefindexQuery));
+
+        /* Run cluster using list of binary interactions as input */
+        InteractionClusterAdv iC = new InteractionClusterAdv();
+        iC.setBinaryInteractionList(binaryInteractions);
+        iC.setMappingIdDbNames("uniprotkb,irefindex,ddbj/embl/genbank,refseq,chebi");
+        iC.runService();
+
+        /* Retrieve results */
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
+        Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
+        Map<String, String> synonymMapping = iC.getSynonymMapping();
+        int interactionMappingId = iC.getInteractionMappingId();
+...
+}}}
+<br>
+Cluster molecular interactions using as input:
+  * PSI binary interactions
+  * Data retrieved by PSICQUIC.
+
+{{{
+...
+        URL intactQuery = new URL("http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/P37173");
+        URL irefindexQuery = new URL("http://biotin.uio.no:8080/psicquic-ws/webservices/current/search/query/P37173");
+
+        List<BinaryInteraction> binaryInteractions = new ArrayList<BinaryInteraction>();
+        binaryInteractions.addAll(mitabReader.read(intactQuery));
+        binaryInteractions.addAll(mitabReader.read(irefindexQuery));
+
+        /* Run cluster using list of binary interactions as input */
+        InteractionClusterAdv iC = new InteractionClusterAdv();
+
+        /* Add binary interactions */
+        iC.setBinaryInteractionList(binaryInteractions);
+
+        /* Add interactions from Psicquic */
+        iC.addQueryAcc("P37173");
+        iC.addQuerySource("chembl");
+
+        /* Set priority for molecules accession mapping (Find database names in MI Ontology, MI:0473) */
+        iC.setMappingIdDbNames("uniprotkb,irefindex,ddbj/embl/genbank,refseq,chebi");
+
+        /* Run service */
+        iC.runService();
+
+        /* Retrieve results */
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
+        Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
+        Map<String, String> synonymMapping = iC.getSynonymMapping();
+        int interactionMappingId = iC.getInteractionMappingId();
+...
+}}}
+
+=== Sequential cluster ===
+{{{
+...
+        InteractionClusterAdv iC = new InteractionClusterAdv();
+
+        /* Acc */
+        List<String> acc = new ArrayList<String>();
+        acc.add("Q06609");
+
+        /* db 1 */
+        List<String> db1 = new ArrayList<String>();
+        db1.add("IntAct");
+
+        /* db 2 */
+        List<String> db2 = new ArrayList<String>();
+        db2.add("mint");
+
+        /* First query */
+        iC.setQueryAccs(acc);
+        iC.setQuerySources(db1);
+        iC.runService();
+
+        /* Second query */
+        iC.setQueryAccs(acc);
+        iC.setQuerySources(db2);
+        iC.runService();
+
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
+        Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
+        Map<String, String> synonymMapping = iC.getSynonymMapping();
+        int interactionMappingId = iC.getInteractionMappingId();
+...
+}}}
+
+=== Merging clustering information with the clustering results from a new query === 
+{{{
+...
+        /* First cluster */
+        InteractionClusterAdv iC = new InteractionClusterAdv();
+        iC.addQueryAcc("Q06609");
+        iC.addQuerySource("IntAct");
+        iC.runService();
+
+        /* New cluster merging the information from the first cluster and the results from a new query */
+        InteractionClusterAdv iC2 = new InteractionClusterAdv();
+        iC2.setInteractionMapping(ics.getInteractionMapping());
+        iC2.setInteractorMapping(ics.getInteractorMapping());
+        iC2.setSynonymMapping(ics.getSynonymMapping());
+        iC2.setInteractionMappingId(ics.getInteractionMappingId());
+        iC2.addQueryAcc("Q06609");
+        iC2.addQuerySource("mint");
+        iC2.runService();
+
+        Map<Integer, EncoreInteraction> interactionMapping = iC2.getInteractionMapping();
+        Map<String, List<Integer>> interactorMapping = iC2.getInteractorMapping();
+        Map<String, String> synonymMapping = iC2.getSynonymMapping();
+        int interactionMappingId = iC2.getInteractionMappingId();
+...
+}}}
+
+
+== Source code ==
+You can find the source code in:
+<br>
+http://code.google.com/p/micluster/source/browse/#svn%2Ftrunk%2Fmicluster
+
+== jar file ==
+The jar file can also be found in this url:
+<br>
+http://www.ebi.ac.uk/~maven/m2repo/uk/ac/ebi/enfin/mi/cluster/micluster/1.4/
