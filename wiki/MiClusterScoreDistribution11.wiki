@@ -1,0 +1,93 @@
+= MiCluster-Score-Distribution =
+Library to create score distribution histograms.
+
+== Version 1.1, changes:==
+    * It uses the new version of [MiClusterScore13 MiCluster-Score] 
+    * Saves results in a results folder
+
+== Maven dependency ==
+You could easily use the micluster through maven adding the miscore dependency and the EBI repository
+
+{{{
+  <dependency> 
+    <groupId>uk.ac.ebi.enfin.mi.score.distribution</groupId>
+    <artifactId>miscoreDistribution</artifactId>
+    <version>1.1-SNAPSHOT</version>
+  </dependency>
+}}}
+{{{
+  <repository>
+    <id>ebi-repo-snapshots</id>
+    <name>The EBI internal repository</name>
+    <url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
+  </repository>
+}}}
+<br>
+
+== Example ==
+Here two examples of how to create score distribution histograms:
+<br>
+=== Querying a PSICQUIC database and saving the scores in CSV file: ===
+{{{
+...
+        EncoreMiscoreDistribution mD = new EncoreMiscoreDistribution("MatrixDB");
+        mD.createChart();
+        mD.saveScores();
+...
+}}}
+=== From CSV file: ===
+{{{
+...
+        FileMiscoreDistribution mD = new FileMiscoreDistribution("MatrixDB_Scores.txt");
+        mD.createChart();
+...
+}}}
+==== Example of the content of a small CSV file ====
+0.31468466,0.3042728,0.33558023,0.3042728,0.33558023,0.2952445,0.33558023,0.42515436,0.3668876,0.2952445,0.3042728,0.3042728,0.3042728
+
+<br>
+== Source code ==
+You can find the source code in:
+<br>
+http://code.google.com/p/micluster/source/browse/#svn%2Ftrunk%2Fmicluster-scoredistribution
+
+<br>
+== jar file ==
+The jar file can also be found in this url:
+<br>
+http://www.ebi.ac.uk/~maven/m2repo/uk/ac/ebi/enfin/mi/score/distribution/miscoreDistribution/1.0/
+
+<br>
+== Client: miscoreDistributionClient ==
+=== Download ===
+{{{
+svn checkout http://enfin-core.googlecode.com/svn/trunk/enfin-core/clients/miscoreDistributionClient miscoreDistributionClient
+}}}
+
+=== Package the library: ===
+{{{
+cd miscoreDistributionClient
+mvn package
+}}}
+
+=== Examples ===
+==== Command line query ====
+Query, cluster and score all the interactions from one or more source to create a distribution chart.
+
+===== Run example 1 ===== 
+One distribution chart for one source:
+{{{
+java -Xmx1024m -jar target/miscoreDistributionClient-1.1-SNAPSHOT.jar MatrixDB
+}}}
+
+===== Run example 2 ===== 
+One distribution chart per source:
+{{{
+java -Xmx1024m -jar target/miscoreDistributionClient-1.1-SNAPSHOT.jar MatrixDB innatedb
+}}}
+
+===== Run example 3 ===== 
+One distribution chart for many sources:
+{{{
+java -Xmx1024m -jar target/miscoreDistributionClient-1.1-SNAPSHOT.jar combine MatrixDB innatedb
+}}}
