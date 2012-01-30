@@ -1,4 +1,4 @@
-= micluster =
+= MiCluster =
 Java library to cluster molecular interactions.
 
 == Version 1.4, changes:==
@@ -9,7 +9,7 @@ Java library to cluster molecular interactions.
     * It includes an additional result (synonymMapping) to help users to find interactor synonyms. 
 
 == Maven dependency ==
-You could easily use the micluster through maven adding the miscore dependency and the EBI repository:
+You could easily use the MiCluster through maven adding the MiScore dependency and the EBI repository:
 {{{
   <dependency>
      <groupId>uk.ac.ebi.enfin.mi.cluster</groupId>
