@@ -10,14 +10,19 @@ You could easily use the MiCluster through maven adding the MiScore dependency a
   <dependency> 
     <groupId>uk.ac.ebi.enfin.mi.cluster.score</groupId>
     <artifactId>miClusterScore</artifactId>
-    <version>1.3</version>
+    <version>1.3-SNAPSHOT</version>
   </dependency>
 }}}
 {{{
   <repository>
     <id>ebi-repo</id>
-    <name>The EBI internal repository</name>
+    <name>EBI maven repository</name>
     <url>http://www.ebi.ac.uk/~maven/m2repo</url>
+  </repository>
+  <repository>
+    <id>ebi-repo</id>
+    <name>EBI maven snapshot repository</name>
+    <url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
   </repository>
 }}}
 <br>
