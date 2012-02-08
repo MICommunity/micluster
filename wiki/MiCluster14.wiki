@@ -188,10 +188,10 @@ Cluster molecular interactions using as input:
 
         /* New cluster merging the information from the first cluster and the results from a new query */
         InteractionClusterAdv iC2 = new InteractionClusterAdv();
-        iC2.setInteractionMapping(ics.getInteractionMapping());
-        iC2.setInteractorMapping(ics.getInteractorMapping());
-        iC2.setSynonymMapping(ics.getSynonymMapping());
-        iC2.setInteractionMappingId(ics.getInteractionMappingId());
+        iC2.setInteractionMapping(iC.getInteractionMapping());
+        iC2.setInteractorMapping(iC.getInteractorMapping());
+        iC2.setSynonymMapping(iC.getSynonymMapping());
+        iC2.setInteractionMappingId(iC.getInteractionMappingId());
         iC2.addQueryAcc("Q06609");
         iC2.addQuerySource("mint");
         iC2.runService();
