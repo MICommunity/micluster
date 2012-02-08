@@ -10,7 +10,7 @@ You could easily use the MiCluster through maven adding the MiScore dependency a
   <dependency> 
     <groupId>uk.ac.ebi.enfin.mi.cluster.score</groupId>
     <artifactId>miClusterScore</artifactId>
-    <version>1.3-SNAPSHOT</version>
+    <version>1.3</version>
   </dependency>
 }}}
 {{{
