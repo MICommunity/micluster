@@ -232,7 +232,7 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
                 if(confidenceValue.getType() == null){
                     logger.warn("Confidence value problem: " + confidenceValue.getValue());
                 } else {
-                    if(confidenceValue.getType().equalsIgnoreCase("intactPsiscore")){
+                    if(confidenceValue.getType().equalsIgnoreCase(getScoreName())){
                         confidenceValue.setValue(scoreResult.toString());
                         intactPsiscore = true;
                         break confidenceValueLoop;
@@ -244,7 +244,7 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
                 logger.debug("Set new confidence score");
                 Confidence confidenceValue = new ConfidenceImpl();
                 confidenceValue.setValue(scoreResult.toString());
-                confidenceValue.setType("intactPsiscore");
+                confidenceValue.setType(getScoreName());
                 eI.addConfidenceValue(confidenceValue);
             }
         }
