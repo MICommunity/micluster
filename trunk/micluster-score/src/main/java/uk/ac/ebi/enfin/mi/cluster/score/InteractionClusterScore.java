@@ -33,6 +33,8 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
     protected Float typeWeight = 1.0f;
     protected Float methodWeight = 1.0f;
     protected Float publicationWeight = 1.0f;
+    
+    protected String scoreName = "intactPsiscore";
 
     /* Query parameters for PSICQUIC */
     protected List<String> querySources = new ArrayList<String>();
@@ -263,7 +265,11 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
             for(String queryAcc:queryAccs){
                 for(String querySource:querySources){
                     /* Run cluster service */
-                    super.setMappingForPsicquic(queryAcc, querySource);
+                    try {
+                        super.setMappingForPsicquic(queryAcc, querySource);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -367,7 +373,7 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
             List<Confidence> confidenceValues = eI.getConfidenceValues();
             Double score = null;
             for(Confidence confidenceValue:confidenceValues){
-                if(confidenceValue.getType().equalsIgnoreCase("intactPsiscore")){
+                if(confidenceValue.getType().equalsIgnoreCase(getScoreName())){
                     score = Double.parseDouble(confidenceValue.getValue());
                 }
             }
@@ -407,7 +413,7 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
                     String score = null;
 
                     for(Confidence confidenceValue:eI.getConfidenceValues()){
-                        if(confidenceValue.getType().equalsIgnoreCase("intactPsiscore")){
+                        if(confidenceValue.getType().equalsIgnoreCase(getScoreName())){
                             score = confidenceValue.getValue();
                         }
                     }
@@ -545,5 +551,13 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
 
     public List<String> getQueryAccs() {
         return queryAccs;
+    }
+
+    public String getScoreName() {
+        return scoreName;
+    }
+
+    public void setScoreName(String scoreName) {
+        this.scoreName = scoreName;
     }
 }
