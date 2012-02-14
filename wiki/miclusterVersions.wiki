@@ -2,6 +2,7 @@
     * Bring micluterScore into micluster
     * deprecated redundant implementations (EncoreInteraction.java, InteractionClusterAdv.java)
     * Include more meaningful unit tests
+    * Use miscore dependency 1.3.2 instead of 1.2
 
 == Version 1.5 (current version) ==
     * Allow clustering of intramolecular interactions (one interactor defined in the interactor columns)
