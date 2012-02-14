@@ -1,8 +1,8 @@
-= This project is deprecated=
+= MiClusterScore is deprecated=
 All the functionality has been ported to [MiCluster16 MiCluster 1.6]
 
 == Version 1.4 (current version) ==
-  * User can set the scoreName used by the interactionClusterScore
+  * User can set the "scoreName" used by the "interactionClusterScore"
   * It includes all the changes implemented in MiCluster 1.5
 == Version 1.3==
   * It includes all the changes implemented in [MiCluster14 MiCluster 1.4]
