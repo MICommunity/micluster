@@ -1,8 +1,6 @@
 == Version 1.6 ==
     * Bring micluterScore into micluster
-    * deprecated redundant implementations
-        * EncoreInteraction.java, use EncoreInteractionForScoring.java instead.
-        *  InteractionClusterAdv.java, use EncoreInteractionForScoring.java or InteractionCluster.java instead
+    * deprecated redundant implementations (EncoreInteraction.java, InteractionClusterAdv.java)
     * Include more meaningful unit tests
 
 == Version 1.5 (current version) ==
