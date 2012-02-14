@@ -345,7 +345,7 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
     }
 
     @Override
-    public void saveScoreInMitab(String s) throws IOException {
+    public void saveScoreInMitab(String fileName) throws IOException {
         PsimiTabWriter writer = new PsimiTabWriter();
         File file = new File(fileName);
 
