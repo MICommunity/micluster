@@ -172,8 +172,8 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
 
     protected abstract void setMappingForPsicquic();
 
-    protected void setMappingForPsicquic(String queryAcc, String querySource) throws IOException {
-        if(queryAcc != null && querySource != null){
+    protected void setMappingForPsicquic(String queryMIQL, String querySource) throws IOException {
+        if(queryMIQL != null && querySource != null){
             /* List of databses names to take into account when retrieving and mapping molecule accessions */
             String[] idDbNameList = mappingIdDbNames.split(",");
 
@@ -185,7 +185,7 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
             PsicquicService pService = new PsicquicService(querySource);
             if(pService.getService() != null){
                 int count = 0;
-                final Integer serviceInteractionCount = pService.countInteractions( queryAcc );
+                final Integer serviceInteractionCount = pService.countInteractions( queryMIQL );
                 if( serviceInteractionCount != null){
                     /* This should always be a number. However something strange happens with the
                     PSICQUIC registry that returns MPIDB (non active) as active. So count could be
@@ -206,7 +206,7 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
                     if( logger.isInfoEnabled() ) logger.debug("Psicquic source: " + pService.getServiceName() + " | Query num: " + i + " | start: " + start + ", stop: " + stop + ", range: " + range);
 
                     /* Query psiquic and populate mapping objects */
-                    List<BinaryInteraction> searchResult =  pService.getInteractions(queryAcc, start, range);
+                    List<BinaryInteraction> searchResult =  pService.getInteractions(queryMIQL, start, range);
                     if(searchResult == null){
                         logger.warn("Psicquic result is null. Source: Psicquic source: " + pService.getServiceName() + " | Query num: " + i + " | start: " + start + ", stop: " + stop + ", range: " + range);
                     } else {
@@ -578,5 +578,5 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
         }
     }
 
-    public abstract void saveScoreInMitab(String fileName) throws IOException;
+    public abstract void saveResultsInMitab(String fileName) throws IOException;
 }
