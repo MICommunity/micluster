@@ -1,4 +1,5 @@
-This project is deprecated. All the functionality has been ported to [MiCluster16 MiCluster 1.6]
+= This project is deprecated=
+All the functionality has been ported to [MiCluster16 MiCluster 1.6]
 
 == Version 1.4 (current version) ==
   * User can set the scoreName used by the interactionClusterScore
