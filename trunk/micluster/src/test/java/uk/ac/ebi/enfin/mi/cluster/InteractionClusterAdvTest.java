@@ -1,6 +1,7 @@
 package uk.ac.ebi.enfin.mi.cluster;
 
 import org.apache.log4j.Logger;
+import org.junit.Before;
 import org.junit.Test;
 import psidev.psi.mi.tab.PsimiTabReader;
 import psidev.psi.mi.tab.model.BinaryInteraction;
@@ -25,6 +26,7 @@ import static junit.framework.Assert.assertTrue;
  * @since 03-Jun-2010
  * Time: 15:21:12
  */
+@Deprecated
 public class InteractionClusterAdvTest {
     private static String bout = "Bad output for";
     static Logger logger = Logger.getLogger( EncoreInteractionTest.class);

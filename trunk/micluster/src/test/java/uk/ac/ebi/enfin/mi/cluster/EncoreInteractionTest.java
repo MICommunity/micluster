@@ -12,6 +12,7 @@ import static junit.framework.Assert.*;
  * @since 25-May-2010
  * Time: 09:40:39
  */
+@Deprecated
 public class EncoreInteractionTest {
     static Logger logger = Logger.getLogger( EncoreInteractionTest.class);
 

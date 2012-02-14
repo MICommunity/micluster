@@ -149,6 +149,13 @@
             <classifier>jdk15</classifier>
         </dependency>
 
+        <!-- MI Score dependency -->
+        <dependency>
+            <groupId>uk.ac.ebi.enfin.mi.score</groupId>
+            <artifactId>miscore</artifactId>
+            <version>1.2</version>
+        </dependency>
+
     </dependencies>
 
     <distributionManagement>

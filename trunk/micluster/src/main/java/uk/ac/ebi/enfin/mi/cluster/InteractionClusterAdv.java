@@ -21,8 +21,10 @@ import java.util.Map;
  *
  * @author Rafael
  * @since 03-Jun-2010
+ * @Deprecated use InteractionClusterScore instead
  * Time: 15:17:54
  */
+@Deprecated
 public class InteractionClusterAdv extends AbstractInteractionCluster<EncoreInteraction>{
     private static Logger logger = Logger.getLogger(InteractionClusterAdv.class);
 
