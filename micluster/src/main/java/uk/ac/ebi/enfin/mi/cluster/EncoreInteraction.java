@@ -13,7 +13,9 @@ import java.util.Map;
  * @author Rafael
  * @since 24-May-2010
  * Time: 16:57:20
+ * @Deprecated Use EncoreInteractionForScoring instead
  */
+@Deprecated
 public class EncoreInteraction extends AbstractEncoreInteraction {
     static Logger logger = Logger.getLogger(EncoreInteraction.class);
     Map<String, List<String>> methodToPubmed = new HashMap<String, List<String>>();

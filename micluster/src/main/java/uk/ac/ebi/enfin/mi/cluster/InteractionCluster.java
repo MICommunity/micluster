@@ -17,8 +17,10 @@ import java.util.Map;
  *
  * @author: Rafael
  * @since 03-Jun-2010
+ * @deprecated  This functionality is already in InteractionClusterAdv
  * Time: 14:22:17
  */
+@Deprecated
 public class InteractionCluster extends AbstractInteractionCluster<EncoreInteraction> {
 
     private static Logger logger = Logger.getLogger(InteractionCluster.class);

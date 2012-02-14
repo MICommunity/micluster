@@ -3,11 +3,9 @@ package uk.ac.ebi.enfin.mi.cluster;
 import org.apache.log4j.Logger;
 import psidev.psi.mi.tab.PsimiTabReader;
 import psidev.psi.mi.tab.model.BinaryInteraction;
+import uk.ac.ebi.enfin.mi.cluster.utils.CompositeInputStream;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -196,7 +194,7 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
                     logger.debug( "Interaction count for " + querySource + ": " + count );
                 }
                 int numOfQueries = (int) Math.ceil((double)count/(double)queryRange);
-                if( logger.isInfoEnabled() ) logger.info("Psicquic source: " + pService.getServiceName() + " | Number of psicquic queries: " + numOfQueries + " | Query range: " + queryRange + " | Total number of results: " + count);
+                if( logger.isInfoEnabled() ) logger.debug("Psicquic source: " + pService.getServiceName() + " | Number of psicquic queries: " + numOfQueries + " | Query range: " + queryRange + " | Total number of results: " + count);
                 for(int i=0; i<numOfQueries; i++){
                     /* Calculate start and range. Used to sequentially query psicquic */
                     start = queryStart + (queryRange*i);
@@ -205,7 +203,7 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
                         range = count - start;
                         stop = start + range -1;
                     }
-                    if( logger.isInfoEnabled() ) logger.info("Psicquic source: " + pService.getServiceName() + " | Query num: " + i + " | start: " + start + ", stop: " + stop + ", range: " + range);
+                    if( logger.isInfoEnabled() ) logger.debug("Psicquic source: " + pService.getServiceName() + " | Query num: " + i + " | start: " + start + ", stop: " + stop + ", range: " + range);
 
                     /* Query psiquic and populate mapping objects */
                     List<BinaryInteraction> searchResult =  pService.getInteractions(queryAcc, start, range);
@@ -537,8 +535,36 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
         this.binaryInteractionIterator = binaryInteractionIterator;
     }
 
-    public void setBinaryInteractionIterator(InputStream is, boolean hasHeader) throws ClusterServiceException {
-        setBinaryInteractionIterator(new InputStreamReader( is ), hasHeader);
+    public void setBinaryInteractionIterator(InputStream inputStream, boolean hasHeader) throws ClusterServiceException {
+        setBinaryInteractionIterator(new InputStreamReader( inputStream ), hasHeader);
+    }
+
+    public void setBinaryInteractionIterator(File file, boolean hasHeader) throws ClusterServiceException {
+        final InputStream inputStream;
+        try {
+            inputStream = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+             throw new ClusterServiceException( "No file found", e );
+        }
+        setBinaryInteractionIterator(new InputStreamReader( inputStream ), hasHeader);
+    }
+
+    public void setBinaryInteractionIterator(File[] files, boolean hasHeader) throws ClusterServiceException {
+        List<InputStream> streams = new ArrayList<InputStream>( );
+        for(File file:files){
+            try {
+                streams.add( new FileInputStream( file ) );
+            } catch (FileNotFoundException e) {
+                throw new ClusterServiceException( "No file found", e );
+            }
+        }
+        final InputStream inputStream;
+        try {
+            inputStream = new CompositeInputStream( streams.iterator() );
+        } catch (IOException e) {
+            throw new ClusterServiceException( "Input error", e );
+        }
+        setBinaryInteractionIterator(new InputStreamReader( inputStream ), hasHeader);
     }
 
     public void setBinaryInteractionIterator(Reader r, boolean hasHeader) throws ClusterServiceException {

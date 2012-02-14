@@ -22,6 +22,7 @@ import static junit.framework.Assert.*;
  *
  * @since 1.0
  */
+@Deprecated
 public class InteractionClusterTest {
 
     static Logger logger = Logger.getLogger( EncoreInteractionTest.class);
