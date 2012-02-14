@@ -129,6 +129,22 @@ public class InteractionClusterAdv extends AbstractInteractionCluster<EncoreInte
         mappingEncoreInteraction.addTypeToPubmed(encoreInteraction.getTypeToPubmed());
     }
 
+    @Override
+    public void saveResultsInMitab(String fileName) throws IOException {
+        PsimiTabWriter writer = new PsimiTabWriter();
+        File file = new File(fileName);
+
+        Map<Integer, EncoreInteraction> interactionMapping = getInteractionMapping();
+        Encore2Binary iConverter = new Encore2Binary(getMappingIdDbNames());
+
+        for(Integer mappingId:interactionMapping.keySet()){
+            EncoreInteraction eI = interactionMapping.get(mappingId);
+            BinaryInteraction bI = iConverter.getBinaryInteraction(eI);
+
+            writer.writeOrAppend(bI, file, false);
+        }
+    }
+
     public void saveScoreInMitab(String fileName) throws IOException {
         PsimiTabWriter writer = new PsimiTabWriter();
         File file = new File(fileName);

@@ -49,5 +49,6 @@ public interface BinaryInteractionCluster<T extends EncoreBinaryInteraction> ext
 
     public void setBinaryInteractionIterator(Reader r, boolean hasHeader) throws ClusterServiceException;
 
-    public void saveScoreInMitab(String fileName) throws IOException;
+    public void saveResultsInMitab(String fileName) throws IOException;
+
 }
