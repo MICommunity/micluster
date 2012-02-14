@@ -1,4 +1,4 @@
-= Version X.X =
+== Version X.X ==
   * MiClusterScore will be deprecated
   * All the functionality will be ported to [MiCluster16 MiCluster 1.6]
 
