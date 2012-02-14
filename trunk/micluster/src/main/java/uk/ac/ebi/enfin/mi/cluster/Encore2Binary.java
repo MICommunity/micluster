@@ -3,7 +3,7 @@ package uk.ac.ebi.enfin.mi.cluster;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import psidev.psi.mi.tab.model.*;
-import uk.ac.ebi.enfin.mi.cluster.ols.OlsHelper;
+import uk.ac.ebi.enfin.mi.score.ols.MIOntology;
 
 import java.util.*;
 
@@ -12,6 +12,7 @@ import java.util.*;
  * Date: 24-Aug-2010
  * Time: 16:05:23
  */
+//todo: test encore2Binary
 public class Encore2Binary {
 
     private static final Log log = LogFactory.getLog( Encore2Binary.class );
@@ -21,14 +22,14 @@ public class Encore2Binary {
     protected String mappingIdDbNames;
 
     public Encore2Binary(String mappingIdDbNames) {
-        OlsHelper olsHelper = new OlsHelper();
+        MIOntology olsHelper = new MIOntology();
         this.miMethodOntologyTerms = olsHelper.getJsonChildren("MI:0001");
         this.miTypeOntologyTerms = olsHelper.getJsonChildren("MI:0190");
         this.mappingIdDbNames = mappingIdDbNames;
     }
 
     public Encore2Binary() {
-        OlsHelper olsHelper = new OlsHelper();
+        MIOntology olsHelper = new MIOntology();
         this.miMethodOntologyTerms = olsHelper.getJsonChildren("MI:0001");
         this.miTypeOntologyTerms = olsHelper.getJsonChildren("MI:0190");
         this.mappingIdDbNames = null;

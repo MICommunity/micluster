@@ -24,7 +24,7 @@ import java.util.*;
  * Date: 04-Jun-2010
  * Time: 16:54:10
  */
-public class InteractionClusterScore extends AbstractInteractionCluster<EncoreInteractionForScoring> {
+public class InteractionClusterScore extends InteractionCluster {
     private static final Logger logger = Logger.getLogger(InteractionClusterScore.class);
     protected String fileName;
     protected MIOntology MIO = new MIOntology();
@@ -35,18 +35,12 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
     protected Float methodWeight = 1.0f;
     protected Float publicationWeight = 1.0f;
     protected String scoreName = "intactPsiscore";
-    protected boolean scoreProcessing = true;
-
-    /* Query parameters for PSICQUIC */
-    protected List<String> querySources = new ArrayList<String>();
-    protected List<String> queryAccs = new ArrayList<String>();
 
     protected MIScore miscore;
 
     public InteractionClusterScore(){
         super(0, 200);
         this.miscore = new MIScore();
-
         this.interactionMapping = new HashMap<Integer, EncoreInteractionForScoring>();
         this.interactorMapping = new HashMap<String, List<Integer>>();
         this.synonymMapping = new HashMap<String, String>();
@@ -55,7 +49,6 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
     public InteractionClusterScore(MIScore miScore){
         super(0, 200);
         this.miscore = miScore;
-
         this.interactionMapping = new HashMap<Integer, EncoreInteractionForScoring>();
         this.interactorMapping = new HashMap<String, List<Integer>>();
         this.synonymMapping = new HashMap<String, String>();
@@ -63,7 +56,6 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
     public InteractionClusterScore(List<BinaryInteraction> binaryInteractionList, String mappingIdDbNames) {
         super(binaryInteractionList, mappingIdDbNames);
         this.miscore = new MIScore();
-
         this.interactionMapping = new HashMap<Integer, EncoreInteractionForScoring>();
         this.interactorMapping = new HashMap<String, List<Integer>>();
         this.synonymMapping = new HashMap<String, String>();
@@ -72,7 +64,6 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
     public InteractionClusterScore(List<BinaryInteraction> binaryInteractionList) {
         super(binaryInteractionList);
         this.miscore = new MIScore();
-
         this.interactionMapping = new HashMap<Integer, EncoreInteractionForScoring>();
         this.interactorMapping = new HashMap<String, List<Integer>>();
         this.synonymMapping = new HashMap<String, String>();
@@ -81,7 +72,6 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
     public InteractionClusterScore(InputStream is, boolean hasHeader) throws ClusterServiceException {
         super(is, hasHeader);
         this.miscore = new MIScore();
-
         this.interactionMapping = new HashMap<Integer, EncoreInteractionForScoring>();
         this.interactorMapping = new HashMap<String, List<Integer>>();
         this.synonymMapping = new HashMap<String, String>();
@@ -90,7 +80,6 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
     public InteractionClusterScore(Reader r, boolean hasHeader) throws ClusterServiceException {
         super(r, hasHeader);
         this.miscore = new MIScore();
-
         this.interactionMapping = new HashMap<Integer, EncoreInteractionForScoring>();
         this.interactorMapping = new HashMap<String, List<Integer>>();
         this.synonymMapping = new HashMap<String, String>();
@@ -99,7 +88,6 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
     public InteractionClusterScore(Iterator<BinaryInteraction> iterator) throws ClusterServiceException {
         super(iterator);
         this.miscore = new MIScore();
-
         this.interactionMapping = new HashMap<Integer, EncoreInteractionForScoring>();
         this.interactorMapping = new HashMap<String, List<Integer>>();
         this.synonymMapping = new HashMap<String, String>();
@@ -108,7 +96,6 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
     public InteractionClusterScore(int queryStart, int queryRange) {
         super(queryStart, queryRange);
         this.miscore = new MIScore();
-
         this.interactionMapping = new HashMap<Integer, EncoreInteractionForScoring>();
         this.interactorMapping = new HashMap<String, List<Integer>>();
         this.synonymMapping = new HashMap<String, String>();
@@ -117,7 +104,6 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
     public InteractionClusterScore(int queryStart, int queryRange, String mappingIdDbNames) {
         super(queryStart, queryRange, mappingIdDbNames);
         this.miscore = new MIScore();
-
         this.interactionMapping = new HashMap<Integer, EncoreInteractionForScoring>();
         this.interactorMapping = new HashMap<String, List<Integer>>();
         this.synonymMapping = new HashMap<String, String>();
@@ -126,40 +112,48 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
     public InteractionClusterScore(String mappingIdDbNames) {
         super(mappingIdDbNames);
         this.miscore = new MIScore();
-
         this.interactionMapping = new HashMap<Integer, EncoreInteractionForScoring>();
         this.interactorMapping = new HashMap<String, List<Integer>>();
         this.synonymMapping = new HashMap<String, String>();
     }
 
-    public InteractionClusterScore(List<String> queryAcc, List<String> querySource, int queryStart, int queryRange){
+    public InteractionClusterScore(List<String> miqlQueries, List<String> querySource, int queryStart, int queryRange){
         super(queryStart, queryRange);
-
-        if (queryAcc != null){
-            this.queryAccs = queryAcc;
+        if (miqlQueries != null){
+            this.queryAccs = miqlQueries;
         }
         if (querySource != null){
             this.querySources = querySource;
         }
-
         this.miscore = new MIScore();
-
         this.interactionMapping = new HashMap<Integer, EncoreInteractionForScoring>();
         this.interactorMapping = new HashMap<String, List<Integer>>();
         this.synonymMapping = new HashMap<String, String>();
     }
 
-    public InteractionClusterScore(List<String> queryAcc, List<String> querySource, int queryStart, int queryRange, String mappingIdDbNames){
+    public InteractionClusterScore(List<String> miqlQueries, List<String> querySource, int queryStart, int queryRange, String mappingIdDbNames){
         super(queryStart, queryRange, mappingIdDbNames);
-        if (queryAcc != null){
-            this.queryAccs = queryAcc;
+        if (miqlQueries != null){
+            this.queryAccs = miqlQueries;
         }
         if (querySource != null){
             this.querySources = querySource;
         }
-
         this.miscore = new MIScore();
+        this.interactionMapping = new HashMap<Integer, EncoreInteractionForScoring>();
+        this.interactorMapping = new HashMap<String, List<Integer>>();
+        this.synonymMapping = new HashMap<String, String>();
+    }
 
+    public InteractionClusterScore(List<String> miqlQueries, List<String> querySource, int queryStart, int queryRange, String mappingIdDbNames, MIScore miScore){
+        super(queryStart, queryRange, mappingIdDbNames);
+        if (miqlQueries != null){
+            this.queryAccs = miqlQueries;
+        }
+        if (querySource != null){
+            this.querySources = querySource;
+        }
+        this.miscore = miScore;
         this.interactionMapping = new HashMap<Integer, EncoreInteractionForScoring>();
         this.interactorMapping = new HashMap<String, List<Integer>>();
         this.synonymMapping = new HashMap<String, String>();
@@ -168,9 +162,7 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
     protected void runService(MIScore scoreGenerator) {
         logger.debug("runService");
         super.runService();
-        if(scoreProcessing){
-            processScore(scoreGenerator);
-        }
+        processScore(scoreGenerator);
     }
 
     private void processScore(MIScore scoreGenerator) {
@@ -260,110 +252,12 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
     public void runService() {
         if (this.miscore == null){
             this.miscore = new MIScore();
-
         }
         runService(this.miscore);
     }
 
-    @Override
-    protected void setMappingForPsicquic() {
-        if(queryAccs.size() > 0 && querySources.size() > 0){
-            for(String queryAcc:queryAccs){
-                for(String querySource:querySources){
-                    /* Run cluster service */
-                    try {
-                        super.setMappingForPsicquic(queryAcc, querySource);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-    }
-
-    @Override
-    protected EncoreInteractionForScoring convertEncoreInteractionFrom(BinaryInteraction binaryInteraction, String[] strings) {
-        this.binary2Encore.setIdDbNameList(strings);
-        return binary2Encore.getEncoreInteractionForScoring(binaryInteraction);
-    }
-
-    @Override
-    protected void processMethodAndType(EncoreInteractionForScoring encoreInteraction, EncoreInteractionForScoring mappingEncoreInteraction) {
-        Map<MethodTypePair, List<String>> existingMethodTypeToPubmed = mappingEncoreInteraction.getMethodTypePairListMap();
-
-        for (Map.Entry<MethodTypePair, List<String>> entry : encoreInteraction.getMethodTypePairListMap().entrySet()){
-            if (existingMethodTypeToPubmed.containsKey(entry.getKey())){
-                List<String> existingPubmeds = existingMethodTypeToPubmed.get(entry.getKey());
-                List<String> newPubmeds = encoreInteraction.getMethodTypePairListMap().get(entry.getKey());
-
-                for (String pub : newPubmeds){
-                    if (!existingPubmeds.contains(pub)){
-                        existingPubmeds.add(pub);
-                    }
-                }
-            }
-            else{
-                existingMethodTypeToPubmed.put(entry.getKey(), entry.getValue());
-            }
-        }
-    }
-
-    @Override
-    protected EncoreInteractionForScoring mergeWithExistingEncoreInteraction(EncoreInteractionForScoring encoreInteraction, int interactionIdFound) {
-        EncoreInteractionForScoring mappingEcoreInteraction;// include additional information about exp, pubmed, ... for this interaction id
-        mappingEcoreInteraction = interactionMapping.get(interactionIdFound);
-        if( mappingEcoreInteraction == null ) {
-            throw new IllegalStateException( "Could not find an EncoreInteraction with id: " + interactionIdFound );
-        }
-        /* Check that interactors are in the same order A=A and B=B */
-        boolean swapInteractors = true;
-        swap_loop:
-        for(String acc:mappingEcoreInteraction.getInteractorAccsA().values()){
-            if(encoreInteraction.getInteractorAccsA().containsValue(acc)){
-                swapInteractors = false;
-                break swap_loop;
-            }
-        }
-        if(swapInteractors){
-            mappingEcoreInteraction.addInteractorAccsA(encoreInteraction.getInteractorAccsB());
-            mappingEcoreInteraction.addInteractorAccsB(encoreInteraction.getInteractorAccsA());
-            mappingEcoreInteraction.addOtherInteractorAccsA(encoreInteraction.getOtherInteractorAccsB());
-            mappingEcoreInteraction.addOtherInteractorAccsB(encoreInteraction.getOtherInteractorAccsA());
-            mappingEcoreInteraction.addOrganismsA(encoreInteraction.getOrganismsB());
-            mappingEcoreInteraction.addOrganismsB(encoreInteraction.getOrganismsA());
-        } else{
-            mappingEcoreInteraction.addInteractorAccsA(encoreInteraction.getInteractorAccsA());
-            mappingEcoreInteraction.addInteractorAccsB(encoreInteraction.getInteractorAccsB());
-            mappingEcoreInteraction.addOtherInteractorAccsA(encoreInteraction.getOtherInteractorAccsA());
-            mappingEcoreInteraction.addOtherInteractorAccsB(encoreInteraction.getOtherInteractorAccsB());
-            mappingEcoreInteraction.addOrganismsA(encoreInteraction.getOrganismsA());
-            mappingEcoreInteraction.addOrganismsB(encoreInteraction.getOrganismsB());
-        }
-        mappingEcoreInteraction.addPublicationId(encoreInteraction.getPublicationIds());
-        mappingEcoreInteraction.addExperimentToPubmed(encoreInteraction.getExperimentToPubmed());
-        mappingEcoreInteraction.addExperimentToDatabase(encoreInteraction.getExperimentToDatabase());
-        processMethodAndType(encoreInteraction, mappingEcoreInteraction);
-        mappingEcoreInteraction.addAuthors(encoreInteraction.getAuthors());
-        mappingEcoreInteraction.addConfidenceValues(encoreInteraction.getConfidenceValues());
-        mappingEcoreInteraction.addSourceDatabases(encoreInteraction.getSourceDatabases());
-        mappingEcoreInteraction.getDistinctPublications().addAll(encoreInteraction.getDistinctPublications());
-        return mappingEcoreInteraction;
-    }
-
-    @Override
     public void saveScoreInMitab(String fileName) throws IOException {
-        PsimiTabWriter writer = new PsimiTabWriter();
-        File file = new File(fileName);
-
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = getInteractionMapping();
-        Encore2Binary iConverter = new Encore2Binary(getMappingIdDbNames());
-
-        for(Integer mappingId:interactionMapping.keySet()){
-            EncoreInteractionForScoring eI = interactionMapping.get(mappingId);
-            BinaryInteraction bI = iConverter.getBinaryInteractionForScoring(eI);
-
-            writer.writeOrAppend(bI, file, false);
-        }
+        saveResultsInMitab(fileName);
     }
 
     public double[] getScores(){
@@ -502,76 +396,11 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
         this.miscore = miscore;
     }
 
-    public void setQueryAccs(List<String> queryAccs) {
-        this.queryAccs = queryAccs;
-    }
-
-    public void addQueryAcc(String queryAcc) {
-        this.queryAccs.add(queryAcc);
-    }
-
-    public void setQuerySources(List<String> querySources) {
-        this.querySources = querySources;
-    }
-
-    public void addQuerySource(String querySource) {
-        this.querySources.add(querySource);
-    }
-
-        public void setQuerySourcesFromPsicquicRegistry() {
-        PsicquicRegistryClient registryClient = new DefaultPsicquicRegistryClient();
-        try {
-            List<ServiceType> allServices =  registryClient.listServices();
-            for (final ServiceType service : allServices) {
-                if (service.isActive()) {
-                    this.addQuerySource(service.getName());
-                }
-            }
-        } catch (PsicquicRegistryClientException e) {
-            logger.error(e);
-            e.printStackTrace();
-        }
-    }
-
-    public void setImexSources() {
-        PsicquicRegistryClient registryClient = new DefaultPsicquicRegistryClient();
-        try {
-            List<ServiceType> allServices =  registryClient.listServices();
-            for (final ServiceType service : allServices) {
-                List<String> tags = service.getTags();
-                if (service.isActive() && tags != null) {
-                    if(tags.contains("MI:0959")){
-                        this.addQuerySource(service.getName());
-                    }
-                }
-            }
-        } catch (PsicquicRegistryClientException e) {
-            logger.error(e);
-            e.printStackTrace();
-        }
-    }
-
-    public List<String> getQuerySources() {
-        return querySources;
-    }
-
-    public List<String> getQueryAccs() {
-        return queryAccs;
-    }
-
     public String getScoreName() {
         return scoreName;
     }
 
     public void setScoreName(String scoreName) {
         this.scoreName = scoreName;
-    }
-
-    public boolean isScoreProcessing() {
-        return scoreProcessing;
-    }
-
-    public void setScoreProcessing(boolean scoreProcessing) {
-        this.scoreProcessing = scoreProcessing;
     }
 }

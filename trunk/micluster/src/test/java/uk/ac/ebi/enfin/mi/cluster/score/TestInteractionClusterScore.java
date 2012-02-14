@@ -10,9 +10,9 @@ import uk.ac.ebi.enfin.mi.cluster.ClusterServiceException;
 import uk.ac.ebi.enfin.mi.cluster.Encore2Binary;
 import uk.ac.ebi.enfin.mi.cluster.EncoreInteractionForScoring;
 import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertTrue;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.*;
 
@@ -41,15 +41,26 @@ public class TestInteractionClusterScore {
     //todo: test scores
     //todo: test new scoreProcessing property
 
-    @Test
-    public void testSizeOfClusteredInteractionAndInteractors() throws ClusterServiceException {
+    @Test  // todo: why intact view shows 33
+    public void testSizeOfClusteredInteractionAndInteractors() throws ClusterServiceException, IOException {
         InteractionClusterScore iC = new InteractionClusterScore();
         iC.setBinaryInteractionIterator(brca2_intact, false);
         iC.runService();
         Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
-        assertTrue(interactionMapping.size() > 8);
-        assertTrue(interactorMapping.size() > 11);
+        assertTrue(interactionMapping.size() == 8);
+        assertTrue(interactorMapping.size() == 11);
+    }
+
+    @Test  //todo: it should be 10
+    public void testSizeOfClusteredInteractionAndInteractors2() throws ClusterServiceException {
+        InteractionClusterScore iC = new InteractionClusterScore();
+        iC.setBinaryInteractionIterator(brca2_mint, false);
+        iC.runService();
+        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
+        assertTrue(interactionMapping.size() == 33);
+        assertTrue(interactorMapping.size() == 33);
     }
 
 
@@ -88,68 +99,21 @@ public class TestInteractionClusterScore {
 
 
 
-    //todo: cleanup test from here
     @Test
-    public void testRefeedingInteractionClusterScore(){
-        /* First cluster */
-        InteractionClusterScore ics = new InteractionClusterScore();
-        ics.addQueryAcc("Q06609");
-        ics.addQuerySource("IntAct");
-        ics.runService();
-
-        /* New cluster merging the information from the first cluster and the results from a new query */
-        InteractionClusterScore ics2 = new InteractionClusterScore();
-        ics2.setInteractionMapping(ics.getInteractionMapping());
-        ics2.setInteractorMapping(ics.getInteractorMapping());
-        ics2.setSynonymMapping(ics.getSynonymMapping());
-        ics2.setInteractionMappingId(ics.getInteractionMappingId());
-        ics2.addQueryAcc("Q06609");
-        ics2.addQuerySource("mint");
-        ics2.runService();
-
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = ics2.getInteractionMapping();
-        Map<String, List<Integer>> interactorMapping = ics2.getInteractorMapping();
-        Map<String, String> synonymMapping = ics2.getSynonymMapping();
-        int interactionMappingId = ics2.getInteractionMappingId();
-
-        assertTrue(interactionMappingId > 0);
-        assertTrue(interactionMapping.size() > 0);
-        assertTrue(interactorMapping.size() > 0);
-    }
-
-    public void testRefeedingInteractionClusterScore2(){
+    public void testTwoInputs() throws ClusterServiceException {
         InteractionClusterScore iC = new InteractionClusterScore();
-
-        /* Acc */
-        List<String> acc = new ArrayList<String>();
-        acc.add("Q06609");
-
-        /* db 1 */
-        List<String> db1 = new ArrayList<String>();
-        db1.add("IntAct");
-
-        /* db 2 */
-        List<String> db2 = new ArrayList<String>();
-        db2.add("mint");
-
-        /* First query */
-        iC.setQueryAccs(acc);
-        iC.setQuerySources(db1);
+        iC.setMappingIdDbNames("uniprotkb,chebi");
+        /* one source */
+        iC.setBinaryInteractionIterator(brca2_intact, false);
         iC.runService();
-
-        /* Second query */
-        iC.setQueryAccs(acc);
-        iC.setQuerySources(db2);
+        /* second source */
+        iC.setBinaryInteractionIterator(brca2_mint, false);
         iC.runService();
 
         Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
-        Map<String, String> synonymMapping = iC.getSynonymMapping();
-        int interactionMappingId = iC.getInteractionMappingId();
-
-        assertTrue(interactionMappingId > 0);
-        assertTrue(interactionMapping.size() > 0);
-        assertTrue(interactorMapping.size() > 0);
+        assertTrue(interactionMapping.size() == 37);
+        assertTrue(interactorMapping.size() == 36);
     }
 
 

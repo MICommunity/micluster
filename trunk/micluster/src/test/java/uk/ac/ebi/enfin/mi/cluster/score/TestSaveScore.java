@@ -13,7 +13,7 @@ public class TestSaveScore extends TestCase {
     static Logger logger = Logger.getLogger(TestSaveScore.class);
     public void testSaveScores(){
         InteractionClusterScore ics = new InteractionClusterScore();
-        ics.addQueryAcc("P04637");
+        ics.addMIQLQuery("P04637");
         ics.addQuerySource("IntAct");
         ics.saveScores();
         assertTrue(ics.getInteractionMapping().size() > 0);
