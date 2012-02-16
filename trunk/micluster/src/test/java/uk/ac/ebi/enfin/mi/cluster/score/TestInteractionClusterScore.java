@@ -26,13 +26,19 @@ public class TestInteractionClusterScore {
     private File brca2_intact;
     private File brca2_innateDB;
     private File brca2_biogrid;
+    private File P37173_mint;
+    private File P37173_intact;
+    private File P37173_innatedb;
 
     @Before
     public void setDataSourceExamples(){
-        brca2_mint = new File( TestInteractionClusterScore.class.getResource( "/mitab_samples/brca2_intact.tsv" ).getFile() );
-        brca2_intact = new File( TestInteractionClusterScore.class.getResource( "/mitab_samples/brca2_mint.tsv" ).getFile() );
-        brca2_innateDB = new File( TestInteractionClusterScore.class.getResource( "/mitab_samples/brca2_intact.tsv" ).getFile() );
-        brca2_biogrid = new File( TestInteractionClusterScore.class.getResource( "/mitab_samples/brca2_mint.tsv" ).getFile() );
+        brca2_mint = new File( TestInteractionClusterScore.class.getResource( "/mitab_samples/brca2_mint.tsv" ).getFile() );
+        brca2_intact = new File( TestInteractionClusterScore.class.getResource( "/mitab_samples/brca2_intact.tsv" ).getFile() );
+        brca2_innateDB = new File( TestInteractionClusterScore.class.getResource( "/mitab_samples/brca2_innateDB.tsv" ).getFile() );
+        brca2_biogrid = new File( TestInteractionClusterScore.class.getResource( "/mitab_samples/brca2_biogrid.tsv" ).getFile() );
+        P37173_innatedb = new File( TestInteractionClusterScore.class.getResource( "/mitab_samples/P37173_innatedb.tsv" ).getFile() );
+        P37173_intact = new File( TestInteractionClusterScore.class.getResource( "/mitab_samples/P37173_intact.tsv" ).getFile() );
+        P37173_mint = new File( TestInteractionClusterScore.class.getResource( "/mitab_samples/P37173_mint.tsv" ).getFile() );
     }
 
     //todo: test psicquic functionality works
@@ -41,27 +47,8 @@ public class TestInteractionClusterScore {
     //todo: test scores
     //todo: test new scoreProcessing property
 
-    @Test  // todo: why intact view shows 33
-    public void testSizeOfClusteredInteractionAndInteractors() throws ClusterServiceException, IOException {
-        InteractionClusterScore iC = new InteractionClusterScore();
-        iC.setBinaryInteractionIterator(brca2_intact, false);
-        iC.runService();
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
-        Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
-        assertTrue(interactionMapping.size() == 8);
-        assertTrue(interactorMapping.size() == 11);
-    }
 
-    @Test  //todo: it should be 10
-    public void testSizeOfClusteredInteractionAndInteractors2() throws ClusterServiceException {
-        InteractionClusterScore iC = new InteractionClusterScore();
-        iC.setBinaryInteractionIterator(brca2_mint, false);
-        iC.runService();
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
-        Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
-        assertTrue(interactionMapping.size() == 33);
-        assertTrue(interactorMapping.size() == 33);
-    }
+
 
 
     @Test  //todo: review this test. it seems synonyms is not working
@@ -309,6 +296,13 @@ public class TestInteractionClusterScore {
 //        assertTrue(interactionMapping.size() > 0);
 //        assertTrue(interactorMapping.size() > 0);
 //    }
+
+
+public int countLines(File file) throws IOException {
+    LineNumberReader  lnr = new LineNumberReader(new FileReader(file));
+    lnr.skip(Long.MAX_VALUE);
+    return lnr.getLineNumber();
+}
 
 
 
