@@ -276,4 +276,56 @@ public class TestClusterExpectedIO extends ExampleFiles{
         assertTrue(interactorSynonyms.size() == 78);
         assertTrue(iC.interactionMappingId == interactionMapping.size());
     }
+
+    @Test
+    public void testClusteredContentForP37173InIntact() throws ClusterServiceException, IOException {
+        InteractionCluster iC = new InteractionCluster();
+        iC.setBinaryInteractionIterator(P37173_intact, false);
+        iC.setMappingIdDbNames("uniprotkb,intact,irefindex");
+        iC.runService();
+        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<String,String> firstInteractor = interactionMapping.values().iterator().next().getInteractorAccsA();
+        Map<String,String> secondInteractor = interactionMapping.values().iterator().next().getInteractorAccsB();
+        /* First interactor */
+        assertTrue(firstInteractor.values().contains("hxcAAra96c/MOyY41mR/8MT0fcI9606"));
+        assertTrue(firstInteractor.values().contains("P37173"));
+        assertTrue(firstInteractor.values().contains("EBI-296151"));
+        assertTrue(firstInteractor.keySet().contains("uniprotkb"));
+        assertTrue(firstInteractor.keySet().contains("intact"));
+        assertTrue(firstInteractor.keySet().contains("irefindex"));
+        /* Second interactor */
+        assertTrue(secondInteractor.values().contains("GB2j4Snn26HiyL4umac7sD150T41392"));
+        assertTrue(secondInteractor.values().contains("Q81LN0"));
+        assertTrue(secondInteractor.values().contains("EBI-2820887"));
+        assertTrue(secondInteractor.keySet().contains("uniprotkb"));
+        assertTrue(secondInteractor.keySet().contains("intact"));
+        assertTrue(secondInteractor.keySet().contains("irefindex"));
+    }
+
+
+    @Test
+    public void testClusteredContentForP37173InIntactAndInnatedbAndMint() throws ClusterServiceException {
+        InteractionCluster iC = new InteractionCluster();
+        iC.setMappingIdDbNames(allMappingNames);
+        /* first source */
+        iC.setBinaryInteractionIterator(P37173_intact, false);
+        iC.runService();
+        /* second source */
+        iC.setBinaryInteractionIterator(P37173_innatedb, false);
+        iC.runService();
+        /* third source */
+        iC.setBinaryInteractionIterator(P37173_mint, false);
+        iC.runService();
+
+        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
+        Map<String, String> interactorSynonyms = iC.getSynonymMapping();
+        //todo: loop until you find an interesting interaction
+        // interactionMapping.values().iterator().next()
+        // a aevaluate things like ...
+//
+//                interactionMapping.values().iterator().next().getDistinctPublications() =1
+//interactionMapping.values().iterator().next().getPublicationIds() =2
+    }
+
 }
