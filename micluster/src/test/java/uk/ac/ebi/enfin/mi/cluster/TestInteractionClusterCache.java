@@ -23,7 +23,7 @@ import static junit.framework.Assert.*;
  * @since 1.0
  */
 
-public class InteractionClusterTest {
+public class TestInteractionClusterCache {
 
     static Logger logger = Logger.getLogger( EncoreInteractionTest.class);
 
@@ -63,8 +63,8 @@ public class InteractionClusterTest {
     public void cluster_inputstream_cached() throws Exception {
 
         // setup data
-        File intact = new File( InteractionClusterTest.class.getResource( "/mitab_samples/brca2_intact.tsv" ).getFile() );
-        File mint = new File( InteractionClusterTest.class.getResource( "/mitab_samples/brca2_mint.tsv" ).getFile() );
+        File intact = new File( TestInteractionClusterCache.class.getResource( "/mitab_samples/brca2_intact.tsv" ).getFile() );
+        File mint = new File( TestInteractionClusterCache.class.getResource( "/mitab_samples/brca2_mint.tsv" ).getFile() );
 
         //TODO : when a trhead local clusterContext has been initialized, it is impossible to change it. we have to start a new process not like in this test
         // configure clustering strategy
@@ -96,8 +96,8 @@ public class InteractionClusterTest {
     public void cluster_inputstream_inMemory() throws Exception {
 
         // setup data
-        File intact = new File( InteractionClusterTest.class.getResource( "/mitab_samples/brca2_intact.tsv" ).getFile() );
-        File mint = new File( InteractionClusterTest.class.getResource( "/mitab_samples/brca2_mint.tsv" ).getFile() );
+        File intact = new File( TestInteractionClusterCache.class.getResource( "/mitab_samples/brca2_intact.tsv" ).getFile() );
+        File mint = new File( TestInteractionClusterCache.class.getResource( "/mitab_samples/brca2_mint.tsv" ).getFile() );
 
         // configure clustering strategy
         ClusterContext.getInstance().setCacheStrategy( CacheStrategy.IN_MEMORY );

@@ -1,11 +1,6 @@
 package uk.ac.ebi.enfin.mi.cluster;
 import org.junit.Test;
-import uk.ac.ebi.enfin.mi.cluster.score.InteractionClusterScore;
-
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.LineNumberReader;
 import java.util.*;
 
 import static junit.framework.Assert.assertTrue;
@@ -31,7 +26,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         assertTrue(interactionMapping.size() == 33);
         assertTrue(interactorMapping.size() == 33);
         assertTrue(interactorSynonyms.size() == 64);
-        assertTrue(iC.interactionMappingId == interactionMapping.size());
+        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
     @Test
@@ -47,7 +42,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         assertTrue(interactionMapping.size() == 10);
         assertTrue(interactorMapping.size() == 11);
         assertTrue(interactorSynonyms.size() == 0);
-        assertTrue(iC.interactionMappingId == interactionMapping.size());
+        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
     @Test
@@ -63,7 +58,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         assertTrue(interactionMapping.size() == 2);
         assertTrue(interactorMapping.size() == 3);
         assertTrue(interactorSynonyms.size() == 9);
-        assertTrue(iC.interactionMappingId == interactionMapping.size());
+        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
     @Test
@@ -79,7 +74,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         assertTrue(interactionMapping.size() == 38);
         assertTrue(interactorMapping.size() == 36);
         assertTrue(interactorSynonyms.size() == 0);
-        assertTrue(iC.interactionMappingId == interactionMapping.size());
+        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
     @Test //todo: something to fix in micluster. P37173 should have these synonymous: NM_001024847, NM_003242, NP_003233 instead it just takes the first one: NM_001024847
@@ -101,7 +96,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         /* Testing the IDs are uniprot */
         assertTrue(interactorMapping.keySet().contains("P01137"));
         assertTrue(interactorMapping.keySet().contains("P23511"));
-        assertTrue(iC.interactionMappingId == interactionMapping.size());
+        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
 
@@ -124,7 +119,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         /* Testing the IDs are Uniport */
         assertTrue(interactorMapping.keySet().contains("P01137"));
         assertTrue(interactorMapping.keySet().contains("P23511"));
-        assertTrue(iC.interactionMappingId == interactionMapping.size());
+        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
 
@@ -147,7 +142,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         /* Testing the IDs are Ensembl */
         assertTrue(interactorMapping.keySet().contains("ENSG00000001167"));
         assertTrue(interactorMapping.keySet().contains("ENSG00000120837"));
-        assertTrue(iC.interactionMappingId == interactionMapping.size());
+        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
     @Test
@@ -163,7 +158,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         assertTrue(interactionMapping.size() == 10);
         assertTrue(interactorMapping.size() == 11);
         assertTrue(interactorSynonyms.size() == 22);
-        assertTrue(iC.interactionMappingId == interactionMapping.size());
+        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
     @Test
@@ -179,7 +174,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         assertTrue(interactionMapping.size() == 5);
         assertTrue(interactorMapping.size() == 6);
         assertTrue(interactorSynonyms.size() == 0);
-        assertTrue(iC.interactionMappingId == interactionMapping.size());
+        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
     @Test
@@ -195,7 +190,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         assertTrue(interactionMapping.size() == 3);
         assertTrue(interactorMapping.size() == 4);
         assertTrue(interactorSynonyms.size() == 8);
-        assertTrue(iC.interactionMappingId == interactionMapping.size());
+        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
     @Test
@@ -211,7 +206,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         assertTrue(interactionMapping.size() == 4);
         assertTrue(interactorMapping.size() == 5);
         assertTrue(interactorSynonyms.size() == 6);
-        assertTrue(iC.interactionMappingId == interactionMapping.size());
+        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
     @Test
@@ -231,7 +226,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         assertTrue(interactionMapping.size() == 27);
         assertTrue(interactorMapping.size() == 27);
         assertTrue(interactorSynonyms.size() == 0);
-        assertTrue(iC.interactionMappingId == interactionMapping.size());
+        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
     @Test
@@ -251,7 +246,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         assertTrue(interactionMapping.size() == 27);
         assertTrue(interactorMapping.size() == 27);
         assertTrue(interactorSynonyms.size() == 78);
-        assertTrue(iC.interactionMappingId == interactionMapping.size());
+        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
     @Test
@@ -274,7 +269,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         assertTrue(interactionMapping.size() == 29);
         assertTrue(interactorMapping.size() == 29);
         assertTrue(interactorSynonyms.size() == 78);
-        assertTrue(iC.interactionMappingId == interactionMapping.size());
+        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
     @Test
@@ -300,32 +295,6 @@ public class TestClusterExpectedIO extends ExampleFiles{
         assertTrue(secondInteractor.keySet().contains("uniprotkb"));
         assertTrue(secondInteractor.keySet().contains("intact"));
         assertTrue(secondInteractor.keySet().contains("irefindex"));
-    }
-
-
-    @Test
-    public void testClusteredContentForP37173InIntactAndInnatedbAndMint() throws ClusterServiceException {
-        InteractionCluster iC = new InteractionCluster();
-        iC.setMappingIdDbNames(allMappingNames);
-        /* first source */
-        iC.setBinaryInteractionIterator(P37173_intact, false);
-        iC.runService();
-        /* second source */
-        iC.setBinaryInteractionIterator(P37173_innatedb, false);
-        iC.runService();
-        /* third source */
-        iC.setBinaryInteractionIterator(P37173_mint, false);
-        iC.runService();
-
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
-        Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
-        Map<String, String> interactorSynonyms = iC.getSynonymMapping();
-        //todo: loop until you find an interesting interaction
-        // interactionMapping.values().iterator().next()
-        // a aevaluate things like ...
-//
-//                interactionMapping.values().iterator().next().getDistinctPublications() =1
-//interactionMapping.values().iterator().next().getPublicationIds() =2
     }
 
 }
