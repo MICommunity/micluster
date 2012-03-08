@@ -1,6 +1,4 @@
 package uk.ac.ebi.enfin.mi.cluster;
-
-import junit.framework.TestCase;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 

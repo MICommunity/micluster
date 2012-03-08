@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class TestInteractionClusterCache {
 
-    static Logger logger = Logger.getLogger( EncoreInteractionTest.class);
+    static Logger logger = Logger.getLogger( TestInteractionClusterCache.class);
 
     @Test
     public void cluster_psicquic_inMemory(){
