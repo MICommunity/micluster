@@ -1,4 +1,4 @@
-= MiCluster 1.6 =
+= Micluster 1.6 =
 Java library to cluster molecular interactions.
 
 == Maven dependency ==
