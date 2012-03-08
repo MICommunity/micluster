@@ -1,13 +1,168 @@
-#summary One-sentence summary of this page.
+= MiCluster =
+Java library to cluster molecular interactions.
 
-= Introduction =
+== Maven dependency ==
+You could easily use the MiCluster through maven adding the MiScore dependency and the EBI repository:
+{{{
+  <dependency>
+     <groupId>uk.ac.ebi.enfin.mi.cluster</groupId>
+     <artifactId>micluster</artifactId>
+     <version>1.6-SNAPSHOT</version>
+  </dependency>
+}}}
+{{{
+  <repository>
+     <id>ebi-repo</id>
+     <name>The EBI internal repository</name>
+     <url>http://www.ebi.ac.uk/~maven/m2repo</url>
+  </repository>
+}}}
+<br>
 
-Add your content here.
+== Examples ==
+=== NOTE ===
+Loop the "interactionMapping" to find the clustering results. Each "EncoreInteraction" is an interaction cluster. "interactorMapping" and "synonymMapping" are helpers. With "interactorMapping" you can find which interactions in the "interactorMapping" contain one selected interactor. With "synonymMapping" you can find interactor synonyms for interactors from "interactorMapping".  
 
+=== Cluster binary interactions from a PSI MITAB file: === 
+<br>
+{{{
+...
+        /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl,refseq";
+        /* File */
+        final File P37173_intact = new File( PsiMitabFile.class.getResource( "/P37173_intact.tsv" ).getFile() );
 
-= Details =
+        /* Cluster data */
+        InteractionCluster iC = new InteractionCluster();
+        iC.setBinaryInteractionIterator(P37173_intact, false);
+        iC.setMappingIdDbNames(allMappingNames);
+        iC.runService();
+...
+}}}
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+=== Cluster binary interactions from several PSI MITAB files: === 
+{{{
+...
+        /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl,refseq";
+        /* File */
+        final File P37173_intact = new File( PsiMitabFile.class.getResource( "/P37173_intact.tsv" ).getFile() );
+        final File P37173_mint = new File( PsiMitabFile.class.getResource( "/P37173_mint.tsv" ).getFile() );
+        final File P37173_innatedb = new File( PsiMitabFile.class.getResource( "/P37173_innatedb.tsv" ).getFile() );
+
+        /* Cluster data */
+        InteractionCluster iC = new InteractionCluster();
+        iC.setBinaryInteractionIterator(new File[] {P37173_intact,P37173_mint,P37173_innatedb}, false);
+        iC.setMappingIdDbNames(allMappingNames);
+        iC.runService();
+...
+}}}
+
+=== Cluster binary interactions from a PSICQUIC service: === 
+{{{
+...
+        /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl,refseq";
+        /* MIQL Query */
+        String query = "identifier:P37173";
+        /* PSICQUIC service */
+        String psicquicService = "IntAct";
+
+        /* Cluster data */
+        InteractionCluster iC = new InteractionCluster();
+        iC.addMIQLQuery(query);
+        iC.addQuerySource(psicquicService);
+        iC.setMappingIdDbNames(allMappingNames);
+        iC.runService();
+...
+}}}
+
+=== Cluster binary interactions from several PSICQUIC services ===
+{{{
+...
+        /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl,refseq";
+        /* MIQL Query */
+        String query = "identifier:P37173";
+        /* PSICQUIC service */
+        List psicquicServices = new ArrayList();
+        psicquicServices.add("IntAct");
+        psicquicServices.add("MINT");
+
+        /* Cluster data */
+        InteractionCluster iC = new InteractionCluster();
+        iC.addMIQLQuery(query);
+        iC.setQuerySources(psicquicServices);
+        iC.setMappingIdDbNames(allMappingNames);
+        iC.runService();
+...
+}}}
+
+=== Cluster binary interactions from a PSICQUIC service URL ===
+{{{
+...
+        /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl,refseq";
+        /* PSICQUIC URL */
+        String query = "identifier:P37173";
+        URL intactQuery = new URL("http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/" + query);
+        PsimiTabReader mitabReader = new PsimiTabReader(false);
+        List<BinaryInteraction> binaryInteractions = new ArrayList<BinaryInteraction>();
+        binaryInteractions.addAll(mitabReader.read(intactQuery));
+
+        /* Cluster data */
+        InteractionCluster iC = new InteractionCluster();
+        iC.setBinaryInteractionIterator(binaryInteractions.iterator());
+        iC.setMappingIdDbNames(allMappingNames);
+        iC.runService();
+...
+}}}
+
+=== Cluster binary interactions from several PSICQUIC service URLs === 
+{{{
+...
+        /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl,refseq";
+        /* PSICQUIC URL */
+        String query = "identifier:P37173";
+        URL intactQuery = new URL("http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/" + query);
+        URL mintQuery = new URL("http://mint.bio.uniroma2.it/mint/psicquic/webservices/current/search/query/" + query);
+        PsimiTabReader mitabReader = new PsimiTabReader(false);
+        List<BinaryInteraction> binaryInteractions = new ArrayList<BinaryInteraction>();
+        binaryInteractions.addAll(mitabReader.read(intactQuery));
+        binaryInteractions.addAll(mitabReader.read(mintQuery));
+
+        /* Cluster data */
+        InteractionCluster iC = new InteractionCluster();
+        iC.setBinaryInteractionIterator(binaryInteractions.iterator());
+        iC.setMappingIdDbNames(allMappingNames);
+        iC.runService();
+...
+}}}
+
+=== Cluster binary interactions from all the PSICQUIC services available in the PSICQUIC registry === 
+{{{
+...
+        /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl,refseq";
+        /* MIQL Query */
+        String query = "identifier:P37173";
+
+        /* Cluster data */
+        InteractionCluster iC = new InteractionCluster();
+        iC.addMIQLQuery(query);
+        iC.setQuerySourcesFromPsicquicRegistry();
+        iC.setMappingIdDbNames(allMappingNames);
+        iC.runService();
+...
+}}}
+
+== Source code ==
+You can find the source code in:
+<br>
+http://code.google.com/p/micluster/source/browse/#svn%2Ftrunk%2Fmicluster
+
+== jar file ==
+The jar file can also be found in this url:
+<br>
+http://www.ebi.ac.uk/~maven/m2repo/uk/ac/ebi/enfin/mi/cluster/micluster/1.4/
