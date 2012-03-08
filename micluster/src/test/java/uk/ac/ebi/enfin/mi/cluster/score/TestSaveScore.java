@@ -2,6 +2,7 @@ package uk.ac.ebi.enfin.mi.cluster.score;
 
 import junit.framework.TestCase;
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 
 /**
  * User: rafael
@@ -16,6 +17,6 @@ public class TestSaveScore extends TestCase {
         ics.addMIQLQuery("P04637");
         ics.addQuerySource("IntAct");
         ics.saveScores();
-        assertTrue(ics.getInteractionMapping().size() > 0);
+        Assert.assertTrue(ics.getInteractionMapping().size() > 0);
     }
 }

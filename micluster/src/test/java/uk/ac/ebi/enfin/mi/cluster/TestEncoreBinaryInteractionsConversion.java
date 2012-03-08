@@ -1,15 +1,11 @@
 package uk.ac.ebi.enfin.mi.cluster;
 
 import org.junit.Test;
-import psidev.psi.mi.tab.PsimiTabReader;
+import org.junit.Assert;
 import psidev.psi.mi.tab.model.BinaryInteraction;
-import uk.ac.ebi.enfin.mi.cluster.score.InteractionClusterScore;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static junit.framework.Assert.assertTrue;
 
 /**
  * Test conversion between encore and binaryInteraction are OK
@@ -39,6 +35,6 @@ public class TestEncoreBinaryInteractionsConversion extends ExampleFiles{
         }
 
         /* Test binaryInteraction and encoreInteraction have the same size */
-        assertTrue(binaryInteractionMapping.size() == interactionMapping.size());
+        Assert.assertTrue(binaryInteractionMapping.size() == interactionMapping.size());
     }
 }
