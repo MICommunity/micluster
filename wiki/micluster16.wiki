@@ -20,9 +20,6 @@ You could easily use the MiCluster through maven adding the MiScore dependency a
 <br>
 
 == Examples ==
-=== NOTE ===
-Loop the "interactionMapping" to find the clustering results. Each "EncoreInteraction" is an interaction cluster. "interactorMapping" and "synonymMapping" are helpers. With "interactorMapping" you can find which interactions in the "interactorMapping" contain one selected interactor. With "synonymMapping" you can find interactor synonyms for interactors from "interactorMapping".  
-
 === Cluster binary interactions from a PSI MITAB file: === 
 <br>
 {{{
