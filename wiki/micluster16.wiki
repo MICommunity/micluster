@@ -21,7 +21,6 @@ You could easily use the MiCluster through maven adding the MiScore dependency a
 
 == Examples ==
 === Cluster binary interactions from a PSI MITAB file: === 
-<br>
 {{{
 ...
         /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
