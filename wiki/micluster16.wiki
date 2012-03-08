@@ -19,7 +19,8 @@ You could easily use the MiCluster through maven adding the MiScore dependency a
 }}}
 <br>
 
-== Examples ==
+== Input examples ==
+Examples of how to input and cluster data.
 === Cluster binary interactions from a PSI MITAB file: === 
 {{{
 ...
@@ -152,6 +153,122 @@ You could easily use the MiCluster through maven adding the MiScore dependency a
         iC.runService();
 ...
 }}}
+<br/>
+== Output examples ==
+Examples of how to use the clustered data.
+=== Print example results from clustered data: === 
+{{{
+...
+        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
+        Map<String, String> interactorSynonyms = iC.getSynonymMapping();
+
+        /* PRINT SOME RESULTS */
+        String fisrtSeparator = "\t";
+        String secondSeparator = ",";
+
+        /* Print interactors for clustered binary interactions including publication accessions */
+        System.out.println("Print interactors for clustered binary interactions including publication accessions");
+        System.out.println("interaction_location"+ fisrtSeparator + "interactor_A" + fisrtSeparator + "interactor_B" + fisrtSeparator + "publications");
+        for(Integer i:interactionMapping.keySet()){
+            EncoreInteractionForScoring eI = interactionMapping.get(i);
+
+            /* Get publications */
+            String publications = "";
+            for(String publication:eI.getExperimentToPubmed().values()){
+                publications += publication + secondSeparator;
+            }
+            publications = publications.substring(0,publications.length()-1);
+
+            System.out.println(i + fisrtSeparator + eI.getInteractorA() + fisrtSeparator + eI.getInteractorB() + fisrtSeparator + publications);
+        }
+        System.out.println("");
+
+        /* Print interactors and its location in the interactionMapping */
+        System.out.println("Print interactors and its location in the interactionMapping");
+        System.out.println("interactor"+ fisrtSeparator + "interaction_location");
+        for(String interactor:interactorMapping.keySet()){
+            System.out.println(interactor + fisrtSeparator + interactorMapping.get(interactor));
+        }
+        System.out.println("");
+
+        /* Print interactors and publication */
+        System.out.println("Print synonyms for interactors");
+        System.out.println("synonym"+ fisrtSeparator + "interactor");
+        for(String synonym:interactorSynonyms.keySet()){
+            System.out.println(interactorSynonyms.get(synonym) + fisrtSeparator + synonym);
+        }
+...
+}}}
+
+=== Print example results from clustered data with miscore information: === 
+{{{
+...
+        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+
+        /* PRINT SOME RESULTS */
+        String fisrtSeparator = "\t";
+        String secondSeparator = ",";
+
+        /* Print interactors for clustered binary interactions including publication accessions */
+        System.out.println("Print interactors for clustered binary interactions including publication accessions");
+        System.out.println("interaction_location"+ fisrtSeparator + "interactor_A" + fisrtSeparator + "interactor_B" + fisrtSeparator +
+                "score" + fisrtSeparator + "publications"+ fisrtSeparator + "types" + fisrtSeparator + "methods");
+        for(Integer i:interactionMapping.keySet()){
+            EncoreInteractionForScoring eI = interactionMapping.get(i);
+
+            /* Get score */
+            String score = "";
+            List<Confidence> confidenceScores = eI.getConfidenceValues();
+            for(Confidence confidenceScore:confidenceScores){
+                if(confidenceScore.getType().equalsIgnoreCase("miscore")){
+                    score = confidenceScore.getValue();
+                }
+            }
+
+            /* Get publications */
+            String publications = "";
+            for(String publication:eI.getExperimentToPubmed().values()){
+                publications += publication + secondSeparator;
+            }
+            publications = publications.substring(0,publications.length()-1);
+
+            /* Get types */
+            String types = "";
+            for(String type:eI.getTypeToPubmed().keySet()){
+                types += type + secondSeparator;
+            }
+            types = types.substring(0,types.length()-1);
+
+            /* Get methods */
+            String methods = "";
+            for(String method:eI.getMethodToPubmed().keySet()){
+                methods += method + secondSeparator;
+            }
+            methods = methods.substring(0,methods.length()-1);
+
+            System.out.println(i + fisrtSeparator + eI.getInteractorA() + fisrtSeparator + eI.getInteractorB() + fisrtSeparator +
+                    score + fisrtSeparator + publications + fisrtSeparator + types + fisrtSeparator + methods);
+        }
+        System.out.println("");
+...
+}}}
+
+=== Print PSI MITAB results from clustered data: === 
+{{{
+...
+        /* Convert EncoreInteractions into BinaryInteractions */
+        List<BinaryInteraction> binaryInteractions = new ArrayList<BinaryInteraction>();
+        Encore2Binary iConverter = new Encore2Binary(iC.getMappingIdDbNames());
+        for(EncoreBinaryInteraction eI:iC.getInteractionMapping().values()){
+            binaryInteractions.add(iConverter.getBinaryInteraction(eI));
+        }
+        /* Print PSI MITAB clustered binary interactions */
+        PsimiTabWriter writer = new PsimiTabWriter();
+        writer.write(binaryInteractions, System.out);
+...
+}}}
+
 
 == Source code ==
 You can find the source code in:
@@ -161,4 +278,4 @@ http://code.google.com/p/micluster/source/browse/#svn%2Ftrunk%2Fmicluster
 == jar file ==
 The jar file can also be found in this url:
 <br>
-http://www.ebi.ac.uk/~maven/m2repo/uk/ac/ebi/enfin/mi/cluster/micluster/1.4/
+http://www.ebi.ac.uk/~maven/m2repo/uk/ac/ebi/enfin/mi/cluster/micluster/1.6/
