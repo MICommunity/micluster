@@ -35,7 +35,7 @@ public class Encore2Binary {
         this.mappingIdDbNames = null;
     }
 
-    public BinaryInteraction getBinaryInteraction(EncoreInteraction encoreInteraction){
+    public BinaryInteraction getBinaryInteraction(EncoreBinaryInteraction encoreInteraction){
         /* Create Identifiers and Alternative Identifiers */
         Collection<CrossReference> psiIdentifierA= new ArrayList<CrossReference>();
         Collection<CrossReference> psiAlternativeIdentifierA= new ArrayList<CrossReference>();
