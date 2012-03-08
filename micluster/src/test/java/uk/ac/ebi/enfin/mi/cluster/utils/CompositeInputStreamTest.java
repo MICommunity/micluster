@@ -20,7 +20,7 @@ public class CompositeInputStreamTest {
     public void join_inputstream_own() throws Exception {
 
         // 2 lines
-        File f1 = new File( CompositeInputStreamTest.class.getResource( "/mitab_samples/brca2_innateDB.tsv" ).getFile() );
+        File f1 = new File( CompositeInputStreamTest.class.getResource( "/mitab_samples/brca2_innatedb.tsv" ).getFile() );
 
         // 89 lines
         File f2 = new File( CompositeInputStreamTest.class.getResource( "/mitab_samples/brca2_intact.tsv" ).getFile() );
@@ -39,6 +39,6 @@ public class CompositeInputStreamTest {
         }
         in.close();
 
-        Assert.assertEquals( 91, count );
+        Assert.assertEquals( 108, count );
     }
 }
