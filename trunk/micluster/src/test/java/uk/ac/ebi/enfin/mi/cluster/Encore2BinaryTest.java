@@ -6,8 +6,6 @@ import psidev.psi.mi.tab.model.BinaryInteraction;
 import java.util.HashMap;
 import java.util.Map;
 
-import static junit.framework.Assert.*;
-
 /**
  * @author Rafael
  * @since 03-Jun-2010
