@@ -1,0 +1,6 @@
+Explain 3 ways to cluster several sources (test which one is faster)
+  - iC2.setInteractionMapping(iC.getInteractionMapping());
+  - iC.runService(); iC.runService();
+  - several input and afterwords iC.runService();
+
+micluster-score: DefineCustomScore
