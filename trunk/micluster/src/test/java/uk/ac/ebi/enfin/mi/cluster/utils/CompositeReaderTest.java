@@ -25,7 +25,7 @@ public class CompositeReaderTest {
         Charset utf8 = Charset.forName( "UTF-8" );
 
         // 2 lines
-        File f1 = new File( CompositeReaderTest.class.getResource( "/mitab_samples/brca2_innateDB.tsv" ).getFile() );
+        File f1 = new File( CompositeReaderTest.class.getResource( "/mitab_samples/brca2_innatedb.tsv" ).getFile() );
 
         // 89 lines
         File f2 = new File( CompositeReaderTest.class.getResource( "/mitab_samples/brca2_intact.tsv" ).getFile() );
@@ -46,7 +46,7 @@ public class CompositeReaderTest {
         }
         in.close();
 
-        Assert.assertEquals( 91, count );
+        Assert.assertEquals( 108, count );
     }
 
     @Test
@@ -54,7 +54,7 @@ public class CompositeReaderTest {
 
 
         // 2 lines
-        File f1 = new File( CompositeReaderTest.class.getResource( "/mitab_samples/brca2_innateDB.tsv" ).getFile() );
+        File f1 = new File( CompositeReaderTest.class.getResource( "/mitab_samples/brca2_innatedb.tsv" ).getFile() );
 
         // 89 lines
         File f2 = new File( CompositeReaderTest.class.getResource( "/mitab_samples/brca2_intact.tsv" ).getFile() );
@@ -73,14 +73,14 @@ public class CompositeReaderTest {
         }
         in.close();
 
-        Assert.assertEquals( 91, count );
+        Assert.assertEquals( 108, count );
     }
 
     @Test
     public void join_inputstream_via_readers_own() throws Exception {
 
         // 2 lines
-        File f1 = new File( CompositeReaderTest.class.getResource( "/mitab_samples/brca2_innateDB.tsv" ).getFile() );
+        File f1 = new File( CompositeReaderTest.class.getResource( "/mitab_samples/brca2_innatedb.tsv" ).getFile() );
 
         // 89 lines
         File f2 = new File( CompositeReaderTest.class.getResource( "/mitab_samples/brca2_intact.tsv" ).getFile() );
@@ -99,6 +99,6 @@ public class CompositeReaderTest {
         }
         in.close();
 
-        Assert.assertEquals( 91, count );
+        Assert.assertEquals( 108, count );
     }
 }
