@@ -2,6 +2,7 @@ package uk.ac.ebi.enfin.mi.cluster;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
+import org.junit.Assert;
 import uk.ac.ebi.enfin.mi.cluster.cache.CacheStrategy;
 import uk.ac.ebi.enfin.mi.cluster.utils.CompositeInputStream;
 
@@ -12,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static junit.framework.Assert.*;
 
 /**
  * InteractionCluster Tester.
@@ -38,9 +38,9 @@ public class TestInteractionClusterCache {
         Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         int interactionMappingId = iC.getInteractionMappingId();
-        assertTrue(interactionMappingId > 0);
-        assertTrue(interactionMapping.size() > 0);
-        assertTrue(interactorMapping.size() > 0);
+        Assert.assertTrue(interactionMappingId > 0);
+        Assert.assertTrue(interactionMapping.size() > 0);
+        Assert.assertTrue(interactorMapping.size() > 0);
    }
 
     @Test
@@ -54,9 +54,9 @@ public class TestInteractionClusterCache {
         Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         int interactionMappingId = iC.getInteractionMappingId();
-        assertTrue(interactionMappingId > 0);
-        assertTrue(interactionMapping.size() > 0);
-        assertTrue(interactorMapping.size() > 0);
+        Assert.assertTrue(interactionMappingId > 0);
+        Assert.assertTrue(interactionMapping.size() > 0);
+        Assert.assertTrue(interactorMapping.size() > 0);
     }
 
     @Test
@@ -84,9 +84,9 @@ public class TestInteractionClusterCache {
             Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
             int interactionMappingId = iC.getInteractionMappingId();
 
-            assertEquals( 38, interactionMappingId );
-            assertEquals( 38, interactionMapping.size() );
-            assertEquals( 36, interactorMapping.size() );
+            Assert.assertEquals( 38, interactionMappingId );
+            Assert.assertEquals( 38, interactionMapping.size() );
+            Assert.assertEquals( 36, interactorMapping.size() );
 
             ClusterContext.getInstance().getCacheManager().setResetCache( true );
         }
@@ -117,9 +117,9 @@ public class TestInteractionClusterCache {
             Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
             int interactionMappingId = iC.getInteractionMappingId();
 
-            assertEquals( 38, interactionMappingId );
-            assertEquals( 38, interactionMapping.size() );
-            assertEquals( 36, interactorMapping.size() );
+            Assert.assertEquals( 38, interactionMappingId );
+            Assert.assertEquals( 38, interactionMapping.size() );
+            Assert.assertEquals( 36, interactorMapping.size() );
         }
     }
 }

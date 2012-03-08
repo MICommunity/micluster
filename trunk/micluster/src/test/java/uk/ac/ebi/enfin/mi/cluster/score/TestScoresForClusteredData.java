@@ -1,15 +1,12 @@
 package uk.ac.ebi.enfin.mi.cluster.score;
 import org.junit.Test;
+import org.junit.Assert;
 import psidev.psi.mi.tab.model.Confidence;
 import uk.ac.ebi.enfin.mi.cluster.ClusterServiceException;
 import uk.ac.ebi.enfin.mi.cluster.EncoreInteractionForScoring;
 import uk.ac.ebi.enfin.mi.cluster.ExampleFiles;
-
-
-import java.io.IOException;
 import java.util.*;
 
-import static junit.framework.Assert.assertTrue;
 
 /**
  * Test scores for clustered data
@@ -36,17 +33,17 @@ public class TestScoresForClusteredData extends ExampleFiles {
         Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
-        assertTrue(interactionMapping.size() == 29);
-        assertTrue(interactorMapping.size() == 29);
-        assertTrue(interactorSynonyms.size() == 78);
-        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
+        Assert.assertTrue(interactionMapping.size() == 29);
+        Assert.assertTrue(interactorMapping.size() == 29);
+        Assert.assertTrue(interactorSynonyms.size() == 78);
+        Assert.assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
         int scoreCount = 0;
         Double[] expectedScores = {0.23642068,0.26973546,0.23642068,0.23642068,0.26973546,0.81777763,0.33150592,0.23642068,0.50613064,0.82401556,0.6230328,0.26973546,0.26973546,0.26973546,0.4996667,0.26973546,0.34777966,0.26973546,0.26973546,0.34777966,0.26973546,0.41277552,0.26973546,0.26973546,0.41277552,0.26973546,0.26973546,0.43887317,0.26973546};
         for(EncoreInteractionForScoring encoreInteractionForScoring:interactionMapping.values()){
             List<Confidence> scores = encoreInteractionForScoring.getConfidenceValues();
             for(Confidence score:scores){
                 if(score.getType().equalsIgnoreCase("intactPsiscore")){
-                    assertTrue(score.getValue().equalsIgnoreCase(expectedScores[scoreCount].toString()));
+                    Assert.assertTrue(score.getValue().equalsIgnoreCase(expectedScores[scoreCount].toString()));
                     scoreCount++;
                 }
             }
@@ -98,17 +95,17 @@ public class TestScoresForClusteredData extends ExampleFiles {
         Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
-        assertTrue(interactionMapping.size() == 29);
-        assertTrue(interactorMapping.size() == 29);
-        assertTrue(interactorSynonyms.size() == 78);
-        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
+        Assert.assertTrue(interactionMapping.size() == 29);
+        Assert.assertTrue(interactorMapping.size() == 29);
+        Assert.assertTrue(interactorSynonyms.size() == 78);
+        Assert.assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
         int scoreCount = 0;
         Double[] expectedScores = {0.17064172,0.194438,0.17064172,0.17064172,0.194438,0.79372567,0.23748763,0.17064172,0.5101404,0.7810743,0.6359532,0.194438,0.194438,0.194438,0.35831782,0.194438,0.24911173,0.194438,0.194438,0.24911173,0.194438,0.29742372,0.194438,0.194438,0.29742372,0.194438,0.194438,0.46284923,0.194438};
         for(EncoreInteractionForScoring encoreInteractionForScoring:interactionMapping.values()){
             List<Confidence> scores = encoreInteractionForScoring.getConfidenceValues();
             for(Confidence score:scores){
                 if(score.getType().equalsIgnoreCase("intactPsiscore")){
-                    assertTrue(score.getValue().equalsIgnoreCase(expectedScores[scoreCount].toString()));
+                    Assert.assertTrue(score.getValue().equalsIgnoreCase(expectedScores[scoreCount].toString()));
                     scoreCount++;
                 }
             }

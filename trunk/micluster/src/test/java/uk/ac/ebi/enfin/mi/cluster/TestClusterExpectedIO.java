@@ -1,9 +1,8 @@
 package uk.ac.ebi.enfin.mi.cluster;
 import org.junit.Test;
+import org.junit.Assert;
 import java.io.IOException;
 import java.util.*;
-
-import static junit.framework.Assert.assertTrue;
 
 /**
  * Test size of cluster interactions. Include a test for original file size and number of interactors expected.
@@ -22,11 +21,11 @@ public class TestClusterExpectedIO extends ExampleFiles{
         Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
-        assertTrue(countLines(brca2_intact) == 106);
-        assertTrue(interactionMapping.size() == 33);
-        assertTrue(interactorMapping.size() == 33);
-        assertTrue(interactorSynonyms.size() == 64);
-        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
+        Assert.assertTrue(countLines(brca2_intact) == 106);
+        Assert.assertTrue(interactionMapping.size() == 33);
+        Assert.assertTrue(interactorMapping.size() == 33);
+        Assert.assertTrue(interactorSynonyms.size() == 64);
+        Assert.assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
     @Test
@@ -38,11 +37,11 @@ public class TestClusterExpectedIO extends ExampleFiles{
         Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
-        assertTrue(countLines(brca2_mint) == 33);
-        assertTrue(interactionMapping.size() == 10);
-        assertTrue(interactorMapping.size() == 11);
-        assertTrue(interactorSynonyms.size() == 0);
-        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
+        Assert.assertTrue(countLines(brca2_mint) == 33);
+        Assert.assertTrue(interactionMapping.size() == 10);
+        Assert.assertTrue(interactorMapping.size() == 11);
+        Assert.assertTrue(interactorSynonyms.size() == 0);
+        Assert.assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
     @Test
@@ -54,11 +53,11 @@ public class TestClusterExpectedIO extends ExampleFiles{
         Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
-        assertTrue(countLines(brca2_innatedb) == 2);
-        assertTrue(interactionMapping.size() == 2);
-        assertTrue(interactorMapping.size() == 3);
-        assertTrue(interactorSynonyms.size() == 9);
-        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
+        Assert.assertTrue(countLines(brca2_innatedb) == 2);
+        Assert.assertTrue(interactionMapping.size() == 2);
+        Assert.assertTrue(interactorMapping.size() == 3);
+        Assert.assertTrue(interactorSynonyms.size() == 9);
+        Assert.assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
     @Test
@@ -70,11 +69,11 @@ public class TestClusterExpectedIO extends ExampleFiles{
         Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
-        assertTrue(countLines(brca2_biogrid) == 110);
-        assertTrue(interactionMapping.size() == 38);
-        assertTrue(interactorMapping.size() == 36);
-        assertTrue(interactorSynonyms.size() == 0);
-        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
+        Assert.assertTrue(countLines(brca2_biogrid) == 110);
+        Assert.assertTrue(interactionMapping.size() == 38);
+        Assert.assertTrue(interactorMapping.size() == 36);
+        Assert.assertTrue(interactorSynonyms.size() == 0);
+        Assert.assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
     @Test //todo: something to fix in micluster. P37173 should have these synonymous: NM_001024847, NM_003242, NP_003233 instead it just takes the first one: NM_001024847
@@ -86,17 +85,17 @@ public class TestClusterExpectedIO extends ExampleFiles{
         Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
-        assertTrue(countLines(P37173_innatedb) == 29);
-        assertTrue(interactionMapping.size() == 19);
-        assertTrue(interactorMapping.size() == 19);
-        assertTrue(interactorSynonyms.size() == 18);
+        Assert.assertTrue(countLines(P37173_innatedb) == 29);
+        Assert.assertTrue(interactionMapping.size() == 19);
+        Assert.assertTrue(interactorMapping.size() == 19);
+        Assert.assertTrue(interactorSynonyms.size() == 18);
         /* Testing the IDs are refseq */
-        assertTrue(interactorSynonyms.keySet().contains("NP_001003652"));
-        assertTrue(interactorSynonyms.keySet().contains("NM_138473"));
+        Assert.assertTrue(interactorSynonyms.keySet().contains("NP_001003652"));
+        Assert.assertTrue(interactorSynonyms.keySet().contains("NM_138473"));
         /* Testing the IDs are uniprot */
-        assertTrue(interactorMapping.keySet().contains("P01137"));
-        assertTrue(interactorMapping.keySet().contains("P23511"));
-        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
+        Assert.assertTrue(interactorMapping.keySet().contains("P01137"));
+        Assert.assertTrue(interactorMapping.keySet().contains("P23511"));
+        Assert.assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
 
@@ -109,17 +108,17 @@ public class TestClusterExpectedIO extends ExampleFiles{
         Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
-        assertTrue(countLines(P37173_innatedb) == 29);
-        assertTrue(interactionMapping.size() == 19);
-        assertTrue(interactorMapping.size() == 19);
-        assertTrue(interactorSynonyms.size() == 18);
+        Assert.assertTrue(countLines(P37173_innatedb) == 29);
+        Assert.assertTrue(interactionMapping.size() == 19);
+        Assert.assertTrue(interactorMapping.size() == 19);
+        Assert.assertTrue(interactorSynonyms.size() == 18);
         /* Testing the IDs are Ensembl */
-        assertTrue(interactorSynonyms.keySet().contains("ENSG00000001167"));
-        assertTrue(interactorSynonyms.keySet().contains("ENSG00000120837"));
+        Assert.assertTrue(interactorSynonyms.keySet().contains("ENSG00000001167"));
+        Assert.assertTrue(interactorSynonyms.keySet().contains("ENSG00000120837"));
         /* Testing the IDs are Uniport */
-        assertTrue(interactorMapping.keySet().contains("P01137"));
-        assertTrue(interactorMapping.keySet().contains("P23511"));
-        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
+        Assert.assertTrue(interactorMapping.keySet().contains("P01137"));
+        Assert.assertTrue(interactorMapping.keySet().contains("P23511"));
+        Assert.assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
 
@@ -132,17 +131,17 @@ public class TestClusterExpectedIO extends ExampleFiles{
         Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
-        assertTrue(countLines(P37173_innatedb) == 29);
-        assertTrue(interactionMapping.size() == 19);
-        assertTrue(interactorMapping.size() == 19);
-        assertTrue(interactorSynonyms.size() == 19);
+        Assert.assertTrue(countLines(P37173_innatedb) == 29);
+        Assert.assertTrue(interactionMapping.size() == 19);
+        Assert.assertTrue(interactorMapping.size() == 19);
+        Assert.assertTrue(interactorSynonyms.size() == 19);
         /* Testing the IDs are refseq */
-        assertTrue(interactorSynonyms.keySet().contains("NP_001003652"));
-        assertTrue(interactorSynonyms.keySet().contains("NM_138473"));
+        Assert.assertTrue(interactorSynonyms.keySet().contains("NP_001003652"));
+        Assert.assertTrue(interactorSynonyms.keySet().contains("NM_138473"));
         /* Testing the IDs are Ensembl */
-        assertTrue(interactorMapping.keySet().contains("ENSG00000001167"));
-        assertTrue(interactorMapping.keySet().contains("ENSG00000120837"));
-        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
+        Assert.assertTrue(interactorMapping.keySet().contains("ENSG00000001167"));
+        Assert.assertTrue(interactorMapping.keySet().contains("ENSG00000120837"));
+        Assert.assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
     @Test
@@ -154,11 +153,11 @@ public class TestClusterExpectedIO extends ExampleFiles{
         Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
-        assertTrue(countLines(P37173_intact) == 13);
-        assertTrue(interactionMapping.size() == 10);
-        assertTrue(interactorMapping.size() == 11);
-        assertTrue(interactorSynonyms.size() == 22);
-        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
+        Assert.assertTrue(countLines(P37173_intact) == 13);
+        Assert.assertTrue(interactionMapping.size() == 10);
+        Assert.assertTrue(interactorMapping.size() == 11);
+        Assert.assertTrue(interactorSynonyms.size() == 22);
+        Assert.assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
     @Test
@@ -170,11 +169,11 @@ public class TestClusterExpectedIO extends ExampleFiles{
         Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
-        assertTrue(countLines(P37173_mint) == 11);
-        assertTrue(interactionMapping.size() == 5);
-        assertTrue(interactorMapping.size() == 6);
-        assertTrue(interactorSynonyms.size() == 0);
-        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
+        Assert.assertTrue(countLines(P37173_mint) == 11);
+        Assert.assertTrue(interactionMapping.size() == 5);
+        Assert.assertTrue(interactorMapping.size() == 6);
+        Assert.assertTrue(interactorSynonyms.size() == 0);
+        Assert.assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
     @Test
@@ -186,11 +185,11 @@ public class TestClusterExpectedIO extends ExampleFiles{
         Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
-        assertTrue(countLines(P07200_intact) == 5);
-        assertTrue(interactionMapping.size() == 3);
-        assertTrue(interactorMapping.size() == 4);
-        assertTrue(interactorSynonyms.size() == 8);
-        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
+        Assert.assertTrue(countLines(P07200_intact) == 5);
+        Assert.assertTrue(interactionMapping.size() == 3);
+        Assert.assertTrue(interactorMapping.size() == 4);
+        Assert.assertTrue(interactorSynonyms.size() == 8);
+        Assert.assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
     @Test
@@ -202,11 +201,11 @@ public class TestClusterExpectedIO extends ExampleFiles{
         Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
-        assertTrue(countLines(P07200_irefindex) == 4);
-        assertTrue(interactionMapping.size() == 4);
-        assertTrue(interactorMapping.size() == 5);
-        assertTrue(interactorSynonyms.size() == 6);
-        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
+        Assert.assertTrue(countLines(P07200_irefindex) == 4);
+        Assert.assertTrue(interactionMapping.size() == 4);
+        Assert.assertTrue(interactorMapping.size() == 5);
+        Assert.assertTrue(interactorSynonyms.size() == 6);
+        Assert.assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
     @Test
@@ -223,10 +222,10 @@ public class TestClusterExpectedIO extends ExampleFiles{
         Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
-        assertTrue(interactionMapping.size() == 27);
-        assertTrue(interactorMapping.size() == 27);
-        assertTrue(interactorSynonyms.size() == 0);
-        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
+        Assert.assertTrue(interactionMapping.size() == 27);
+        Assert.assertTrue(interactorMapping.size() == 27);
+        Assert.assertTrue(interactorSynonyms.size() == 0);
+        Assert.assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
     @Test
@@ -243,10 +242,10 @@ public class TestClusterExpectedIO extends ExampleFiles{
         Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
-        assertTrue(interactionMapping.size() == 27);
-        assertTrue(interactorMapping.size() == 27);
-        assertTrue(interactorSynonyms.size() == 78);
-        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
+        Assert.assertTrue(interactionMapping.size() == 27);
+        Assert.assertTrue(interactorMapping.size() == 27);
+        Assert.assertTrue(interactorSynonyms.size() == 78);
+        Assert.assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
     @Test
@@ -266,10 +265,10 @@ public class TestClusterExpectedIO extends ExampleFiles{
         Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
-        assertTrue(interactionMapping.size() == 29);
-        assertTrue(interactorMapping.size() == 29);
-        assertTrue(interactorSynonyms.size() == 78);
-        assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
+        Assert.assertTrue(interactionMapping.size() == 29);
+        Assert.assertTrue(interactorMapping.size() == 29);
+        Assert.assertTrue(interactorSynonyms.size() == 78);
+        Assert.assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
     }
 
     @Test
@@ -282,19 +281,19 @@ public class TestClusterExpectedIO extends ExampleFiles{
         Map<String,String> firstInteractor = interactionMapping.values().iterator().next().getInteractorAccsA();
         Map<String,String> secondInteractor = interactionMapping.values().iterator().next().getInteractorAccsB();
         /* First interactor */
-        assertTrue(firstInteractor.values().contains("hxcAAra96c/MOyY41mR/8MT0fcI9606"));
-        assertTrue(firstInteractor.values().contains("P37173"));
-        assertTrue(firstInteractor.values().contains("EBI-296151"));
-        assertTrue(firstInteractor.keySet().contains("uniprotkb"));
-        assertTrue(firstInteractor.keySet().contains("intact"));
-        assertTrue(firstInteractor.keySet().contains("irefindex"));
+        Assert.assertTrue(firstInteractor.values().contains("hxcAAra96c/MOyY41mR/8MT0fcI9606"));
+        Assert.assertTrue(firstInteractor.values().contains("P37173"));
+        Assert.assertTrue(firstInteractor.values().contains("EBI-296151"));
+        Assert.assertTrue(firstInteractor.keySet().contains("uniprotkb"));
+        Assert.assertTrue(firstInteractor.keySet().contains("intact"));
+        Assert.assertTrue(firstInteractor.keySet().contains("irefindex"));
         /* Second interactor */
-        assertTrue(secondInteractor.values().contains("GB2j4Snn26HiyL4umac7sD150T41392"));
-        assertTrue(secondInteractor.values().contains("Q81LN0"));
-        assertTrue(secondInteractor.values().contains("EBI-2820887"));
-        assertTrue(secondInteractor.keySet().contains("uniprotkb"));
-        assertTrue(secondInteractor.keySet().contains("intact"));
-        assertTrue(secondInteractor.keySet().contains("irefindex"));
+        Assert.assertTrue(secondInteractor.values().contains("GB2j4Snn26HiyL4umac7sD150T41392"));
+        Assert.assertTrue(secondInteractor.values().contains("Q81LN0"));
+        Assert.assertTrue(secondInteractor.values().contains("EBI-2820887"));
+        Assert.assertTrue(secondInteractor.keySet().contains("uniprotkb"));
+        Assert.assertTrue(secondInteractor.keySet().contains("intact"));
+        Assert.assertTrue(secondInteractor.keySet().contains("irefindex"));
     }
 
 }

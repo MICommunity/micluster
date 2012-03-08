@@ -24,6 +24,7 @@ public abstract class ExampleFiles {
     public final File P37173_innatedb = new File( ExampleFiles.class.getResource( "/mitab_samples/P37173_innatedb.tsv" ).getFile() );
     public final File P07200_intact = new File( ExampleFiles.class.getResource( "/mitab_samples/P07200_intact.tsv" ).getFile() );
     public final File P07200_irefindex = new File( ExampleFiles.class.getResource( "/mitab_samples/P07200_irefindex.tsv" ).getFile() );
+    public final File EBI988710_AND_EBI1003831 = new File( ExampleFiles.class.getResource( "/mitab_samples/EBI-988710_AND_EBI-1003831.tsv" ).getFile() );
     public final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,refseq,chebi,irefindex,hgnc,ensembl";
 
     public int countLines(File file) throws IOException {
