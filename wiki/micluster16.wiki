@@ -25,7 +25,7 @@ Examples of how to input and cluster data.
 {{{
 ...
         /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
-        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl,refseq";
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl";
         /* File */
         final File P37173_intact = new File( PsiMitabFile.class.getResource( "/P37173_intact.tsv" ).getFile() );
 
@@ -41,7 +41,7 @@ Examples of how to input and cluster data.
 {{{
 ...
         /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
-        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl,refseq";
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl";
         /* File */
         final File P37173_intact = new File( PsiMitabFile.class.getResource( "/P37173_intact.tsv" ).getFile() );
         final File P37173_mint = new File( PsiMitabFile.class.getResource( "/P37173_mint.tsv" ).getFile() );
@@ -59,7 +59,7 @@ Examples of how to input and cluster data.
 {{{
 ...
         /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
-        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl,refseq";
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl";
         /* MIQL Query */
         String query = "identifier:P37173";
         /* PSICQUIC service */
@@ -78,7 +78,7 @@ Examples of how to input and cluster data.
 {{{
 ...
         /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
-        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl,refseq";
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl";
         /* MIQL Query */
         String query = "identifier:P37173";
         /* PSICQUIC service */
@@ -99,7 +99,7 @@ Examples of how to input and cluster data.
 {{{
 ...
         /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
-        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl,refseq";
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl";
         /* PSICQUIC URL */
         String query = "identifier:P37173";
         URL intactQuery = new URL("http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/" + query);
@@ -119,7 +119,7 @@ Examples of how to input and cluster data.
 {{{
 ...
         /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
-        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl,refseq";
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl";
         /* PSICQUIC URL */
         String query = "identifier:P37173";
         URL intactQuery = new URL("http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/" + query);
@@ -141,7 +141,7 @@ Examples of how to input and cluster data.
 {{{
 ...
         /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
-        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl,refseq";
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl";
         /* MIQL Query */
         String query = "identifier:P37173";
 
@@ -157,7 +157,7 @@ Examples of how to input and cluster data.
 === Two different ways to cluster several sources === 
 {{{
         /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
-        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl,refseq";
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl";
         /* File */
         final File P37173_intact = new File( InputPsiMitabFile.class.getResource( "/P37173_intact.tsv" ).getFile() );
         final File P37173_mint = new File( InputPsiMitabFile.class.getResource( "/P37173_mint.tsv" ).getFile() );
