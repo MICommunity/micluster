@@ -20,7 +20,7 @@ import java.util.List;
 public class InputPsicquicServiceByUrl {
     public static void main(String[] args) throws ClusterServiceException, IOException, ConverterException {
         /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
-        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl,refseq";
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl";
         /* PSICQUIC URL */
         String query = "identifier:P37173";
         URL intactQuery = new URL("http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/" + query);

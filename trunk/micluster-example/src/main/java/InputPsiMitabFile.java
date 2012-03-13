@@ -14,7 +14,7 @@ import java.io.IOException;
 public class InputPsiMitabFile {
     public static void main(String[] args) throws ClusterServiceException, ConverterException, IOException {
         /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
-        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl,refseq";
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl";
         /* File */
         final File P37173_intact = new File( InputPsiMitabFile.class.getResource( "/P37173_intact.tsv" ).getFile() );
 
