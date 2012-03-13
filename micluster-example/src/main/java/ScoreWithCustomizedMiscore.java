@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Cluster and score binary interactions
+ * Cluster and score binary interactions customizing score configuration
  *
  * @author Rafael Jimenez (rafael@ebi.ac.uk)
  * @version $Id$
