@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>uk.ac.ebi.enfin.mi.score.distribution</groupId>
     <artifactId>miscoreDistribution</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.2</version>
     <name>Score distribution over molecular interaction databases</name>
 
     <scm>
@@ -77,9 +77,9 @@
 
         <!-- Molecular Interaction Cluster and Score library -->
         <dependency>
-            <groupId>uk.ac.ebi.enfin.mi.cluster.score</groupId>
-            <artifactId>miClusterScore</artifactId>
-            <version>1.4</version>
+             <groupId>uk.ac.ebi.enfin.mi.cluster</groupId>
+             <artifactId>micluster</artifactId>
+             <version>1.6-SNAPSHOT</version>
         </dependency>
         
         <dependency>
