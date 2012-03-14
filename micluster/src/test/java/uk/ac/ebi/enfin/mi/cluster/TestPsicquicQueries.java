@@ -1,5 +1,6 @@
 package uk.ac.ebi.enfin.mi.cluster;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.Assert;
 import java.io.IOException;
@@ -19,6 +20,16 @@ public class TestPsicquicQueries {
        iC.addQuerySource("IntAct");
        iC.runService();
        Assert.assertTrue(iC.getInteractionMapping().size() > 7);
+    }
+
+   @Test
+   @Ignore
+   public void testQuery2InIntact(){
+       InteractionCluster iC = new InteractionCluster();
+       iC.addQueryAcc("taxid:8355");
+       iC.addQuerySource("IntAct");
+       iC.runService();
+       Assert.assertEquals(iC.getInteractionMapping().size(), 690);
     }
 
     @Test

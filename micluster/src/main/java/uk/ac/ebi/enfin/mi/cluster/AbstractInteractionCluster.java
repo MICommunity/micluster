@@ -27,6 +27,8 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
     protected int interactionMappingId = 0;
     protected String mappingIdDbNames = "uniprotkb,chebi";
     protected Binary2Encore binary2Encore;
+    protected int maxNumerOfQueryRetries = 3;
+    protected int maxNumerOfErrorRequests = 50;
 
     /* Query parameters for PSICQUIC */
     protected int queryStart;
@@ -188,34 +190,61 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
                 final Integer serviceInteractionCount = pService.countInteractions( miqlQuery );
                 if( serviceInteractionCount != null){
                     /* This should always be a number. However something strange happens with the
-                    PSICQUIC registry that returns MPIDB (non active) as active. So count could be
-                    null. Error reported to PSICQUIC team */
+                    PSICQUIC registry that returns MPIDB (non active) as active.  */
                     count = serviceInteractionCount;
                     logger.debug( "Interaction count for " + querySource + ": " + count );
                 }
                 int numOfQueries = (int) Math.ceil((double)count/(double)queryRange);
                 if( logger.isInfoEnabled() ) logger.debug("Psicquic source: " + pService.getServiceName() + " | Number of psicquic queries: " + numOfQueries + " | Query range: " + queryRange + " | Total number of results: " + count);
-                for(int i=0; i<numOfQueries; i++){
+                int queryTry = 0;
+                int queryCount = 0;
+                int countErrorRequests = 0;
+                int countMissingInteractions = 0;
+                psicquicLoop:
+                while(queryCount < numOfQueries){
                     /* Calculate start and range. Used to sequentially query psicquic */
-                    start = queryStart + (queryRange*i);
+                    start = queryStart + (queryRange*queryCount);
                     stop = start + range - 1;
                     if(stop >= count){
                         range = count - start;
                         stop = start + range -1;
                     }
-                    if( logger.isInfoEnabled() ) logger.debug("Psicquic source: " + pService.getServiceName() + " | Query num: " + i + " | start: " + start + ", stop: " + stop + ", range: " + range);
+
+                    if( logger.isInfoEnabled() ) logger.debug("Psicquic source: " + pService.getServiceName() + " | Query num: " + queryCount + " | start: " + start + ", stop: " + stop + ", range: " + range);
 
                     /* Query psiquic and populate mapping objects */
-                    List<BinaryInteraction> searchResult =  pService.getInteractions(miqlQuery, start, range);
-                    if(searchResult == null){
-                        logger.warn("Psicquic result is null. Source: Psicquic source: " + pService.getServiceName() + " | Query num: " + i + " | start: " + start + ", stop: " + stop + ", range: " + range);
-                    } else {
-                        if(searchResult.isEmpty()){
-                            logger.warn("Data inside the psicquic result is Null. Psicquic source: " + pService.getServiceName() + " | Query num: " + i + " | start: " + start + ", stop: " + stop + ", range: " + range);
+                    List<BinaryInteraction> searchResult = null;
+                    try{
+                        searchResult =  pService.getInteractions(miqlQuery, start, range);
+                    } catch (Exception e) {
+                        logger.warn("Problem retrieving data from " + pService.getServiceName() + " | Query num: " + queryCount + " | start: " + start + ", stop: " + stop + ", range: " + range);
+                        queryTry++;
+                        countErrorRequests++;
+                        if (queryTry == maxNumerOfQueryRetries){
+                            queryTry = 0;
+                            queryCount++;
+                            logger.error("Problem retrieving data after " + maxNumerOfQueryRetries + "attempts from " + pService.getServiceName() + " | Query num: " + queryCount + " | start: " + start + ", stop: " + stop + ", range: " + range + ". The program will skip this query and try with the next query.");
                         } else {
-                            int interactionCount = 0;
+                            /* wait for 2 seconds and try again */
+                            Thread thisThread = Thread.currentThread();
+                            try {
+                                thisThread.sleep(2000);
+                            } catch (InterruptedException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                        if(countErrorRequests > maxNumerOfErrorRequests){
+                            logger.error("Stop quering " + pService.getServiceName() + "More than " + maxNumerOfErrorRequests + "error request");
+                            break psicquicLoop;
+                        }
+                    }
+                    if(searchResult != null){
+                        if(searchResult.isEmpty()){
+                            logger.warn("Data inside the psicquic result is empty. Psicquic source: " + pService.getServiceName() + " | Query num: " + queryCount + " | start: " + start + ", stop: " + stop + ", range: " + range);
+                        } else {
+                            queryTry = 0;
+                            queryCount++;
                             for (BinaryInteraction interaction : searchResult) {
-                                interactionCount++;
                                 setMappings(interaction, idDbNameList);
                             }
                         }

@@ -69,7 +69,7 @@ public class PsicquicService {
                 logger.info("Querying ..." + url);
                 psicquicCount = Long.valueOf(client.countByQuery(query)).intValue();
         } else {
-            logger.warn(serviceName + "psicquic service not active");
+            logger.warn(serviceName + " psicquic service not active");
         }
         return psicquicCount;
     }
