@@ -7,5 +7,7 @@ package uk.ac.ebi.enfin.mi.score.distribution;
  */
 public interface MiscoreDistribution {
     double[] getScores();
+    void createChart(String s);
     void createChart();
+    void saveScores();
 }
