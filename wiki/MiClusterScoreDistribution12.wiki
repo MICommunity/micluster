@@ -48,7 +48,7 @@ Here two examples of how to create score distribution histograms:
 === Printing a chart using a CSV file of scores: ===
 {{{
 ...
-        MiscoreDistribution mD = new MiscoreDistributionImp("MatrixDB_Scores.txt");
+        MiscoreDistribution mD = new MiscoreDistributionFromCsvScores("MatrixDB_Scores.txt", "MatrixDB Sample");
         mD.createChart();
 ...
 }}}
