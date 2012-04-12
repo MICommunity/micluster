@@ -18,6 +18,7 @@
     * It includes an new option to set a preference when mapping molecule accession to build the cluster.
     * It includes an additional result (synonymMapping) to help users to find interactor synonyms. 
 
+<br/>
 = MiClusterScore =
 
   * MiClusterScore is deprecated
@@ -29,3 +30,14 @@
 
 == Version 1.3==
   * It includes all the changes implemented in [MiCluster14 MiCluster 1.4]
+
+<br/>
+= MiCluster-Score-Distribution =
+Library to create score distribution histograms.
+
+== Version 1.2==
+    * It uses [MiCluster16 MiCluster 1.6] 
+
+== Version 1.1==
+    * It uses the new version of [MiClusterScore13 MiCluster-Score] 
+    * Saves results in a results folder
