@@ -21,7 +21,7 @@ public class TestClusterDataConsistency extends ExampleFiles{
         iC.setBinaryInteractionIterator(EBI988710_AND_EBI1003831, false);
         iC.setMappingIdDbNames(allMappingNames);
         iC.runService();
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
         Assert.assertEquals(interactionMapping.size(), 2);
     }
 }

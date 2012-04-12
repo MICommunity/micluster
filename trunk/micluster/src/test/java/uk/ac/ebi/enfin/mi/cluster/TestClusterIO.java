@@ -11,14 +11,14 @@ import java.util.*;
  * @version $Id$
  * @since 1.6
  */
-public class TestClusterExpectedIO extends ExampleFiles{
+public class TestClusterIO extends ExampleFiles{
     @Test
     public void testSizeOfClusteredInteractionAndInteractorsForBrca2InIntact() throws ClusterServiceException, IOException {
         InteractionCluster iC = new InteractionCluster();
         iC.setBinaryInteractionIterator(brca2_intact, false);
         iC.setMappingIdDbNames(allMappingNames);
         iC.runService();
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
         Assert.assertTrue(countLines(brca2_intact) == 106);
@@ -34,7 +34,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         iC.setBinaryInteractionIterator(brca2_mint, false);
         iC.setMappingIdDbNames(allMappingNames);
         iC.runService();
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
         Assert.assertTrue(countLines(brca2_mint) == 33);
@@ -50,7 +50,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         iC.setBinaryInteractionIterator(brca2_innatedb, false);
         iC.setMappingIdDbNames(allMappingNames);
         iC.runService();
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
         Assert.assertTrue(countLines(brca2_innatedb) == 2);
@@ -66,7 +66,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         iC.setBinaryInteractionIterator(brca2_biogrid, false);
         iC.setMappingIdDbNames(allMappingNames);
         iC.runService();
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
         Assert.assertTrue(countLines(brca2_biogrid) == 110);
@@ -82,7 +82,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         iC.setBinaryInteractionIterator(P37173_innatedb, false);
         iC.setMappingIdDbNames("uniprotkb,refseq");
         iC.runService();
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
         Assert.assertTrue(countLines(P37173_innatedb) == 29);
@@ -105,7 +105,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         iC.setBinaryInteractionIterator(P37173_innatedb, false);
         iC.setMappingIdDbNames("uniprotkb,ensembl");
         iC.runService();
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
         Assert.assertTrue(countLines(P37173_innatedb) == 29);
@@ -128,7 +128,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         iC.setBinaryInteractionIterator(P37173_innatedb, false);
         iC.setMappingIdDbNames("ensembl,refseq");
         iC.runService();
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
         Assert.assertTrue(countLines(P37173_innatedb) == 29);
@@ -150,7 +150,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         iC.setBinaryInteractionIterator(P37173_intact, false);
         iC.setMappingIdDbNames(allMappingNames);
         iC.runService();
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
         Assert.assertTrue(countLines(P37173_intact) == 13);
@@ -166,7 +166,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         iC.setBinaryInteractionIterator(P37173_mint, false);
         iC.setMappingIdDbNames(allMappingNames);
         iC.runService();
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
         Assert.assertTrue(countLines(P37173_mint) == 11);
@@ -182,7 +182,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         iC.setBinaryInteractionIterator(P07200_intact, false);
         iC.setMappingIdDbNames(allMappingNames);
         iC.runService();
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
         Assert.assertTrue(countLines(P07200_intact) == 5);
@@ -198,7 +198,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         iC.setBinaryInteractionIterator(P07200_irefindex, false);
         iC.setMappingIdDbNames(allMappingNames);
         iC.runService();
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
         Assert.assertTrue(countLines(P07200_irefindex) == 4);
@@ -219,7 +219,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         iC.setBinaryInteractionIterator(P37173_innatedb, false);
         iC.runService();
 
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
         Assert.assertTrue(interactionMapping.size() == 27);
@@ -239,7 +239,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         iC.setBinaryInteractionIterator(P37173_innatedb, false);
         iC.runService();
 
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
         Assert.assertTrue(interactionMapping.size() == 27);
@@ -262,7 +262,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         iC.setBinaryInteractionIterator(P37173_mint, false);
         iC.runService();
 
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
         Assert.assertTrue(interactionMapping.size() == 29);
@@ -277,7 +277,7 @@ public class TestClusterExpectedIO extends ExampleFiles{
         iC.setBinaryInteractionIterator(P37173_intact, false);
         iC.setMappingIdDbNames("uniprotkb,intact,irefindex");
         iC.runService();
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
         Map<String,String> firstInteractor = interactionMapping.values().iterator().next().getInteractorAccsA();
         Map<String,String> secondInteractor = interactionMapping.values().iterator().next().getInteractorAccsB();
         /* First interactor */

@@ -35,7 +35,7 @@ public class TestInteractionClusterCache {
 //        InteractionCluster iC = new InteractionCluster("P37173", "intact", 0, 100);
         InteractionCluster iC = new InteractionCluster("brca2", "intact", 0, 100);
         iC.runService();
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         int interactionMappingId = iC.getInteractionMappingId();
         Assert.assertTrue(interactionMappingId > 0);
@@ -51,7 +51,7 @@ public class TestInteractionClusterCache {
 //        InteractionCluster iC = new InteractionCluster("P37173", "intact", 0, 100);
         InteractionCluster iC = new InteractionCluster("P06241", "mint", 0, 100);
         iC.runService();
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         int interactionMappingId = iC.getInteractionMappingId();
         Assert.assertTrue(interactionMappingId > 0);
@@ -80,7 +80,7 @@ public class TestInteractionClusterCache {
             InteractionCluster iC = new InteractionCluster( is, true );
 
             iC.runService();
-            Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+            Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
             Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
             int interactionMappingId = iC.getInteractionMappingId();
 
@@ -113,7 +113,7 @@ public class TestInteractionClusterCache {
             InteractionCluster iC = new InteractionCluster( is, true );
 
             iC.runService();
-            Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+            Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
             Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
             int interactionMappingId = iC.getInteractionMappingId();
 

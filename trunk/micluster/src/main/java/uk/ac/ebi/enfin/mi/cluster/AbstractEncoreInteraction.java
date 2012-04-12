@@ -10,9 +10,9 @@ import java.util.*;
 /**
  * Abstract class for Encore interaction
  *
- * @author Marine Dumousseau (marine@ebi.ac.uk)
+ * @author Marine Dumousseau (marine@ebi.ac.uk) and Rafael (rafael@ebi.ac.uk)
  * @version $Id$
- * @since <pre>01/04/11</pre>
+ * @since <pre>12/04/12</pre>
  */
 
 public abstract class AbstractEncoreInteraction implements EncoreBinaryInteraction{
@@ -32,6 +32,8 @@ public abstract class AbstractEncoreInteraction implements EncoreBinaryInteracti
     protected Map<String, List<String>> otherInteractorAccsA = new HashMap<String, List<String>>();; //databaseName:acc
     protected Map<String, List<String>> otherInteractorAccsB = new HashMap<String, List<String>>();; //databaseName:acc
     protected String mappingIdDbNames = "uniprotkb,irefindex,ddbj/embl/genbank,refseq,chebi";
+    protected Map<String, List<String>> methodToPubmed = new HashMap<String, List<String>>();
+    protected Map<String, List<String>> typeToPubmed = new HashMap<String, List<String>>();
 
     public int getId() {
         return id;
@@ -379,6 +381,73 @@ public abstract class AbstractEncoreInteraction implements EncoreBinaryInteracti
             interactorAcc = interactorAccs.values().iterator().next();
         }
         return interactorAcc;
+    }
+
+
+    /**
+     * Get methods associated to pubmed ids
+     * @return
+     */
+    public Map<String, List<String>> getMethodToPubmed() {
+        return methodToPubmed;
+    }
+
+    /**
+     * Set a map associating methods to pubmed ids
+     * @param methodToPubmed
+     */
+    public void setMethodToPubmed(Map<String, List<String>> methodToPubmed) {
+        this.methodToPubmed = methodToPubmed;
+    }
+
+    /**
+     * Associate a method to a pubmed id
+     * @param method
+     * @param pubmed
+     */
+    public void addMethodToPubmed(String method, String pubmed) {
+        methodToPubmed = setMapping(methodToPubmed, method, pubmed);
+    }
+
+    /**
+     * Add a new methodToPudmed map to the existent methodToPudmed map
+     * @param methodToPubmed
+     */
+    public void addMethodToPubmed(Map<String, List<String>> methodToPubmed) {
+        this.methodToPubmed = setMapping(this.methodToPubmed, methodToPubmed);
+    }
+
+    /**
+     * Get types associated to pubmed ids
+     * @return
+     */
+    public Map<String, List<String>> getTypeToPubmed() {
+        return typeToPubmed;
+    }
+
+    /**
+     * Set a map associating types to pubmed ids
+     * @param typeToPubmed
+     */
+    public void setTypeToPubmed(Map<String, List<String>> typeToPubmed) {
+        this.typeToPubmed = typeToPubmed;
+    }
+
+    /**
+     * Add a new typeToPudmed map to the existent typeToPudmed map
+     * @param typeToPubmed
+     */
+    public void addTypeToPubmed(Map<String, List<String>> typeToPubmed) {
+        this.typeToPubmed = setMapping(this.typeToPubmed, typeToPubmed);
+    }
+
+    /**
+     * Associate a type to a pubmed id
+     * @param type
+     * @param pubmed
+     */
+    public void addTypeToPubmed(String type, String pubmed) {
+        typeToPubmed = setMapping(typeToPubmed, type, pubmed);
     }
 
 }

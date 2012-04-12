@@ -187,8 +187,8 @@ public class Binary2Encore {
         return encoreInteraction;
     }
 
-    public EncoreInteractionForScoring getEncoreInteractionForScoring(BinaryInteraction binaryInteraction) {
-        EncoreInteractionForScoring encoreInteraction = new EncoreInteractionForScoring();
+    public EncoreInteraction getEncoreInteractionForScoring(BinaryInteraction binaryInteraction) {
+        EncoreInteraction encoreInteraction = new EncoreInteraction();
 
         String pubmed = convertEncoreInteraction(encoreInteraction, binaryInteraction);
         if (pubmed.length() > 0){

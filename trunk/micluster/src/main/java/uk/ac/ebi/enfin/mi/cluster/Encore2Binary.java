@@ -35,6 +35,7 @@ public class Encore2Binary {
         this.mappingIdDbNames = null;
     }
 
+    @Deprecated
     public BinaryInteraction getBinaryInteraction(EncoreBinaryInteraction encoreInteraction){
         /* Create Identifiers and Alternative Identifiers */
         Collection<CrossReference> psiIdentifierA= new ArrayList<CrossReference>();
@@ -131,7 +132,7 @@ public class Encore2Binary {
         return bI;
     }
 
-    public BinaryInteraction getBinaryInteractionForScoring(EncoreInteractionForScoring encoreInteraction){
+    public BinaryInteraction getBinaryInteractionForScoring(EncoreInteraction encoreInteraction){
         /* Create Identifiers and Alternative Identifiers */
         Collection<CrossReference> psiIdentifierA= new ArrayList<CrossReference>();
         Collection<CrossReference> psiAlternativeIdentifierA= new ArrayList<CrossReference>();
