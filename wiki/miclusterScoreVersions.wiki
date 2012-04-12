@@ -1,6 +1,6 @@
-== Version X.X ==
-  * MiClusterScore will be deprecated
-  * All the functionality will be ported to [MiCluster16 MiCluster 1.6]
+== Version 1.6 ==
+  * MiClusterScore is deprecated
+  * All the functionality has been imported to [MiCluster16 MiCluster 1.6]
 
 == Version 1.4 (current version) ==
   * User can set the "scoreName" used by the "interactionClusterScore"
