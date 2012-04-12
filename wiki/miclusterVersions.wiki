@@ -1,3 +1,4 @@
+= MiCluster =
 == Version 1.6 ==
     * Bring micluterScore into micluster
     * deprecated redundant implementations (EncoreInteraction.java, InteractionClusterAdv.java)
@@ -16,3 +17,15 @@
     * It includes caching options implemented by Sam Kerrien to avoid memory problems when clustering more than 400.000 interactions.
     * It includes an new option to set a preference when mapping molecule accession to build the cluster.
     * It includes an additional result (synonymMapping) to help users to find interactor synonyms. 
+
+= MiClusterScore =
+
+  * MiClusterScore is deprecated
+  * All the functionality has been imported to [MiCluster16 MiCluster 1.6]
+
+== Version 1.4 (latest version) ==
+  * User can set the "scoreName" used by the "interactionClusterScore"
+  * It includes all the changes implemented in MiCluster 1.5
+
+== Version 1.3==
+  * It includes all the changes implemented in [MiCluster14 MiCluster 1.4]
