@@ -8,7 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.shiftone.cache.adaptor.CacheMap;
 import org.shiftone.cache.adaptor.EHCacheCache;
-import uk.ac.ebi.enfin.mi.cluster.EncoreInteractionForScoring;
+import uk.ac.ebi.enfin.mi.cluster.EncoreInteraction;
 
 import java.io.File;
 import java.net.URL;
@@ -102,8 +102,8 @@ public class EHCacheManager implements CacheManager {
         isCacheSynchronized = cacheSynchronized;
     }
 
-    public synchronized Map<Integer, EncoreInteractionForScoring> getInteractionCache() {
-        return (Map<Integer, EncoreInteractionForScoring>) buildCache( INTERACTION_CACHE_NAME );
+    public synchronized Map<Integer, EncoreInteraction> getInteractionCache() {
+        return (Map<Integer, EncoreInteraction>) buildCache( INTERACTION_CACHE_NAME );
     }
 
     public synchronized Map<String, List<Integer>> getInteractorCache() {

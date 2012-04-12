@@ -1,6 +1,6 @@
 package uk.ac.ebi.enfin.mi.cluster.cache;
 
-import uk.ac.ebi.enfin.mi.cluster.EncoreInteractionForScoring;
+import uk.ac.ebi.enfin.mi.cluster.EncoreInteraction;
 
 import java.io.File;
 import java.util.HashMap;
@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class InMemoryCacheManager implements CacheManager {
 
-    private Map<Integer, EncoreInteractionForScoring> interactionMapping;
+    private Map<Integer, EncoreInteraction> interactionMapping;
     private Map<String, List<Integer>> interactorMapping;
 
     private boolean isCacheSynchronized = false;
@@ -44,12 +44,12 @@ public class InMemoryCacheManager implements CacheManager {
         this.isCacheSynchronized = cacheSynchronized;
     }
 
-    public Map<Integer, EncoreInteractionForScoring> getInteractionCache() {
-        Map<Integer, EncoreInteractionForScoring> map = null;
+    public Map<Integer, EncoreInteraction> getInteractionCache() {
+        Map<Integer, EncoreInteraction> map = null;
         if( isCacheSynchronized() ) {
-            map = new ConcurrentHashMap<Integer, EncoreInteractionForScoring>();
+            map = new ConcurrentHashMap<Integer, EncoreInteraction>();
         } else {
-            map = new HashMap<Integer, EncoreInteractionForScoring>();
+            map = new HashMap<Integer, EncoreInteraction>();
         }
         return map;
     }

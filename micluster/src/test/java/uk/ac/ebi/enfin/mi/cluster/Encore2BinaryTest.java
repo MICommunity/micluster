@@ -28,12 +28,12 @@ public class Encore2BinaryTest {
         /* Set priority for molecules accession mapping (Find database names in MI Ontology) */
         iC.setMappingIdDbNames("uniprotkb,irefindex,ddbj/embl/genbank,refseq,chebi");
         iC.runService();
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
         Map<Integer, BinaryInteraction> binaryInteractionMapping = new HashMap<Integer,BinaryInteraction>();
         Encore2Binary iConverter = new Encore2Binary(iC.getMappingIdDbNames());
         for(int mappingId:interactionMapping.keySet()){
-            EncoreBinaryInteraction eI = interactionMapping.get(mappingId);
-            BinaryInteraction bI = iConverter.getBinaryInteraction(eI);
+            EncoreInteraction eI = interactionMapping.get(mappingId);
+            BinaryInteraction bI = iConverter.getBinaryInteractionForScoring(eI);
             binaryInteractionMapping.put(mappingId,bI);
         }
         Assert.assertTrue(iC != null);

@@ -21,7 +21,7 @@ import java.util.*;
  * @version $Id$
  * @since 1.6
  */
-public class InteractionCluster extends AbstractInteractionCluster<EncoreInteractionForScoring> {
+public class InteractionCluster extends AbstractInteractionCluster<EncoreInteraction> {
     private static final Logger logger = Logger.getLogger(InteractionCluster.class);
 
     /* Query parameters for PSICQUIC */
@@ -30,63 +30,63 @@ public class InteractionCluster extends AbstractInteractionCluster<EncoreInterac
 
     public InteractionCluster(){
         super(0, 200);
-        this.interactionMapping = new HashMap<Integer, EncoreInteractionForScoring>();
+        this.interactionMapping = new HashMap<Integer, EncoreInteraction>();
         this.interactorMapping = new HashMap<String, List<Integer>>();
         this.synonymMapping = new HashMap<String, String>();
     }
 
     public InteractionCluster(List<BinaryInteraction> binaryInteractionList, String mappingIdDbNames) {
         super(binaryInteractionList, mappingIdDbNames);
-        this.interactionMapping = new HashMap<Integer, EncoreInteractionForScoring>();
+        this.interactionMapping = new HashMap<Integer, EncoreInteraction>();
         this.interactorMapping = new HashMap<String, List<Integer>>();
         this.synonymMapping = new HashMap<String, String>();
     }
 
     public InteractionCluster(List<BinaryInteraction> binaryInteractionList) {
         super(binaryInteractionList);
-        this.interactionMapping = new HashMap<Integer, EncoreInteractionForScoring>();
+        this.interactionMapping = new HashMap<Integer, EncoreInteraction>();
         this.interactorMapping = new HashMap<String, List<Integer>>();
         this.synonymMapping = new HashMap<String, String>();
     }
 
     public InteractionCluster(InputStream is, boolean hasHeader) throws ClusterServiceException {
         super(is, hasHeader);
-        this.interactionMapping = new HashMap<Integer, EncoreInteractionForScoring>();
+        this.interactionMapping = new HashMap<Integer, EncoreInteraction>();
         this.interactorMapping = new HashMap<String, List<Integer>>();
         this.synonymMapping = new HashMap<String, String>();
     }
 
     public InteractionCluster(Reader r, boolean hasHeader) throws ClusterServiceException {
         super(r, hasHeader);
-        this.interactionMapping = new HashMap<Integer, EncoreInteractionForScoring>();
+        this.interactionMapping = new HashMap<Integer, EncoreInteraction>();
         this.interactorMapping = new HashMap<String, List<Integer>>();
         this.synonymMapping = new HashMap<String, String>();
     }
 
     public InteractionCluster(Iterator<BinaryInteraction> iterator) throws ClusterServiceException {
         super(iterator);
-        this.interactionMapping = new HashMap<Integer, EncoreInteractionForScoring>();
+        this.interactionMapping = new HashMap<Integer, EncoreInteraction>();
         this.interactorMapping = new HashMap<String, List<Integer>>();
         this.synonymMapping = new HashMap<String, String>();
     }
 
     public InteractionCluster(int queryStart, int queryRange) {
         super(queryStart, queryRange);
-        this.interactionMapping = new HashMap<Integer, EncoreInteractionForScoring>();
+        this.interactionMapping = new HashMap<Integer, EncoreInteraction>();
         this.interactorMapping = new HashMap<String, List<Integer>>();
         this.synonymMapping = new HashMap<String, String>();
     }
 
     public InteractionCluster(int queryStart, int queryRange, String mappingIdDbNames) {
         super(queryStart, queryRange, mappingIdDbNames);
-        this.interactionMapping = new HashMap<Integer, EncoreInteractionForScoring>();
+        this.interactionMapping = new HashMap<Integer, EncoreInteraction>();
         this.interactorMapping = new HashMap<String, List<Integer>>();
         this.synonymMapping = new HashMap<String, String>();
     }
 
     public InteractionCluster(String mappingIdDbNames) {
         super(mappingIdDbNames);
-        this.interactionMapping = new HashMap<Integer, EncoreInteractionForScoring>();
+        this.interactionMapping = new HashMap<Integer, EncoreInteraction>();
         this.interactorMapping = new HashMap<String, List<Integer>>();
         this.synonymMapping = new HashMap<String, String>();
     }
@@ -100,7 +100,7 @@ public class InteractionCluster extends AbstractInteractionCluster<EncoreInterac
         if (querySource != null){
             this.querySources = querySource;
         }
-        this.interactionMapping = new HashMap<Integer, EncoreInteractionForScoring>();
+        this.interactionMapping = new HashMap<Integer, EncoreInteraction>();
         this.interactorMapping = new HashMap<String, List<Integer>>();
         this.synonymMapping = new HashMap<String, String>();
     }
@@ -113,7 +113,7 @@ public class InteractionCluster extends AbstractInteractionCluster<EncoreInterac
         if (querySource != null){
             this.querySources = querySource;
         }
-        this.interactionMapping = new HashMap<Integer, EncoreInteractionForScoring>();
+        this.interactionMapping = new HashMap<Integer, EncoreInteraction>();
         this.interactorMapping = new HashMap<String, List<Integer>>();
         this.synonymMapping = new HashMap<String, String>();
     }
@@ -159,13 +159,13 @@ public class InteractionCluster extends AbstractInteractionCluster<EncoreInterac
     }
 
     @Override
-    protected EncoreInteractionForScoring convertEncoreInteractionFrom(BinaryInteraction binaryInteraction, String[] strings) {
+    protected EncoreInteraction convertEncoreInteractionFrom(BinaryInteraction binaryInteraction, String[] strings) {
         this.binary2Encore.setIdDbNameList(strings);
         return binary2Encore.getEncoreInteractionForScoring(binaryInteraction);
     }
 
     @Override
-    protected void processMethodAndType(EncoreInteractionForScoring encoreInteraction, EncoreInteractionForScoring mappingEncoreInteraction) {
+    protected void processMethodAndType(EncoreInteraction encoreInteraction, EncoreInteraction mappingEncoreInteraction) {
         Map<MethodTypePair, List<String>> existingMethodTypeToPubmed = mappingEncoreInteraction.getMethodTypePairListMap();
 
         for (Map.Entry<MethodTypePair, List<String>> entry : encoreInteraction.getMethodTypePairListMap().entrySet()){
@@ -190,11 +190,11 @@ public class InteractionCluster extends AbstractInteractionCluster<EncoreInterac
         PsimiTabWriter writer = new PsimiTabWriter();
         File file = new File(fileName);
 
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = getInteractionMapping();
         Encore2Binary iConverter = new Encore2Binary(getMappingIdDbNames());
 
         for(Integer mappingId:interactionMapping.keySet()){
-            EncoreInteractionForScoring eI = interactionMapping.get(mappingId);
+            EncoreInteraction eI = interactionMapping.get(mappingId);
             BinaryInteraction bI = iConverter.getBinaryInteractionForScoring(eI);
 
             writer.writeOrAppend(bI, file, false);
@@ -202,8 +202,8 @@ public class InteractionCluster extends AbstractInteractionCluster<EncoreInterac
     }
 
     @Override
-    protected EncoreInteractionForScoring mergeWithExistingEncoreInteraction(EncoreInteractionForScoring encoreInteraction, int interactionIdFound) {
-        EncoreInteractionForScoring mappingEcoreInteraction;// include additional information about exp, pubmed, ... for this interaction id
+    protected EncoreInteraction mergeWithExistingEncoreInteraction(EncoreInteraction encoreInteraction, int interactionIdFound) {
+        EncoreInteraction mappingEcoreInteraction;// include additional information about exp, pubmed, ... for this interaction id
         mappingEcoreInteraction = interactionMapping.get(interactionIdFound);
         if( mappingEcoreInteraction == null ) {
             throw new IllegalStateException( "Could not find an EncoreInteraction with id: " + interactionIdFound );
