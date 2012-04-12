@@ -48,5 +48,4 @@ Here two examples of how to create score distribution histograms:
 
 <br>
 == Source code ==
-<br>
 http://code.google.com/p/micluster/source/browse/#svn%2Ftrunk%2Fmicluster-scoredistribution
