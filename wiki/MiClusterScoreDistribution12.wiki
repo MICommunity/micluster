@@ -40,7 +40,7 @@ Here two examples of how to create score distribution histograms:
 ...
         String scores = "0.43887317,0.558037,0.43887317,0.43887317,0.43887317,0.683472,0.558037,0.76561326,0.43887317,0.43887317,0.43887317,0.43887317,0.43887317,0.6230328,0.43887317,0.5871889,0.43887317,0.5221931,0.43887317,0.6631005,0.43887317,0.43887317,0.43887317,0.6230328,0.43887317,0.6230328,0.43887317,0.43887317,0.6230328,0.43887317,0.43887317,0.43887317,0.43887317,0.558037";
         MiscoreDistribution mD = new MiscoreDistributionFromCsvScores(scores);
-        mD.createChart();
+        mD.createChart("/scratch/tmp/scoreDistributionTest.png");
 ...
 }}}
 
