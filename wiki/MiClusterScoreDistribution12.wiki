@@ -42,7 +42,9 @@ Here two examples of how to create score distribution histograms:
 ...
 }}}
 ==== Example of the content of a CSV file ====
+{{{
 0.31468466,0.3042728,0.33558023,0.3042728,0.33558023,0.2952445,0.33558023,0.42515436,0.3668876,0.2952445,0.3042728,0.3042728,0.3042728
+}}}
 
 <br>
 == Source code ==
