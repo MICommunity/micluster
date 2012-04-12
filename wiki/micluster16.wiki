@@ -18,8 +18,13 @@ This pages includes several examples:
 {{{
   <repository>
      <id>ebi-repo</id>
-     <name>The EBI internal repository</name>
+     <name>EBI repository</name>
      <url>http://www.ebi.ac.uk/~maven/m2repo</url>
+  </repository>
+  <repository>
+     <id>ebi-snapshots-repo</id>
+     <name>EBI snapshots repository</name>
+     <url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
   </repository>
 }}}
 <br>
