@@ -2,12 +2,12 @@
 Java library to cluster molecular interactions.
 
 This pages includes several examples:
-   * How to input and cluster data.
-   * How to use the clustered data.
-   * How to cluster and score
+   * How to use MiCluster to cluster PSI-MI binary interactions.
+   * How to use MiCluster to cluster and score PSI-MI binary interactions.
+   * How to use the results from MiCluster.
+
 
 == Maven dependency ==
-You could easily use the MiCluster through maven adding the MiScore dependency and the EBI repository:
 {{{
   <dependency>
      <groupId>uk.ac.ebi.enfin.mi.cluster</groupId>
@@ -24,8 +24,8 @@ You could easily use the MiCluster through maven adding the MiScore dependency a
 }}}
 <br>
 
-== Input examples ==
-Examples of how to input and cluster data.
+== Cluster ==
+Examples of how to use MiCluster to cluster PSI-MI binary interactions.
 === Cluster binary interactions from a PSI MITAB file: === 
 {{{
 ...
@@ -193,8 +193,8 @@ Examples of how to input and cluster data.
 
 <br/>
 
-== Cluster and score examples == 
-Examples of how to cluster and score
+== Cluster and score == 
+Examples of how to use MiCluster to cluster and score PSI-MI binary interactions
 
 === Cluster and score binary interactions: === 
 {{{
@@ -262,8 +262,8 @@ Examples of how to cluster and score
 
 <br/>
 
-== Output examples ==
-Examples of how to use the clustered data.
+== MiCluster results ==
+How to use the results from MiCluster
 === Print example results from clustered data: === 
 {{{
 ...
