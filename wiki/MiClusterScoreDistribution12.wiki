@@ -1,0 +1,65 @@
+= MiCluster-Score-Distribution 1.2 =
+Library to create score distribution histograms.
+
+== Maven dependency ==
+{{{
+  <dependency> 
+    <groupId>uk.ac.ebi.enfin.mi.score.distribution</groupId>
+    <artifactId>miscoreDistribution</artifactId>
+    <version>1.2</version>
+  </dependency>
+}}}
+{{{
+  <repository>
+    <id>ebi-repo-snapshots</id>
+    <name>The EBI internal repository</name>
+    <url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
+  </repository>
+}}}
+<br>
+
+== Example ==
+Here two examples of how to create score distribution histograms:
+<br>
+=== Querying a PSICQUIC database and saving the scores in CSV file: ===
+{{{
+...
+        EncoreMiscoreDistribution mD = new EncoreMiscoreDistribution("MatrixDB");
+        mD.createChart();
+        mD.saveScores();
+...
+}}}
+=== From CSV file: ===
+{{{
+...
+        FileMiscoreDistribution mD = new FileMiscoreDistribution("MatrixDB_Scores.txt");
+        mD.createChart();
+...
+}}}
+==== Example of the content of a small CSV file ====
+0.31468466,0.3042728,0.33558023,0.3042728,0.33558023,0.2952445,0.33558023,0.42515436,0.3668876,0.2952445,0.3042728,0.3042728,0.3042728
+
+<br>
+== Source code ==
+You can find the source code in:
+<br>
+http://code.google.com/p/micluster/source/browse/#svn%2Ftrunk%2Fmicluster-scoredistribution
+
+<br>
+== jar file ==
+The jar file can also be found in this url:
+<br>
+http://www.ebi.ac.uk/~maven/m2repo/uk/ac/ebi/enfin/mi/score/distribution/miscoreDistribution/1.0/
+
+<br>
+== Client: miscoreDistributionClient ==
+=== Download ===
+{{{
+svn checkout http://enfin-core.googlecode.com/svn/trunk/enfin-core/clients/miscoreDistributionClient miscoreDistributionClient
+}}}
+
+=== Package the library: ===
+{{{
+cd miscoreDistributionClient
+mvn package
+}}}
