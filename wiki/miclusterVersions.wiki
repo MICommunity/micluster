@@ -21,7 +21,7 @@
 <br/>
 = MiClusterScore =
 
-  * MiClusterScore is `*deprecated*`
+  * MiClusterScore is *deprecated*
   * All the functionality has been imported to [MiCluster16 MiCluster 1.6]
 
 == Version 1.4 (latest version) ==
