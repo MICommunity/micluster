@@ -11,9 +11,14 @@ Library to create score distribution histograms.
 }}}
 {{{
   <repository>
-    <id>ebi-repo-snapshots</id>
-    <name>The EBI internal repository</name>
-    <url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
+     <id>ebi-repo</id>
+     <name>EBI repository</name>
+     <url>http://www.ebi.ac.uk/~maven/m2repo</url>
+  </repository>
+  <repository>
+     <id>ebi-repo-snapshots</id>
+     <name>EBI snapshots repository</name>
+     <url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
   </repository>
 }}}
 <br>
