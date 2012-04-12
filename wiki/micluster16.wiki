@@ -22,7 +22,7 @@ This pages includes several examples:
      <url>http://www.ebi.ac.uk/~maven/m2repo</url>
   </repository>
   <repository>
-     <id>ebi-snapshots-repo</id>
+     <id>ebi-repo-snapshots</id>
      <name>EBI snapshots repository</name>
      <url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
   </repository>
