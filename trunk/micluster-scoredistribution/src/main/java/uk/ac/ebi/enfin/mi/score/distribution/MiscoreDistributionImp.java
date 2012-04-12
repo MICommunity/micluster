@@ -5,7 +5,7 @@ import psidev.psi.mi.tab.PsimiTabReader;
 import psidev.psi.mi.tab.model.BinaryInteraction;
 import psidev.psi.mi.xml.converter.ConverterException;
 import uk.ac.ebi.enfin.mi.cluster.ClusterServiceException;
-import uk.ac.ebi.enfin.mi.cluster.EncoreInteractionForScoring;
+import uk.ac.ebi.enfin.mi.cluster.EncoreInteraction;
 import uk.ac.ebi.enfin.mi.cluster.score.InteractionClusterScore;
 
 import java.io.File;
@@ -89,7 +89,7 @@ public class MiscoreDistributionImp implements MiscoreDistribution {
     }
 
 
-    public Map<Integer, EncoreInteractionForScoring> getInteractionMapping() {
+    public Map<Integer, EncoreInteraction> getInteractionMapping() {
         return iC.getInteractionMapping();
     }
 
