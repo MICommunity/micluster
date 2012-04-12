@@ -26,15 +26,26 @@ Library to create score distribution histograms.
 == Example ==
 Here two examples of how to create score distribution histograms:
 <br>
-=== Querying a PSICQUIC database and saving the scores in CSV file: ===
+=== Querying a PSICQUIC database, printing a chart and saving the scores in a CSV file: ===
 {{{
 ...
-        EncoreMiscoreDistribution mD = new EncoreMiscoreDistribution("MatrixDB");
+        MiscoreDistribution mD = new MiscoreDistributionImp("*:*","MatrixDB");
         mD.createChart();
         mD.saveScores();
 ...
 }}}
-=== From a CSV file of scores: ===
+<br/>
+=== Printing a chart from scores: ===
+{{{
+...
+        String scores = "0.43887317,0.558037,0.43887317,0.43887317,0.43887317,0.683472,0.558037,0.76561326,0.43887317,0.43887317,0.43887317,0.43887317,0.43887317,0.6230328,0.43887317,0.5871889,0.43887317,0.5221931,0.43887317,0.6631005,0.43887317,0.43887317,0.43887317,0.6230328,0.43887317,0.6230328,0.43887317,0.43887317,0.6230328,0.43887317,0.43887317,0.43887317,0.43887317,0.558037";
+        MiscoreDistribution mD = new MiscoreDistributionFromCsvScores(scores);
+        mD.createChart();
+...
+}}}
+
+<br/>
+=== Printing a chart using a CSV file of scores: ===
 {{{
 ...
         FileMiscoreDistribution mD = new FileMiscoreDistribution("MatrixDB_Scores.txt");
@@ -45,6 +56,8 @@ Here two examples of how to create score distribution histograms:
 {{{
 0.31468466,0.3042728,0.33558023,0.3042728,0.33558023,0.2952445,0.33558023,0.42515436,0.3668876,0.2952445,0.3042728,0.3042728,0.3042728
 }}}
+
+
 
 <br>
 == Source code ==
