@@ -23,10 +23,9 @@ Library to create score distribution histograms.
 }}}
 <br>
 
-== Example ==
-Here two examples of how to create score distribution histograms:
+== Examples ==
 <br>
-=== Querying a PSICQUIC database, printing a chart and saving the scores in a CSV file: ===
+=== Cluster and score interactions from a PSICQUIC database, print a chart with the score distribution and save scores in a CSV file: ===
 {{{
 ...
         MiscoreDistribution mD = new MiscoreDistributionImp("*:*","MatrixDB");
@@ -34,8 +33,20 @@ Here two examples of how to create score distribution histograms:
         mD.saveScores();
 ...
 }}}
+<br>
+=== Cluster and score interactions from two PSI-MI files, print a chart with the score distribution and save scores in a CSV file: ===
+{{{
+...
+        final File P37173_mint = new File( TestProteinAcc.class.getResource( "/P37173_mint.tsv" ).getFile() );
+        final File P37173_intact = new File( TestProteinAcc.class.getResource( "/P37173_intact.tsv" ).getFile() );
+        File[] files = new File[]{P37173_mint,P37173_intact};
+        MiscoreDistribution mD = new MiscoreDistributionImp("Test dataset",files,false);
+        mD.createChart();
+        mD.saveScores();
+...
+}}}
 <br/>
-=== Printing a chart from scores: ===
+=== Print a chart with the score distribution from a list of scores: ===
 {{{
 ...
         String scores = "0.43887317,0.558037,0.43887317,0.43887317,0.43887317,0.683472,0.558037,0.76561326,0.43887317,0.43887317,0.43887317,0.43887317,0.43887317,0.6230328,0.43887317,0.5871889,0.43887317,0.5221931,0.43887317,0.6631005,0.43887317,0.43887317,0.43887317,0.6230328,0.43887317,0.6230328,0.43887317,0.43887317,0.6230328,0.43887317,0.43887317,0.43887317,0.43887317,0.558037";
@@ -45,14 +56,14 @@ Here two examples of how to create score distribution histograms:
 }}}
 
 <br/>
-=== Printing a chart using a CSV file of scores: ===
+=== Print a chart with the score distribution using a list of scores from a file: ===
 {{{
 ...
         MiscoreDistribution mD = new MiscoreDistributionFromCsvScores("MatrixDB_Scores.txt", "MatrixDB Sample");
         mD.createChart();
 ...
 }}}
-==== Example of the content of a CSV file ====
+==== Example of scores contained in a file ====
 {{{
 0.31468466,0.3042728,0.33558023,0.3042728,0.33558023,0.2952445,0.33558023,0.42515436,0.3668876,0.2952445,0.3042728,0.3042728,0.3042728
 }}}
