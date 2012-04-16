@@ -91,7 +91,8 @@ uniprotkb:P07200|intact:EBI-907660	uniprotkb:P37173|intact:EBI-296151	uniprotkb:
 === Print a chart with the score distribution using a list of scores from a file: ===
 {{{
 ...
-        MiscoreDistribution mD = new MiscoreDistributionFromCsvScores("MatrixDB_Scores.txt", "MatrixDB Sample");
+        File file = new File("/scratch/tmp/scores/MatrixDB_Scores.txt");
+        MiscoreDistributionFromCsvScores mD = new MiscoreDistributionFromCsvScores(file);
         mD.createChart();
 ...
 }}}
