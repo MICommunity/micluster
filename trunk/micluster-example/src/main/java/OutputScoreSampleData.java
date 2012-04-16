@@ -1,4 +1,4 @@
-import uk.ac.ebi.enfin.mi.cluster.EncoreInteractionForScoring;
+import uk.ac.ebi.enfin.mi.cluster.EncoreInteraction;
 import uk.ac.ebi.enfin.mi.cluster.InteractionCluster;
 import psidev.psi.mi.tab.model.Confidence;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class OutputScoreSampleData {
     public static void print(InteractionCluster iC){
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
 
         /* PRINT SOME RESULTS */
         String fisrtSeparator = "\t";
@@ -24,7 +24,7 @@ public class OutputScoreSampleData {
         System.out.println("interaction_location"+ fisrtSeparator + "interactor_A" + fisrtSeparator + "interactor_B" + fisrtSeparator +
                 "score" + fisrtSeparator + "publications"+ fisrtSeparator + "types" + fisrtSeparator + "methods");
         for(Integer i:interactionMapping.keySet()){
-            EncoreInteractionForScoring eI = interactionMapping.get(i);
+            EncoreInteraction eI = interactionMapping.get(i);
 
             /* Get score */
             String score = "";
