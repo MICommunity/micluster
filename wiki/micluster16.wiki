@@ -2,7 +2,7 @@
 Java library to cluster molecular interactions.
 
 This pages includes several examples:
-   * How to use MiCluster to cluster PSI-MI binary interactions.
+   * [How to use MiCluster to cluster PSI-MI binary interactions#Cluster binary interactions from several PSI MITAB files].
    * How to use MiCluster to cluster and score PSI-MI binary interactions.
    * How to use the results from MiCluster.
 
@@ -47,7 +47,7 @@ Examples of how to use MiCluster to cluster PSI-MI binary interactions.
 ...
 }}}
 
-=== Cluster binary interactions from several PSI MITAB files: === 
+=== Cluster binary interactions from several PSI MITAB files === 
 {{{
 ...
         /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
