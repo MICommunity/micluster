@@ -4,7 +4,7 @@ Java library to cluster molecular interactions.
 This pages includes several examples:
    * [#Cluster How to use MiCluster to cluster PSI-MI binary interactions].
    * [#Cluster_and_score How to use MiCluster to cluster and score PSI-MI binary interactions].
-   * [#MiCluster_results How to use the results from MiCluster].
+   * [#Micluster_results How to use the results from MiCluster].
 <br/>
 
 == Maven dependency ==
@@ -267,7 +267,7 @@ Examples of how to use MiCluster to cluster and score PSI-MI binary interactions
 
 <br/>
 
-== MiCluster results ==
+== Micluster results ==
 
 How to use the results from MiCluster
 === Print example results from clustered data: === 
