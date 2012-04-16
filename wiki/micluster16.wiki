@@ -536,4 +536,4 @@ You can find the source code in:
 http://code.google.com/p/micluster/source/browse/#svn%2Ftrunk%2Fmicluster
 
 == Version changes ==
-[miclusterVersions]
+[miclusterVersions Changes among the different versions of MiCluster]
