@@ -16,6 +16,24 @@ public class MiscoreDistributionFromCsvScores implements MiscoreDistribution {
 
 
     public MiscoreDistributionFromCsvScores(String csvScores) {
+        setScores(csvScores);
+    }
+
+    public MiscoreDistributionFromCsvScores(File file) {
+        try {
+            FileReader fstream = new FileReader(file);
+            BufferedReader br = new BufferedReader(fstream);
+            String line = br.readLine();
+            fstream.close();
+            setScores(line);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setScores(String csvScores){
         try {
             String[] values = csvScores.split(",");
             List lineList = Arrays.asList(values);
@@ -27,20 +45,6 @@ public class MiscoreDistributionFromCsvScores implements MiscoreDistribution {
                 i++;
             }
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public MiscoreDistributionFromCsvScores(File file, String dataSetName) {
-        try {
-            FileReader fstream = new FileReader(file);
-            BufferedReader br = new BufferedReader(fstream);
-            String line = br.readLine();
-            new MiscoreDistributionFromCsvScores(line);
-            fstream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         }
     }
