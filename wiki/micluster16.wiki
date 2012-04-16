@@ -2,7 +2,7 @@
 Java library to cluster molecular interactions.
 
 This pages includes several examples:
-   * [eeee #Cluster].
+   * [#Cluster eeee].
    * How to use MiCluster to cluster and score PSI-MI binary interactions.
    * How to use the results from MiCluster.
 
