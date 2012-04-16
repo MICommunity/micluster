@@ -5,7 +5,7 @@ This pages includes several examples:
    * [#Cluster How to use MiCluster to cluster PSI-MI binary interactions].
    * [#Cluster_and_score How to use MiCluster to cluster and score PSI-MI binary interactions].
    * [#MiCluster_results How to use the results from MiCluster].
-
+<br/>
 
 == Maven dependency ==
 {{{
