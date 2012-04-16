@@ -1,4 +1,4 @@
-= MiCluster =
+= Micluster =
 == Version 1.6 ==
     * Bring micluterScore into micluster
     * deprecated redundant implementations (EncoreInteraction.java, InteractionClusterAdv.java)
@@ -19,7 +19,7 @@
     * It includes an additional result (synonymMapping) to help users to find interactor synonyms. 
 
 <br/>
-= MiClusterScore =
+= Micluster-score =
 
   * MiClusterScore is *deprecated*
   * All the functionality has been imported to [MiCluster16 MiCluster 1.6]
@@ -32,7 +32,7 @@
   * It includes all the changes implemented in [MiCluster14 MiCluster 1.4]
 
 <br/>
-= MiCluster-Score-Distribution =
+= Micluster-score-distribution =
 Library to create score distribution histograms.
 
 == Version 1.2==
