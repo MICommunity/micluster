@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import uk.ac.ebi.enfin.mi.score.distribution.MiscoreDistribution;
 import uk.ac.ebi.enfin.mi.score.distribution.MiscoreDistributionImp;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -14,6 +15,15 @@ import java.util.ArrayList;
  */
 public class TestProteinAcc{
     static Logger logger = Logger.getLogger(TestProteinAcc.class);
+
+    @Test
+    public void testFile(){
+        final File P37173_mint = new File( TestProteinAcc.class.getResource( "/P37173_mint.tsv" ).getFile() );
+        final File P37173_intact = new File( TestProteinAcc.class.getResource( "/P37173_intact.tsv" ).getFile() );
+        File[] files = new File[]{P37173_mint,P37173_intact};
+        MiscoreDistribution mD = new MiscoreDistributionImp("Test dataset",files,false);
+        mD.createChart();
+    }
 
     @Test
     @Ignore
