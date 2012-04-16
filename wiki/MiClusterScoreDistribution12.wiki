@@ -101,8 +101,35 @@ uniprotkb:P07200|intact:EBI-907660	uniprotkb:P37173|intact:EBI-296151	uniprotkb:
 0.31468466,0.3042728,0.33558023,0.3042728,0.33558023,0.2952445,0.33558023,0.42515436,0.3668876,0.2952445,0.3042728,0.3042728,0.3042728
 }}}
 
-
-
 <br>
+
+
+== Command line Examples ==
+   # Increase maven memory if necessary:
+    {{{SET MAVEN_OPTS="-Xmx1024m -Xms512m"}}}
+   # Download code of MiClusterScoreDistribution
+    {{{svn checkout http://micluster.googlecode.com/svn/trunk/micluster-scoredistribution micluster-scoredistribution}}}
+   # Inside MiClusterScoreDistribution run one of the following commands:
+
+=== Commands to get the score distribution from PSICQUIC ===
+{{{
+mvn exec:java -Dexec.mainClass="uk.ac.ebi.enfin.mi.score.distribution.PsicquicClient" -Dexec.args="*:* MatrixDB"
+mvn exec:java -Dexec.mainClass="uk.ac.ebi.enfin.mi.score.distribution.PsicquicClient" -Dexec.args="P99999\ OR\ P30480 MatrixDB"
+mvn exec:java -Dexec.mainClass="uk.ac.ebi.enfin.mi.score.distribution.PsicquicClient" -Dexec.args="P99999 MatrixDB,IntAct"
+mvn exec:java -Dexec.mainClass="uk.ac.ebi.enfin.mi.score.distribution.PsicquicClient" -Dexec.args="P99999 all"
+}}}
+
+=== Command to get the score distribution from a folder with PSI MITAB files ===
+{{{
+mvn exec:java -Dexec.mainClass="uk.ac.ebi.enfin.mi.score.distribution.PsimitabClient" -Dexec.args="My_dataset /scratch/tmp/mitab false"
+}}}
+
+=== Command to get the score distribution from a file of scores ===
+{{{
+mvn exec:java -Dexec.mainClass="uk.ac.ebi.enfin.mi.score.distribution.ScoresClient" -Dexec.args="Dataset_from_MatrixDB /scratch/tmp/scores/MatrixDB_Scores.txt"
+}}}
+<br>
+
+
 == Source code ==
 http://code.google.com/p/micluster/source/browse/#svn%2Ftrunk%2Fmicluster-scoredistribution
