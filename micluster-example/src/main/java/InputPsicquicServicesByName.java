@@ -16,13 +16,13 @@ import java.util.List;
 public class InputPsicquicServicesByName {
     public static void main(String[] args) throws ClusterServiceException, ConverterException, IOException {
         /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
-        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl";
+        final String allMappingNames = "uniprotkb,ddbj/embl/genbank,chebi,irefindex";
         /* MIQL Query */
-        String query = "identifier:P37173";
+        String query = "identifier:P51587 AND identifier:Q06609";
         /* PSICQUIC service */
         List psicquicServices = new ArrayList();
         psicquicServices.add("IntAct");
-        psicquicServices.add("MINT");
+//        psicquicServices.add("MINT");
 
         /* Cluster data */
         InteractionCluster iC = new InteractionCluster();

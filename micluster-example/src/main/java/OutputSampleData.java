@@ -1,4 +1,4 @@
-import uk.ac.ebi.enfin.mi.cluster.EncoreInteractionForScoring;
+import uk.ac.ebi.enfin.mi.cluster.EncoreInteraction;
 import uk.ac.ebi.enfin.mi.cluster.InteractionCluster;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class OutputSampleData {
     public static void print(InteractionCluster iC){
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
 
@@ -24,7 +24,7 @@ public class OutputSampleData {
         System.out.println("Print interactors for clustered binary interactions including publication accessions");
         System.out.println("interaction_location"+ fisrtSeparator + "interactor_A" + fisrtSeparator + "interactor_B" + fisrtSeparator + "publications");
         for(Integer i:interactionMapping.keySet()){
-            EncoreInteractionForScoring eI = interactionMapping.get(i);
+            EncoreInteraction eI = interactionMapping.get(i);
 
             /* Get publications */
             String publications = "";
