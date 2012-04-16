@@ -116,7 +116,7 @@ mvn clean compile
 }}}
    # Run one of the following commands:
 
-=== Commands to get the score distribution from PSICQUIC ===
+==== Commands to get the score distribution from PSICQUIC ====
 {{{
 mvn exec:java -Dexec.mainClass="uk.ac.ebi.enfin.mi.score.distribution.PsicquicClient" -Dexec.args="*:* MatrixDB"
 mvn exec:java -Dexec.mainClass="uk.ac.ebi.enfin.mi.score.distribution.PsicquicClient" -Dexec.args="P99999\ OR\ P30480 MatrixDB"
@@ -124,12 +124,12 @@ mvn exec:java -Dexec.mainClass="uk.ac.ebi.enfin.mi.score.distribution.PsicquicCl
 mvn exec:java -Dexec.mainClass="uk.ac.ebi.enfin.mi.score.distribution.PsicquicClient" -Dexec.args="P99999 all"
 }}}
 
-=== Command to get the score distribution from a folder with PSI MITAB files ===
+==== Command to get the score distribution from a folder with PSI MITAB files ====
 {{{
 mvn exec:java -Dexec.mainClass="uk.ac.ebi.enfin.mi.score.distribution.PsimitabClient" -Dexec.args="My_dataset /scratch/tmp/mitab false"
 }}}
 
-=== Command to get the score distribution from a file of scores ===
+==== Command to get the score distribution from a file of scores ====
 {{{
 mvn exec:java -Dexec.mainClass="uk.ac.ebi.enfin.mi.score.distribution.ScoresClient" -Dexec.args="Dataset_from_MatrixDB /scratch/tmp/scores/MatrixDB_Scores.txt"
 }}}
