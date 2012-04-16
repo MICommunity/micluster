@@ -109,7 +109,12 @@ uniprotkb:P07200|intact:EBI-907660	uniprotkb:P37173|intact:EBI-296151	uniprotkb:
     {{{SET MAVEN_OPTS="-Xmx1024m -Xms512m"}}}
    # Download code of MiClusterScoreDistribution
     {{{svn checkout http://micluster.googlecode.com/svn/trunk/micluster-scoredistribution micluster-scoredistribution}}}
-   # Inside MiClusterScoreDistribution run one of the following commands:
+   # Compile MiClusterScoreDistribution
+{{{
+cd micluster-scoredistribution
+mvn clean compile
+}}}
+   # Run one of the following commands:
 
 === Commands to get the score distribution from PSICQUIC ===
 {{{
