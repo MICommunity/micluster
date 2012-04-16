@@ -1,5 +1,5 @@
 = MiCluster-Score-Distribution 1.2 =
-Library to create score distribution histograms.
+Library to create score distribution histograms using [http://code.google.com/p/miscore/ MiScore] and [http://code.google.com/p/micluster MiCluster].
 
 == Maven dependency ==
 {{{
