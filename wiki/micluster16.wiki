@@ -534,3 +534,6 @@ uniprotkb:Q02447	uniprotkb:P37173	ensembl:ENSG00000172845|refseq:NM_003111|hgnc:
 You can find the source code in:
 <br>
 http://code.google.com/p/micluster/source/browse/#svn%2Ftrunk%2Fmicluster
+
+== Version changes ==
+[miclusterVersions]
