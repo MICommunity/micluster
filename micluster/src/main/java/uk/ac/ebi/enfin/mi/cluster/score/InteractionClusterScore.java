@@ -28,7 +28,7 @@ public class InteractionClusterScore extends InteractionCluster {
     protected Float typeWeight = 1.0f;
     protected Float methodWeight = 1.0f;
     protected Float publicationWeight = 1.0f;
-    protected String scoreName = "intactPsiscore";
+    protected String scoreName = "miscore";
 
     protected MIScore miscore;
 
@@ -173,9 +173,15 @@ public class InteractionClusterScore extends InteractionCluster {
         logger.debug("Create a map of type terms using parent terms");
         ArrayList<String> typeParentTerms = new ArrayList<String>();
         typeParentTerms.add("MI:0208");
-        typeParentTerms.add("MI:0403");
         typeParentTerms.add("MI:0407");
         Map<String, Map<String,String>> mapOfTypeTerms = MIO.getMapOfTerms(typeParentTerms);
+        /* No need to look for MI:0403 since it has no children. Just include them in the mappingParentTerms */
+        mapOfTypeTerms.put("MI:0403", new HashMap<String, String>());
+        /* No need to look for MI:0914 and "MI:0915 in OLS since they are parent terms of MI:0407 */
+        mapOfTypeTerms.put("MI:0914", new HashMap<String, String>());
+        mapOfTypeTerms.put("MI:0915", new HashMap<String, String>());
+
+
 
         logger.debug("Update interactions");
         for(Integer interactionId:this.getInteractionMapping().keySet()){
@@ -211,7 +217,8 @@ public class InteractionClusterScore extends InteractionCluster {
                 scoreGenerator.setMethodWeight(methodWeight);
                 scoreGenerator.setPublicationWeight(publicationWeight);
                 scoreGenerator.setMethodScore(methods, mapOfMethodTerms, customOntologyMethodScores);
-                scoreGenerator.setTypeScore(types, mapOfTypeTerms, customOntologyTypeScores);
+                scoreGenerator.setTypeScore(types, mapOfTypeTerms);
+//                scoreGenerator.setTypeScore(types, mapOfTypeTerms, customOntologyTypeScores);
                 scoreGenerator.setPublicationScore(numberOfPubmedIds, customPublicationNumberWithHighestScore);
                 scoreResult = scoreGenerator.getScore();
             }
