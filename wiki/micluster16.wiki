@@ -29,6 +29,12 @@ This pages includes several examples:
 }}}
 <br>
 
+= Examples =
+You can find examples in this page or alternatively you can download a java project including functional examples following the same code.
+{{{
+svn checkout http://micluster.googlecode.com/svn/trunk/micluster-example micluster-example
+}}}
+
 == Cluster ==
 Examples of how to use MiCluster to cluster PSI-MI binary interactions.
 === Cluster binary interactions from a PSI MITAB file: === 
