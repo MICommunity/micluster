@@ -279,7 +279,7 @@ How to use the results from MiCluster
 === Print example results from clustered data: === 
 {{{
 ...
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
 
@@ -291,7 +291,7 @@ How to use the results from MiCluster
         System.out.println("Print interactors for clustered binary interactions including publication accessions");
         System.out.println("interaction_location"+ fisrtSeparator + "interactor_A" + fisrtSeparator + "interactor_B" + fisrtSeparator + "publications");
         for(Integer i:interactionMapping.keySet()){
-            EncoreInteractionForScoring eI = interactionMapping.get(i);
+            EncoreInteraction eI = interactionMapping.get(i);
 
             /* Get publications */
             String publications = "";
@@ -378,7 +378,7 @@ Q99K41	EBI-906561
 === Print example results from clustered data with miscore information: === 
 {{{
 ...
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
 
         /* PRINT SOME RESULTS */
         String fisrtSeparator = "\t";
@@ -389,7 +389,7 @@ Q99K41	EBI-906561
         System.out.println("interaction_location"+ fisrtSeparator + "interactor_A" + fisrtSeparator + "interactor_B" + fisrtSeparator +
                 "score" + fisrtSeparator + "publications"+ fisrtSeparator + "types" + fisrtSeparator + "methods");
         for(Integer i:interactionMapping.keySet()){
-            EncoreInteractionForScoring eI = interactionMapping.get(i);
+            EncoreInteraction eI = interactionMapping.get(i);
 
             /* Get score */
             String score = "";
