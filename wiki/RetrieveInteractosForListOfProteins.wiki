@@ -3,13 +3,18 @@
 == pom.xml ==
 
 http://code.google.com/p/micluster/source/browse/trunk/micluster-example/pom.xml
-<br> 
+<br/> 
 
 
 == .java ==
 
 http://code.google.com/p/micluster/source/browse/trunk/micluster-example/src/main/java/RetrieveInteractosForListOfProteins.java
-<br> 
+<br/> 
+
+
+== result ==
+http://code.google.com/p/micluster/source/browse/trunk/micluster-example/src/main/resources/results/RetrieveInteractosForListOfProteins.txt
+<br/> 
 
 
 == Download ==
