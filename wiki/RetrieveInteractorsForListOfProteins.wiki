@@ -1,0 +1,23 @@
+#summary Retrieve interactors for a list of proteins.
+
+== pom.xml ==
+
+http://code.google.com/p/micluster/source/browse/trunk/micluster-example/pom.xml
+<br/> 
+
+
+== .java ==
+
+http://code.google.com/p/micluster/source/browse/trunk/micluster-example/src/main/java/RetrieveInteractorsForListOfProteins.java
+<br/> 
+
+
+== result ==
+http://code.google.com/p/micluster/source/browse/trunk/micluster-example/src/main/resources/results/RetrieveInteractorsForListOfProteins.txt
+<br/> 
+
+
+== Download ==
+{{{
+svn checkout http://micluster.googlecode.com/svn/trunk/micluster-example micluster-example
+}}}
