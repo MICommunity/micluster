@@ -4,7 +4,7 @@
 
 http://code.google.com/p/micluster/source/browse/trunk/micluster-example/pom.xml
 
-== src/main/java/RetrieveInteractosForListOfProteins.java ==
+== .java ==
 
 http://code.google.com/p/micluster/source/browse/trunk/micluster-example/src/main/java/RetrieveInteractosForListOfProteins.java
 
