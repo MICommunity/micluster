@@ -9,4 +9,6 @@ http://code.google.com/p/micluster/source/browse/trunk/micluster-example/pom.xml
 http://code.google.com/p/micluster/source/browse/trunk/micluster-example/src/main/java/RetrieveInteractosForListOfProteins.java
 
 == Download examples ==
+{{{
 svn checkout http://micluster.googlecode.com/svn/trunk/micluster-example micluster-example
+}}}
