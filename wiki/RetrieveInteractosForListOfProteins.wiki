@@ -1,12 +1,12 @@
 #summary Retrieve interactos for a list of proteins.
 
-= pom.xml =
+== pom.xml ==
 
 http://code.google.com/p/micluster/source/browse/trunk/micluster-example/pom.xml
 
-= RetrieveInteractosForListOfProteins.java =
+== RetrieveInteractosForListOfProteins.java ==
 
 http://code.google.com/p/micluster/source/browse/trunk/micluster-example/src/main/java/RetrieveInteractosForListOfProteins.java
 
-= Download examples =
+== Download examples ==
 svn checkout http://micluster.googlecode.com/svn/trunk/micluster-example micluster-example
