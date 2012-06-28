@@ -1,5 +1,27 @@
 #summary Retrieve interactors for a list of proteins from several molecular interaction resources
 
+== Maven dependency ==
+{{{
+  <dependency>
+     <groupId>uk.ac.ebi.enfin.mi.cluster</groupId>
+     <artifactId>micluster</artifactId>
+     <version>1.6-SNAPSHOT</version>
+  </dependency>
+}}}
+{{{
+  <repository>
+     <id>ebi-repo</id>
+     <name>EBI repository</name>
+     <url>http://www.ebi.ac.uk/~maven/m2repo</url>
+  </repository>
+  <repository>
+     <id>ebi-repo-snapshots</id>
+     <name>EBI snapshots repository</name>
+     <url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
+  </repository>
+}}}
+<br>
+
 = Example01.java =
 {{{
 import psidev.psi.mi.tab.model.Confidence;
