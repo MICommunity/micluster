@@ -1,28 +1,43 @@
 #summary Retrieve interactors for a list of proteins from several molecular interaction resources
 
-== Maven dependency ==
+= pom.xml =
 {{{
-  <dependency>
-     <groupId>uk.ac.ebi.enfin.mi.cluster</groupId>
-     <artifactId>micluster</artifactId>
-     <version>1.6-SNAPSHOT</version>
-  </dependency>
-}}}
-{{{
-  <repository>
-     <id>ebi-repo</id>
-     <name>EBI repository</name>
-     <url>http://www.ebi.ac.uk/~maven/m2repo</url>
-  </repository>
-  <repository>
-     <id>ebi-repo-snapshots</id>
-     <name>EBI snapshots repository</name>
-     <url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
-  </repository>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>info.mechanobio.mbinfo</groupId>
+    <artifactId>molecularInteractions</artifactId>
+    <version>1.0</version>
+
+    <dependencies>
+        <dependency>
+           <groupId>uk.ac.ebi.enfin.mi.cluster</groupId>
+           <artifactId>micluster</artifactId>
+           <version>1.6-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <repositories>
+        <repository>
+             <id>ebi-repo</id>
+             <name>EBI repository</name>
+             <url>http://www.ebi.ac.uk/~maven/m2repo</url>
+          </repository>
+          <repository>
+             <id>ebi-repo-snapshots</id>
+             <name>EBI snapshots repository</name>
+             <url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
+          </repository>
+    </repositories>
+    
+</project>
 }}}
 <br>
 
-= Example01.java =
+= src/main/java/Example01.java =
 {{{
 import psidev.psi.mi.tab.model.Confidence;
 import uk.ac.ebi.enfin.mi.cluster.EncoreInteraction;
@@ -195,4 +210,10 @@ public class Example01 {
 
 }
 
+}}}
+
+= src/main/resources/log4j.properties =
+{{{
+# Ignore warnings from micluster and just print errors messages
+log4j.category.uk.ac.ebi.enfin=ERROR
 }}}
