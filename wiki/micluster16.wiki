@@ -6,7 +6,7 @@ This pages includes several examples:
    * [#Cluster_and_score How to use MiCluster to cluster and score PSI-MI binary interactions].
    * [#Micluster_results How to use the results from MiCluster].
    * More specific examples:
-     * [RetrieveInteractosForListOfProteins Retrieve interactors (UniProt and CHEBI) for a list of proteins (UniProt) from several molecular interaction resources (PSICQUIC services)].
+     * [RetrieveInteractorsForListOfProteins Retrieve interactors (UniProt and CHEBI) for a list of proteins (UniProt) from several molecular interaction resources (PSICQUIC services)].
 <br/>
 
 == Maven dependency ==
