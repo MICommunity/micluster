@@ -12,11 +12,12 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Example of how to retrieve interactors for a list of
- * proteins from several molecular interaction resources
- * using "micluster". "micluster" uses PSICQUIC to retrieve
- * molecular interactions and "miscore" to calculate
- * scores based on annotation evidence.
+ * Example of how to retrieve interactions in PSI-MITAB
+ * format for a list of proteins from several molecular
+ * interaction resources using "micluster". "micluster"
+ * uses PSICQUIC to retrieve molecular interactions and
+ * "miscore" to calculate scores based on annotation
+ * evidence.
  *    - micluster: http://code.google.com/p/micluster/
  *    - miscore: http://code.google.com/p/miscore/
  *    - PSICQUIC: http://code.google.com/p/psicquic/
@@ -37,9 +38,9 @@ public class RetrievePsimitabForListOfProteins {
         /* File where results will be printed */
         String resultsFileLocation ="src/main/resources/results/RetrievePsimitabForListOfProteins.txt";
 
-        /* Test with few proteins and services */
-        proteins = "P56199,P17301,P26006,P13612,P08648";
-        services ="APID,ChEMBL,BioGrid,IntAct,InnateDB";
+        /* Test with fewer proteins and services */
+        proteins = "P56199,P17301,P26006,P13612,P08648,P23229,Q13683";
+        services ="APID,IntAct,InnateDB,MINT,MatrixDB";
 
         /* Build query */
         String query = buildMiqlQuery(proteins);
