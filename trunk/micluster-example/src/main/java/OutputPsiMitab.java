@@ -3,6 +3,7 @@ import psidev.psi.mi.tab.model.BinaryInteraction;
 import psidev.psi.mi.xml.converter.ConverterException;
 import uk.ac.ebi.enfin.mi.cluster.Encore2Binary;
 import uk.ac.ebi.enfin.mi.cluster.EncoreBinaryInteraction;
+import uk.ac.ebi.enfin.mi.cluster.EncoreInteraction;
 import uk.ac.ebi.enfin.mi.cluster.InteractionCluster;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,8 +21,8 @@ public class OutputPsiMitab {
         /* Convert EncoreInteractions into BinaryInteractions */
         List<BinaryInteraction> binaryInteractions = new ArrayList<BinaryInteraction>();
         Encore2Binary iConverter = new Encore2Binary(iC.getMappingIdDbNames());
-        for(EncoreBinaryInteraction eI:iC.getInteractionMapping().values()){
-            binaryInteractions.add(iConverter.getBinaryInteraction(eI));
+        for(EncoreInteraction eI:iC.getInteractionMapping().values()){
+            binaryInteractions.add(iConverter.getBinaryInteractionForScoring(eI));
         }
         /* Print PSI MITAB clustered binary interactions */
         PsimiTabWriter writer = new PsimiTabWriter();
