@@ -12,8 +12,13 @@
             <!-- EBI repositories -->
         <repository>
             <id>ebi-repo</id>
-            <name>The EBI internal repository</name>
+            <name>EBI repository</name>
             <url>http://www.ebi.ac.uk/~maven/m2repo</url>
+        </repository>
+        <repository>
+            <id>ebi-snapshot-repo</id>
+            <name>EBI snapshot repository</name>
+            <url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
         </repository>
     </repositories>
 
@@ -28,6 +33,11 @@
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.13</version>
+        </dependency>
+        <dependency>
+            <groupId>psidev.psi.mi.</groupId>
+            <artifactId>psimitab</artifactId>
+            <version>1.7.10</version>
         </dependency>
     </dependencies>
 
