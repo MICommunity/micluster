@@ -1,5 +1,19 @@
 #summary Retrieve interactors for a list of proteins.
-
+{{{
+/**
+ * Example of how to retrieve interactors for a list of
+ * proteins from several molecular interaction resources
+ * using "micluster". "micluster" uses PSICQUIC to retrieve
+ * molecular interactions and "miscore" to calculate
+ * scores based on annotation evidence.
+ *    - micluster: http://code.google.com/p/micluster/
+ *    - miscore: http://code.google.com/p/miscore/
+ *    - PSICQUIC: http://code.google.com/p/psicquic/
+ * @author Rafael Jimenez (rafael@ebi.ac.uk)
+ * @version 1.0
+ * @since 1.0
+ */
+}}}
 == pom.xml ==
 
 http://code.google.com/p/micluster/source/browse/trunk/micluster-example/pom.xml
