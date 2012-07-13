@@ -3,13 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>uk.ac.ebi.enfin.mi.cluster.score</groupId>
     <artifactId>miClusterScore</artifactId>
-    <version>1.5</version>
+    <version>1.6-SNAPSHOT</version>
     <name>Confidence score for molecular interaction clusters</name>
 
     <scm>
-        <connection>scm:svn:https://micluster.googlecode.com/svn/tags/miClusterScore-1.5</connection>
-        <developerConnection>scm:svn:https://micluster.googlecode.com/svn/tags/miClusterScore-1.5</developerConnection>
-        <url>http://code.google.com/p/micluster/source/browse/#svn/tags/miClusterScore-1.5</url>
+        <connection>scm:svn:https://micluster.googlecode.com/svn/trunk/micluster-score</connection>
+        <developerConnection>scm:svn:https://micluster.googlecode.com/svn/trunk/micluster-score</developerConnection>
+        <url>http://code.google.com/p/micluster/source/browse/#svn/trunk/micluster-score</url>
     </scm>
 
         <build>
