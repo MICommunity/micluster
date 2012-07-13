@@ -25,7 +25,7 @@ public class TestInteractionClusterScore extends TestCase {
         ics.addQuerySource("IntAct");
         ics.addQuerySource("mint");
         ics.runService();
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = ics.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = ics.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = ics.getInteractorMapping();
         int interactionMappingId = ics.getInteractionMappingId();
         assertTrue(interactionMappingId > 0);
@@ -50,7 +50,7 @@ public class TestInteractionClusterScore extends TestCase {
         ics2.addQuerySource("mint");
         ics2.runService();
 
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = ics2.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = ics2.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = ics2.getInteractorMapping();
         Map<String, String> synonymMapping = ics2.getSynonymMapping();
         int interactionMappingId = ics2.getInteractionMappingId();
@@ -85,7 +85,7 @@ public class TestInteractionClusterScore extends TestCase {
         iC.setQuerySources(db2);
         iC.runService();
 
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> synonymMapping = iC.getSynonymMapping();
         int interactionMappingId = iC.getInteractionMappingId();
@@ -132,7 +132,7 @@ public class TestInteractionClusterScore extends TestCase {
         /* Run service */
         ics.runService();
         /* Retrive results */
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = ics.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = ics.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = ics.getInteractorMapping();
         Map<String, String> synonymMapping = ics.getSynonymMapping();        
         int interactionMappingId = ics.getInteractionMappingId();
@@ -158,7 +158,7 @@ public class TestInteractionClusterScore extends TestCase {
             iC.runService();
 
             /* Retrieve results */
-            Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+            Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
             Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
             Map<String, String> synonymMapping = iC.getSynonymMapping();
             int interactionMappingId = iC.getInteractionMappingId();
@@ -189,7 +189,7 @@ public class TestInteractionClusterScore extends TestCase {
             iC.runService();
 
             /* Retrieve results */
-            Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+            Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
             Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
             Map<String, String> synonymMapping = iC.getSynonymMapping();
             int interactionMappingId = iC.getInteractionMappingId();
@@ -229,7 +229,7 @@ public class TestInteractionClusterScore extends TestCase {
             iC.runService();
 
             /* Retrieve results */
-            Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+            Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
             Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
             Map<String, String> synonymMapping = iC.getSynonymMapping();
             int interactionMappingId = iC.getInteractionMappingId();
@@ -260,13 +260,13 @@ public class TestInteractionClusterScore extends TestCase {
         iC.runService();
 
         /* Retrieve results */
-        Map<Integer, EncoreInteractionForScoring> interactionMapping = iC.getInteractionMapping();
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
 
         /* Get PSI binary Interactions */
         Map<Integer, BinaryInteraction> binaryInteractionMapping = new HashMap<Integer,BinaryInteraction>();        
         Encore2Binary iConverter = new Encore2Binary(iC.getMappingIdDbNames());
         for(int mappingId:interactionMapping.keySet()){
-            EncoreInteractionForScoring eI = interactionMapping.get(mappingId);
+            EncoreInteraction eI = interactionMapping.get(mappingId);
             BinaryInteraction bI = iConverter.getBinaryInteractionForScoring(eI);
             binaryInteractionMapping.put(mappingId,bI);
         }        
