@@ -10,9 +10,9 @@
     <name>Molecular interaction cluster</name>
 
     <scm>
-        <connection>scm:svn:https://enfin-core.googlecode.com/svn/trunk/enfin-core/micluster</connection>
-        <developerConnection>scm:svn:https://enfin-core.googlecode.com/svn/trunk/enfin-core/micluster</developerConnection>
-        <url>http://code.google.com/p/enfin-core/source/browse/trunk/enfin-core/micluster</url>
+        <connection>scm:svn:https://micluster.googlecode.com/svn/trunk/micluster</connection>
+        <developerConnection>scm:svn:https://micluster.googlecode.com/svn/trunk/micluster</developerConnection>
+        <url>http://code.google.com/p/micluster/source/browse/#svn/trunk/micluster</url>
     </scm>
 
     <build>
@@ -138,7 +138,7 @@
         <dependency>
             <groupId>psidev.psi.mi</groupId>
             <artifactId>psimitab</artifactId>
-            <version>1.7.9</version>
+            <version>1.7.10</version>
         </dependency>
 
         <!-- JSON dependencies -->
