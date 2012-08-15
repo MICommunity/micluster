@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>micluster-example</groupId>
     <artifactId>micluster-example</artifactId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
     <name>Molecular Interaction Cluster examples</name>
 
     <scm>
@@ -27,17 +27,12 @@
         <dependency>
             <groupId>uk.ac.ebi.enfin.mi.cluster</groupId>
             <artifactId>micluster</artifactId>
-            <version>1.6</version>
+            <version>1.7.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.13</version>
-        </dependency>
-        <dependency>
-            <groupId>psidev.psi.mi.</groupId>
-            <artifactId>psimitab</artifactId>
-            <version>1.7.10</version>
         </dependency>
     </dependencies>
 
