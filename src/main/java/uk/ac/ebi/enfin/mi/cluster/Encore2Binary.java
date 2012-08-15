@@ -38,22 +38,22 @@ public class Encore2Binary {
     @Deprecated
     public BinaryInteraction getBinaryInteraction(EncoreBinaryInteraction encoreInteraction){
         /* Create Identifiers and Alternative Identifiers */
-        Collection<CrossReference> psiIdentifierA= new ArrayList<CrossReference>();
-        Collection<CrossReference> psiAlternativeIdentifierA= new ArrayList<CrossReference>();
+        List<CrossReference> psiIdentifierA= new ArrayList<CrossReference>();
+        List<CrossReference> psiAlternativeIdentifierA= new ArrayList<CrossReference>();
         String encoreInteractorA = encoreInteraction.getInteractorA(mappingIdDbNames);
         Map<String,String> encoreInteractorAccsA = encoreInteraction.getInteractorAccsA();
         updateIdentifiers(psiIdentifierA, psiAlternativeIdentifierA, encoreInteractorAccsA, encoreInteractorA);
-        Collection<CrossReference> psiIdentifierB= new ArrayList<CrossReference>();
-        Collection<CrossReference> psiAlternativeIdentifierB= new ArrayList<CrossReference>();
+        List<CrossReference> psiIdentifierB= new ArrayList<CrossReference>();
+        List<CrossReference> psiAlternativeIdentifierB= new ArrayList<CrossReference>();
         String encoreInteractorB = encoreInteraction.getInteractorB(mappingIdDbNames);
         Map<String,String> encoreInteractorAccsB = encoreInteraction.getInteractorAccsB();
         updateIdentifiers(psiIdentifierB, psiAlternativeIdentifierB, encoreInteractorAccsB, encoreInteractorB);
 
         /* Create Alias */
-        Collection<Alias> psiAliasA = new ArrayList<Alias>();
+        List<Alias> psiAliasA = new ArrayList<Alias>();
         Map<String, List<String>> encoreOtherInteractorA = encoreInteraction.getOtherInteractorAccsA();
         updateAlias(psiAliasA,encoreOtherInteractorA);
-        Collection<Alias> psiAliasB = new ArrayList<Alias>();
+        List<Alias> psiAliasB = new ArrayList<Alias>();
         Map<String, List<String>> encoreOtherInteractorB = encoreInteraction.getOtherInteractorAccsB();
         updateAlias(psiAliasB,encoreOtherInteractorB);
 
@@ -78,9 +78,9 @@ public class Encore2Binary {
         psiInteractorB.setOrganism(psiOrganismB);
 
         /* Create detection methods */
-        List<InteractionDetectionMethod> psiDetectionMethods = new ArrayList<InteractionDetectionMethod>();
+        List<CrossReference> psiDetectionMethods = new ArrayList<CrossReference>();
         for(String methodId:encoreInteraction.getMethodToPubmed().keySet()){
-            InteractionDetectionMethod psiDetectionMethod = new InteractionDetectionMethodImpl();
+            CrossReference psiDetectionMethod = new CrossReferenceImpl();
             psiDetectionMethod.setIdentifier(methodId);
             if(miMethodOntologyTerms.containsKey(methodId)){
                 psiDetectionMethod.setText(miMethodOntologyTerms.get(methodId));
@@ -90,9 +90,9 @@ public class Encore2Binary {
         }
 
         /* Create interaction types */
-        List<InteractionType> psiInteractionTypes = new ArrayList<InteractionType>();
+        List<CrossReference> psiInteractionTypes = new ArrayList<CrossReference>();
         for(String typeId:encoreInteraction.getTypeToPubmed().keySet()){
-            InteractionType psiInteractionType = new InteractionTypeImpl();
+            CrossReference psiInteractionType = new CrossReferenceImpl();
             psiInteractionType.setIdentifier(typeId);
             if(miTypeOntologyTerms.containsKey(typeId)){
                 psiInteractionType.setText(miTypeOntologyTerms.get(typeId));
@@ -134,22 +134,22 @@ public class Encore2Binary {
 
     public BinaryInteraction getBinaryInteractionForScoring(EncoreInteraction encoreInteraction){
         /* Create Identifiers and Alternative Identifiers */
-        Collection<CrossReference> psiIdentifierA= new ArrayList<CrossReference>();
-        Collection<CrossReference> psiAlternativeIdentifierA= new ArrayList<CrossReference>();
+        List<CrossReference> psiIdentifierA= new ArrayList<CrossReference>();
+        List<CrossReference> psiAlternativeIdentifierA= new ArrayList<CrossReference>();
         String encoreInteractorA = encoreInteraction.getInteractorA(mappingIdDbNames);
         Map<String,String> encoreInteractorAccsA = encoreInteraction.getInteractorAccsA();
         updateIdentifiers(psiIdentifierA, psiAlternativeIdentifierA, encoreInteractorAccsA, encoreInteractorA);
-        Collection<CrossReference> psiIdentifierB= new ArrayList<CrossReference>();
-        Collection<CrossReference> psiAlternativeIdentifierB= new ArrayList<CrossReference>();
+        List<CrossReference> psiIdentifierB= new ArrayList<CrossReference>();
+        List<CrossReference> psiAlternativeIdentifierB= new ArrayList<CrossReference>();
         String encoreInteractorB = encoreInteraction.getInteractorB(mappingIdDbNames);
         Map<String,String> encoreInteractorAccsB = encoreInteraction.getInteractorAccsB();
         updateIdentifiers(psiIdentifierB, psiAlternativeIdentifierB, encoreInteractorAccsB, encoreInteractorB);
 
         /* Create Alias */
-        Collection<Alias> psiAliasA = new ArrayList<Alias>();
+        List<Alias> psiAliasA = new ArrayList<Alias>();
         Map<String, List<String>> encoreOtherInteractorA = encoreInteraction.getOtherInteractorAccsA();
         updateAlias(psiAliasA,encoreOtherInteractorA);
-        Collection<Alias> psiAliasB = new ArrayList<Alias>();
+        List<Alias> psiAliasB = new ArrayList<Alias>();
         Map<String, List<String>> encoreOtherInteractorB = encoreInteraction.getOtherInteractorAccsB();
         updateAlias(psiAliasB,encoreOtherInteractorB);
 
@@ -174,16 +174,16 @@ public class Encore2Binary {
         psiInteractorB.setOrganism(psiOrganismB);
 
         /* Create detection methods */
-        List<InteractionDetectionMethod> psiDetectionMethods = new ArrayList<InteractionDetectionMethod>();
+        List<CrossReference> psiDetectionMethods = new ArrayList<CrossReference>();
         /* Create interaction types */
-        List<InteractionType> psiInteractionTypes = new ArrayList<InteractionType>();
+        List<CrossReference> psiInteractionTypes = new ArrayList<CrossReference>();
         for(MethodTypePair pair : encoreInteraction.getMethodTypePairListMap().keySet()){
             Collection<String> pubmedIds = encoreInteraction.getMethodTypePairListMap().get(pair);
 
             for (String pubmed : pubmedIds){
                 if (pair.getMethod() != null){
 
-                    InteractionDetectionMethod psiDetectionMethod = new InteractionDetectionMethodImpl();
+                    CrossReference psiDetectionMethod = new CrossReferenceImpl();
                     psiDetectionMethod.setIdentifier(pair.getMethod());
                     if(miMethodOntologyTerms.containsKey(pair.getMethod())){
                         psiDetectionMethod.setText(miMethodOntologyTerms.get(pair.getMethod()));
@@ -196,7 +196,7 @@ public class Encore2Binary {
 
                 if (pair.getType() != null){
 
-                    InteractionType psitype = new InteractionTypeImpl();
+                    CrossReference psitype = new CrossReferenceImpl();
                     psitype.setIdentifier(pair.getMethod());
                     if(miTypeOntologyTerms.containsKey(pair.getType())){
                         psitype.setText(miTypeOntologyTerms.get(pair.getType()));

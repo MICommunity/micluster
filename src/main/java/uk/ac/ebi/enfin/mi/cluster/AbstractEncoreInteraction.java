@@ -27,8 +27,8 @@ public abstract class AbstractEncoreInteraction implements EncoreBinaryInteracti
     protected List<Confidence> confidenceValues = new ArrayList<Confidence>();
     protected List<Author> authors = new ArrayList<Author>();
     protected List<CrossReference> sourceDatabases = new ArrayList<CrossReference>();
-    protected Collection<CrossReference> organismsA = new ArrayList<CrossReference>();
-    protected Collection<CrossReference> organismsB = new ArrayList<CrossReference>();
+    protected List<CrossReference> organismsA = new ArrayList<CrossReference>();
+    protected List<CrossReference> organismsB = new ArrayList<CrossReference>();
     protected Map<String, List<String>> otherInteractorAccsA = new HashMap<String, List<String>>();; //databaseName:acc
     protected Map<String, List<String>> otherInteractorAccsB = new HashMap<String, List<String>>();; //databaseName:acc
     protected String mappingIdDbNames = "uniprotkb,irefindex,ddbj/embl/genbank,refseq,chebi";
@@ -268,15 +268,15 @@ public abstract class AbstractEncoreInteraction implements EncoreBinaryInteracti
         }
     }
 
-    public Collection<CrossReference> getOrganismsA() {
+    public List<CrossReference> getOrganismsA() {
         return organismsA;
     }
 
-    public void setOrganismsA(Collection<CrossReference> organismsA) {
+    public void setOrganismsA(List<CrossReference> organismsA) {
         this.organismsA = organismsA;
     }
 
-    public void addOrganismsA(Collection<CrossReference> organismsA) {
+    public void addOrganismsA(List<CrossReference> organismsA) {
         for(CrossReference organismA:organismsA){
             addOrganismA(organismA);
         }
@@ -288,15 +288,15 @@ public abstract class AbstractEncoreInteraction implements EncoreBinaryInteracti
         }
     }
 
-    public Collection<CrossReference> getOrganismsB() {
+    public List<CrossReference> getOrganismsB() {
         return organismsB;
     }
 
-    public void setOrganismsB(Collection<CrossReference> organismsB) {
+    public void setOrganismsB(List<CrossReference> organismsB) {
         this.organismsB = organismsB;
     }
 
-    public void addOrganismsB(Collection<CrossReference> organismsB) {
+    public void addOrganismsB(List<CrossReference> organismsB) {
         for(CrossReference organismB:organismsB){
             addOrganismB(organismB);
         }

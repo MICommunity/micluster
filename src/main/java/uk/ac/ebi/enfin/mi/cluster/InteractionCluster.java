@@ -7,8 +7,6 @@ import org.hupo.psi.mi.psicquic.registry.client.registry.DefaultPsicquicRegistry
 import org.hupo.psi.mi.psicquic.registry.client.registry.PsicquicRegistryClient;
 import psidev.psi.mi.tab.PsimiTabWriter;
 import psidev.psi.mi.tab.model.BinaryInteraction;
-import psidev.psi.mi.tab.model.Confidence;
-import uk.ac.ebi.enfin.mi.score.scores.MIScore;
 
 import java.io.*;
 import java.util.*;
@@ -190,14 +188,21 @@ public class InteractionCluster extends AbstractInteractionCluster<EncoreInterac
         PsimiTabWriter writer = new PsimiTabWriter();
         File file = new File(fileName);
 
-        Map<Integer, EncoreInteraction> interactionMapping = getInteractionMapping();
-        Encore2Binary iConverter = new Encore2Binary(getMappingIdDbNames());
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
 
-        for(Integer mappingId:interactionMapping.keySet()){
-            EncoreInteraction eI = interactionMapping.get(mappingId);
-            BinaryInteraction bI = iConverter.getBinaryInteractionForScoring(eI);
+        try{
+            Map<Integer, EncoreInteraction> interactionMapping = getInteractionMapping();
+            Encore2Binary iConverter = new Encore2Binary(getMappingIdDbNames());
 
-            writer.writeOrAppend(bI, file, false);
+            for(Integer mappingId:interactionMapping.keySet()){
+                EncoreInteraction eI = interactionMapping.get(mappingId);
+                BinaryInteraction bI = iConverter.getBinaryInteractionForScoring(eI);
+
+                writer.write(bI, bufferedWriter);
+            }
+        }
+        finally {
+            bufferedWriter.close();
         }
     }
 
@@ -277,7 +282,7 @@ public class InteractionCluster extends AbstractInteractionCluster<EncoreInterac
         this.querySources.add(querySource);
     }
 
-        public void setQuerySourcesFromPsicquicRegistry() {
+    public void setQuerySourcesFromPsicquicRegistry() {
         PsicquicRegistryClient registryClient = new DefaultPsicquicRegistryClient();
         try {
             List<ServiceType> allServices =  registryClient.listServices();

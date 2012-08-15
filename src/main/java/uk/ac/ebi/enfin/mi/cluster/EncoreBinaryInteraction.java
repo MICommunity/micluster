@@ -117,19 +117,19 @@ public interface EncoreBinaryInteraction extends Serializable{
 
     public void addSourceDatabase(CrossReference sourceDatabase);
 
-    public Collection<CrossReference> getOrganismsA();
+    public List<CrossReference> getOrganismsA();
 
-    public void setOrganismsA(Collection<CrossReference> organismsA);
+    public void setOrganismsA(List<CrossReference> organismsA);
 
-    public void addOrganismsA(Collection<CrossReference> organismsA);
+    public void addOrganismsA(List<CrossReference> organismsA);
 
     public void addOrganismA(CrossReference organismA);
 
-    public Collection<CrossReference> getOrganismsB();
+    public List<CrossReference> getOrganismsB();
 
-    public void setOrganismsB(Collection<CrossReference> organismsB);
+    public void setOrganismsB(List<CrossReference> organismsB);
 
-    public void addOrganismsB(Collection<CrossReference> organismsB);
+    public void addOrganismsB(List<CrossReference> organismsB);
 
     public void addOrganismB(CrossReference organismB);
 
