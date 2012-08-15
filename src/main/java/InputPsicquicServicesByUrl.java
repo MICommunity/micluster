@@ -1,6 +1,6 @@
+import psidev.psi.mi.tab.PsimiTabException;
 import psidev.psi.mi.tab.PsimiTabReader;
 import psidev.psi.mi.tab.model.BinaryInteraction;
-import psidev.psi.mi.xml.converter.ConverterException;
 import uk.ac.ebi.enfin.mi.cluster.ClusterServiceException;
 import uk.ac.ebi.enfin.mi.cluster.InteractionCluster;
 
@@ -18,14 +18,14 @@ import java.util.List;
  * @since 1.0
  */
 public class InputPsicquicServicesByUrl {
-    public static void main(String[] args) throws ClusterServiceException, IOException, ConverterException {
+    public static void main(String[] args) throws ClusterServiceException, IOException, PsimiTabException {
         /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
         final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl";
         /* PSICQUIC URL */
         String query = "identifier:P37173";
         URL intactQuery = new URL("http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/" + query);
         URL mintQuery = new URL("http://mint.bio.uniroma2.it/mint/psicquic/webservices/current/search/query/" + query);
-        PsimiTabReader mitabReader = new PsimiTabReader(false);
+        PsimiTabReader mitabReader = new PsimiTabReader();
         List<BinaryInteraction> binaryInteractions = new ArrayList<BinaryInteraction>();
         binaryInteractions.addAll(mitabReader.read(intactQuery));
         binaryInteractions.addAll(mitabReader.read(mintQuery));
