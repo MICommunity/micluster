@@ -8,6 +8,12 @@
     <version>1.0</version>
     <name>Molecular Interaction Cluster examples</name>
 
+    <scm>
+        <connection>scm:svn:https://micluster.googlecode.com/svn/trunk/micluster-example</connection>
+        <developerConnection>scm:svn:https://micluster.googlecode.com/svn/trunk/micluster-example</developerConnection>
+        <url>http://code.google.com/p/micluster/source/browse/#svn/trunk/micluster-example</url>
+    </scm>
+
     <repositories>
         <repository>
             <id>intact.nexus</id>
