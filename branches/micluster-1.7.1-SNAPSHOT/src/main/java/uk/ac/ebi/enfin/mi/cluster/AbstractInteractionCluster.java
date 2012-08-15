@@ -75,7 +75,7 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
         }
         this.binary2Encore = new Binary2Encore(dbNames);
 
-        final PsimiTabReader reader = new PsimiTabReader( hasHeader );
+        final PsimiTabReader reader = new PsimiTabReader( );
         try {
             this.binaryInteractionIterator = reader.iterate( r );
         } catch ( Exception e ) {
@@ -565,7 +565,14 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
     }
 
     public void setBinaryInteractionIterator(InputStream inputStream, boolean hasHeader) throws ClusterServiceException {
-        setBinaryInteractionIterator(new InputStreamReader( inputStream ), hasHeader);
+        if ( inputStream != null ) {
+            final PsimiTabReader reader = new PsimiTabReader( );
+            try {
+                this.binaryInteractionIterator = reader.iterate( inputStream );
+            } catch ( Exception e ) {
+                throw new ClusterServiceException( "An error occured while read MITAB data", e );
+            }
+        }
     }
 
     public void setBinaryInteractionIterator(File file, boolean hasHeader) throws ClusterServiceException {
@@ -573,9 +580,9 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
         try {
             inputStream = new FileInputStream(file);
         } catch (FileNotFoundException e) {
-             throw new ClusterServiceException( "No file found", e );
+            throw new ClusterServiceException( "No file found", e );
         }
-        setBinaryInteractionIterator(new InputStreamReader( inputStream ), hasHeader);
+        setBinaryInteractionIterator(inputStream, hasHeader);
     }
 
     public void setBinaryInteractionIterator(File[] files, boolean hasHeader) throws ClusterServiceException {
@@ -593,12 +600,12 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
         } catch (IOException e) {
             throw new ClusterServiceException( "Input error", e );
         }
-        setBinaryInteractionIterator(new InputStreamReader( inputStream ), hasHeader);
+        setBinaryInteractionIterator(inputStream, hasHeader);
     }
 
     public void setBinaryInteractionIterator(Reader r, boolean hasHeader) throws ClusterServiceException {
         if ( r != null ) {
-            final PsimiTabReader reader = new PsimiTabReader( hasHeader );
+            final PsimiTabReader reader = new PsimiTabReader( );
             try {
                 this.binaryInteractionIterator = reader.iterate( r );
             } catch ( Exception e ) {
