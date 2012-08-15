@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>uk.ac.ebi.enfin.mi.score.distribution</groupId>
+    <artifactId>miscoreDistribution</artifactId>
+    <version>1.2</version>
+    <name>Score distribution over molecular interaction databases</name>
+
+    <scm>
+        <connection>scm:svn:https://micluster.googlecode.com/svn/trunk/micluster-scoredistribution</connection>
+        <developerConnection>scm:svn:https://micluster.googlecode.com/svn/trunk/micluster-scoredistribution</developerConnection>
+        <url>http://code.google.com/p/micluster/source/browse/#svn/trunk/micluster-scoredistribution</url>
+    </scm>
+
+    <build>
+        <plugins>
+            <!-- This plugin creates a javadoc jar for pride-web. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.4</version>
+                <executions>
+                    <execution>
+                        <id>miscore-javadoc</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/miscoredistribution/api</outputDirectory>
+                            <reportOutputDirectory>${project.build.directory}/miscoredistribution/api</reportOutputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+
+    <repositories>
+        <repository>
+             <id>intact.nexus</id>
+             <name>IntAct Nexus</name>
+             <url>http://www.ebi.ac.uk/intact/maven/nexus/content/groups/public</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- logging dependencies -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.13</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>jfree</groupId>
+            <artifactId>jcommon</artifactId>
+            <version>1.0.9</version>
+        </dependency>
+        
+
+        <!-- Molecular Interaction Cluster and Score library -->
+        <dependency>
+             <groupId>uk.ac.ebi.enfin.mi.cluster</groupId>
+             <artifactId>micluster</artifactId>
+             <version>1.6</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>jfreechart</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+    </dependencies>
+    
+    <distributionManagement>
+         <repository>
+             <id>ebi-repo</id>
+             <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo</url>
+         </repository>
+
+        <snapshotRepository>
+            <id>ebi-repo-snapshots</id>
+            <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+
+
+</project>
