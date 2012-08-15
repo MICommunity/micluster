@@ -1,9 +1,9 @@
 package uk.ac.ebi.enfin.mi.score.distribution;
 
 import org.apache.log4j.Logger;
+import psidev.psi.mi.tab.PsimiTabException;
 import psidev.psi.mi.tab.PsimiTabReader;
 import psidev.psi.mi.tab.model.BinaryInteraction;
-import psidev.psi.mi.xml.converter.ConverterException;
 import uk.ac.ebi.enfin.mi.cluster.ClusterServiceException;
 import uk.ac.ebi.enfin.mi.cluster.EncoreInteraction;
 import uk.ac.ebi.enfin.mi.cluster.score.InteractionClusterScore;
@@ -43,7 +43,7 @@ public class MiscoreDistributionImp implements MiscoreDistribution {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (ConverterException e) {
+        } catch (PsimiTabException e) {
             e.printStackTrace();
         }
     }
