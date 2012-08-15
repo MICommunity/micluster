@@ -33,7 +33,7 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
     protected Float typeWeight = 1.0f;
     protected Float methodWeight = 1.0f;
     protected Float publicationWeight = 1.0f;
-    
+
     protected String scoreName = "intactPsiscore";
 
     /* Query parameters for PSICQUIC */
@@ -307,15 +307,23 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
         PsimiTabWriter writer = new PsimiTabWriter();
         File file = new File(fileName);
 
-        Map<Integer, EncoreInteraction> interactionMapping = getInteractionMapping();
-        Encore2Binary iConverter = new Encore2Binary(getMappingIdDbNames());
+        BufferedWriter mitabWriter = new BufferedWriter(new FileWriter(file));
 
-        for(Integer mappingId:interactionMapping.keySet()){
-            EncoreInteraction eI = interactionMapping.get(mappingId);
-            BinaryInteraction bI = iConverter.getBinaryInteractionForScoring(eI);
+        try{
+            Map<Integer, EncoreInteraction> interactionMapping = getInteractionMapping();
+            Encore2Binary iConverter = new Encore2Binary(getMappingIdDbNames());
 
-            writer.writeOrAppend(bI, file, false);
+            for(Integer mappingId:interactionMapping.keySet()){
+                EncoreInteraction eI = interactionMapping.get(mappingId);
+                BinaryInteraction bI = iConverter.getBinaryInteractionForScoring(eI);
+
+                writer.write(bI, mitabWriter);
+            }
         }
+        finally {
+            mitabWriter.close();
+        }
+
     }
 
     @Override
@@ -512,7 +520,7 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
         this.querySources.add(querySource);
     }
 
-        public void setQuerySourcesFromPsicquicRegistry() {
+    public void setQuerySourcesFromPsicquicRegistry() {
         PsicquicRegistryClient registryClient = new DefaultPsicquicRegistryClient();
         try {
             List<ServiceType> allServices =  registryClient.listServices();
