@@ -36,7 +36,7 @@ public class MiscoreDistributionImp implements MiscoreDistribution {
             iC = new InteractionClusterScore();
             URL intactQuery = null;
             intactQuery = new URL(psicquicUrl + query);
-            PsimiTabReader mitabReader = new PsimiTabReader(false);
+            PsimiTabReader mitabReader = new PsimiTabReader();
             List<BinaryInteraction> binaryInteractions = new ArrayList<BinaryInteraction>();
             binaryInteractions.addAll(mitabReader.read(intactQuery));
         }catch (MalformedURLException e) {
@@ -143,7 +143,7 @@ public class MiscoreDistributionImp implements MiscoreDistribution {
 
     private void runService(){
         if(!isJobFinished()){
-             /* Set priority for molecule accession mapping (Find psicquicService names in MI Ontology) */
+            /* Set priority for molecule accession mapping (Find psicquicService names in MI Ontology) */
             iC.setMappingIdDbNames(mappingIdDbNames);
             iC.runService();
             setJobFinished(true);
