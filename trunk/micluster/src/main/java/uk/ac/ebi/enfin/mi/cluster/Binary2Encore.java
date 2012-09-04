@@ -173,14 +173,14 @@ public class Binary2Encore {
         String pubmed = convertEncoreInteraction(encoreInteraction, binaryInteraction);
 
         /* get all types for this interaction */
-        List<InteractionType> iTypes = binaryInteraction.getInteractionTypes();
-        for(InteractionType iType:iTypes){
+        List<CrossReference> iTypes = binaryInteraction.getInteractionTypes();
+        for(CrossReference iType:iTypes){
             encoreInteraction.addTypeToPubmed(iType.getIdentifier(), pubmed);
         }
 
         /* get all methods for this interaction */
-        List<InteractionDetectionMethod> iMethods = binaryInteraction.getDetectionMethods();
-        for(InteractionDetectionMethod iMethod:iMethods){
+        List<CrossReference> iMethods = binaryInteraction.getDetectionMethods();
+        for(CrossReference iMethod:iMethods){
             encoreInteraction.addMethodToPubmed(iMethod.getIdentifier(), pubmed);
         }
 
@@ -196,15 +196,15 @@ public class Binary2Encore {
         }
 
         /* get all types for this interaction */
-        List<InteractionType> iTypes = binaryInteraction.getInteractionTypes();
+        List<CrossReference> iTypes = binaryInteraction.getInteractionTypes();
 
         /* get all methods for this interaction */
-        List<InteractionDetectionMethod> iMethods = binaryInteraction.getDetectionMethods();
+        List<CrossReference> iMethods = binaryInteraction.getDetectionMethods();
 
         if (iTypes.size() == 1 && iMethods.size() > 1){
             String type = iTypes.get(0).getIdentifier();
 
-            for (InteractionDetectionMethod meth : iMethods){
+            for (CrossReference meth : iMethods){
                 MethodTypePair pair = new MethodTypePair(meth.getIdentifier(), type);
 
                 if (encoreInteraction.getMethodTypePairListMap().containsKey(pair)){
@@ -221,7 +221,7 @@ public class Binary2Encore {
         else if (iTypes.size() > 1 && iMethods.size() == 1){
             String method = iMethods.get(0).getIdentifier();
 
-            for (InteractionType type : iTypes){
+            for (CrossReference type : iTypes){
                 MethodTypePair pair = new MethodTypePair(method, type.getIdentifier());
 
                 if (encoreInteraction.getMethodTypePairListMap().containsKey(pair)){
@@ -253,7 +253,7 @@ public class Binary2Encore {
             }
         }
         else if (iMethods.isEmpty() && iTypes.size() > 0){
-            for (InteractionType type : iTypes){
+            for (CrossReference type : iTypes){
                 MethodTypePair pair = new MethodTypePair(null, type.getIdentifier());
 
                 if (encoreInteraction.getMethodTypePairListMap().containsKey(pair)){
@@ -268,7 +268,7 @@ public class Binary2Encore {
             }
         }
         else if (iTypes.isEmpty() && iMethods.size() > 0){
-            for (InteractionDetectionMethod meth : iMethods){
+            for (CrossReference meth : iMethods){
                 MethodTypePair pair = new MethodTypePair(meth.getIdentifier(), null);
 
                 if (encoreInteraction.getMethodTypePairListMap().containsKey(pair)){
@@ -284,7 +284,7 @@ public class Binary2Encore {
         }
         // do not associate any interaction type with any detection methods. It will be scored independently
         else {
-            for (InteractionType type : iTypes){
+            for (CrossReference type : iTypes){
                 MethodTypePair pair = new MethodTypePair(null, type.getIdentifier());
 
                 if (encoreInteraction.getMethodTypePairListMap().containsKey(pair)){
@@ -297,7 +297,7 @@ public class Binary2Encore {
                     encoreInteraction.getMethodTypePairListMap().put(pair, pubmeds);
                 }
             }
-            for (InteractionDetectionMethod meth : iMethods){
+            for (CrossReference meth : iMethods){
                 MethodTypePair pair = new MethodTypePair(meth.getIdentifier(), null);
 
                 if (encoreInteraction.getMethodTypePairListMap().containsKey(pair)){

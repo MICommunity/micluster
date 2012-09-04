@@ -134,14 +134,21 @@ public class InteractionClusterAdv extends AbstractInteractionCluster<EncoreInte
         PsimiTabWriter writer = new PsimiTabWriter();
         File file = new File(fileName);
 
-        Map<Integer, EncoreInteraction> interactionMapping = getInteractionMapping();
-        Encore2Binary iConverter = new Encore2Binary(getMappingIdDbNames());
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
 
-        for(Integer mappingId:interactionMapping.keySet()){
-            EncoreInteraction eI = interactionMapping.get(mappingId);
-            BinaryInteraction bI = iConverter.getBinaryInteraction(eI);
+        try{
+            Map<Integer, EncoreInteraction> interactionMapping = getInteractionMapping();
+            Encore2Binary iConverter = new Encore2Binary(getMappingIdDbNames());
 
-            writer.writeOrAppend(bI, file, false);
+            for(Integer mappingId:interactionMapping.keySet()){
+                EncoreInteraction eI = interactionMapping.get(mappingId);
+                BinaryInteraction bI = iConverter.getBinaryInteraction(eI);
+
+                writer.write(bI, bufferedWriter);
+            }
+        }
+        finally {
+            bufferedWriter.close();
         }
     }
 
@@ -149,14 +156,21 @@ public class InteractionClusterAdv extends AbstractInteractionCluster<EncoreInte
         PsimiTabWriter writer = new PsimiTabWriter();
         File file = new File(fileName);
 
-        Map<Integer, EncoreInteraction> interactionMapping = getInteractionMapping();
-        Encore2Binary iConverter = new Encore2Binary(getMappingIdDbNames());
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
 
-        for(Integer mappingId:interactionMapping.keySet()){
-            EncoreInteraction eI = interactionMapping.get(mappingId);
-            BinaryInteraction bI = iConverter.getBinaryInteraction(eI);
+        try{
+            Map<Integer, EncoreInteraction> interactionMapping = getInteractionMapping();
+            Encore2Binary iConverter = new Encore2Binary(getMappingIdDbNames());
 
-            writer.writeOrAppend(bI, file, false);
+            for(Integer mappingId:interactionMapping.keySet()){
+                EncoreInteraction eI = interactionMapping.get(mappingId);
+                BinaryInteraction bI = iConverter.getBinaryInteraction(eI);
+
+                writer.write(bI, bufferedWriter);
+            }
+        }
+        finally {
+            bufferedWriter.close();
         }
     }
 
