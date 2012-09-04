@@ -1,9 +1,9 @@
 package uk.ac.ebi.enfin.mi.score.distribution;
 
 import org.apache.log4j.Logger;
+import psidev.psi.mi.tab.PsimiTabException;
 import psidev.psi.mi.tab.PsimiTabReader;
 import psidev.psi.mi.tab.model.BinaryInteraction;
-import psidev.psi.mi.xml.converter.ConverterException;
 import uk.ac.ebi.enfin.mi.cluster.ClusterServiceException;
 import uk.ac.ebi.enfin.mi.cluster.EncoreInteraction;
 import uk.ac.ebi.enfin.mi.cluster.score.InteractionClusterScore;
@@ -36,14 +36,14 @@ public class MiscoreDistributionImp implements MiscoreDistribution {
             iC = new InteractionClusterScore();
             URL intactQuery = null;
             intactQuery = new URL(psicquicUrl + query);
-            PsimiTabReader mitabReader = new PsimiTabReader(false);
+            PsimiTabReader mitabReader = new PsimiTabReader();
             List<BinaryInteraction> binaryInteractions = new ArrayList<BinaryInteraction>();
             binaryInteractions.addAll(mitabReader.read(intactQuery));
         }catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (ConverterException e) {
+        } catch (PsimiTabException e) {
             e.printStackTrace();
         }
     }
