@@ -1,9 +1,10 @@
 import junit.framework.TestCase;
 import org.apache.log4j.Logger;
+import psidev.psi.mi.tab.PsimiTabException;
 import psidev.psi.mi.tab.PsimiTabReader;
 import psidev.psi.mi.tab.model.BinaryInteraction;
-import psidev.psi.mi.xml.converter.ConverterException;
-import uk.ac.ebi.enfin.mi.cluster.*;
+import uk.ac.ebi.enfin.mi.cluster.Encore2Binary;
+import uk.ac.ebi.enfin.mi.cluster.EncoreInteraction;
 import uk.ac.ebi.enfin.mi.cluster.score.InteractionClusterScore;
 
 import java.io.IOException;
@@ -147,7 +148,7 @@ public class TestInteractionClusterScore extends TestCase {
             URL intactQuery = new URL("http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/P07200");
             URL irefindexQuery = new URL("http://biotin.uio.no:8080/psicquic-ws/webservices/current/search/query/P07200");
             List<BinaryInteraction> binaryInteractions = new ArrayList<BinaryInteraction>();
-            PsimiTabReader mitabReader = new PsimiTabReader(false);
+            PsimiTabReader mitabReader = new PsimiTabReader();
             binaryInteractions.addAll(mitabReader.read(intactQuery));
             binaryInteractions.addAll(mitabReader.read(irefindexQuery));
 
@@ -169,7 +170,7 @@ public class TestInteractionClusterScore extends TestCase {
             assertTrue(interactorMapping.size() > 0);
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (ConverterException e) {
+        } catch (PsimiTabException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
@@ -178,7 +179,7 @@ public class TestInteractionClusterScore extends TestCase {
         try {
             /* Get binaryInteractions from PSI-MI files */
             URL intactQuery = new URL("http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/P07200");
-            PsimiTabReader mitabReader = new PsimiTabReader(false);
+            PsimiTabReader mitabReader = new PsimiTabReader();
 
             Iterator<BinaryInteraction> binaryInteractionsIterator = mitabReader.iterate(intactQuery.openStream());
 
@@ -200,13 +201,11 @@ public class TestInteractionClusterScore extends TestCase {
             assertTrue(interactorMapping.size() > 0);
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (ConverterException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
 
     public void testInteractionClusterScoreWithBinaryInteractionsAndPsicquic(){
-        PsimiTabReader mitabReader = new PsimiTabReader(false);
+        PsimiTabReader mitabReader = new PsimiTabReader();
         try {
             /* Get binaryInteractions from PSI-MI files */
             URL intactQuery = new URL("http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/P37173");
@@ -240,14 +239,14 @@ public class TestInteractionClusterScore extends TestCase {
             assertTrue(interactorMapping.size() > 0);
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (ConverterException e) {
+        } catch (PsimiTabException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
 
 
     public void testEncore2Binary(){
-        PsimiTabReader mitabReader = new PsimiTabReader(false);
+        PsimiTabReader mitabReader = new PsimiTabReader();
         /* Run cluster using list of binary interactions as input */
         InteractionClusterScore iC = new InteractionClusterScore();
         /* Add interactions from Psicquic */
