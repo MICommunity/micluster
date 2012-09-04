@@ -1,25 +1,23 @@
 package uk.ac.ebi.enfin.mi.cluster;
 
-import org.hupo.psi.mi.psicquic.registry.ServiceType;
-import org.hupo.psi.mi.psicquic.registry.client.registry.PsicquicRegistryClient;
-import org.hupo.psi.mi.psicquic.registry.client.registry.DefaultPsicquicRegistryClient;
-import org.hupo.psi.mi.psicquic.registry.client.PsicquicRegistryClientException;
-import org.hupo.psi.mi.psicquic.wsclient.PsicquicSimpleClient;
-import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.hupo.psi.mi.psicquic.registry.ServiceType;
+import org.hupo.psi.mi.psicquic.registry.client.PsicquicRegistryClientException;
+import org.hupo.psi.mi.psicquic.registry.client.registry.DefaultPsicquicRegistryClient;
+import org.hupo.psi.mi.psicquic.registry.client.registry.PsicquicRegistryClient;
+import org.hupo.psi.mi.psicquic.wsclient.PsicquicSimpleClient;
+import psidev.psi.mi.tab.PsimiTabException;
+import psidev.psi.mi.tab.PsimiTabReader;
+import psidev.psi.mi.tab.model.BinaryInteraction;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URLEncoder;
-import java.net.URL;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
-
-import psidev.psi.mi.tab.PsimiTabReader;
-import psidev.psi.mi.tab.model.BinaryInteraction;
 
 /**
  * Class to help on retriving Psicquic information for
@@ -84,12 +82,17 @@ public class PsicquicService {
 
         GZIPInputStream gzipIs = new GZIPInputStream(is);
 
-        PsimiTabReader tabReader = new PsimiTabReader(false);
+        PsimiTabReader tabReader = new PsimiTabReader();
 
         BufferedReader in = new BufferedReader(new InputStreamReader(gzipIs));
         String str;
         while ((str = in.readLine()) != null) {
-            BinaryInteraction interaction = tabReader.readLine(str);
+            BinaryInteraction interaction = null;
+            try {
+                interaction = tabReader.readLine(str);
+            } catch (PsimiTabException e) {
+                throw new IOException("Impossible to read the mitab line", e);
+            }
             results.add(interaction);
         }
         in.close();
