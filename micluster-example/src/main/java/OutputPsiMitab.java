@@ -1,10 +1,9 @@
 import psidev.psi.mi.tab.PsimiTabWriter;
 import psidev.psi.mi.tab.model.BinaryInteraction;
-import psidev.psi.mi.xml.converter.ConverterException;
 import uk.ac.ebi.enfin.mi.cluster.Encore2Binary;
-import uk.ac.ebi.enfin.mi.cluster.EncoreBinaryInteraction;
 import uk.ac.ebi.enfin.mi.cluster.EncoreInteraction;
 import uk.ac.ebi.enfin.mi.cluster.InteractionCluster;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.List;
  * @since 1.0
  */
 public class OutputPsiMitab {
-    public static void print(InteractionCluster iC) throws ConverterException, IOException {
+    public static void print(InteractionCluster iC) throws IOException {
         /* Convert EncoreInteractions into BinaryInteractions */
         List<BinaryInteraction> binaryInteractions = new ArrayList<BinaryInteraction>();
         Encore2Binary iConverter = new Encore2Binary(iC.getMappingIdDbNames());
