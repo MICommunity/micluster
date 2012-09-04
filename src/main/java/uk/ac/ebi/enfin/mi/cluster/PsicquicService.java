@@ -6,9 +6,9 @@ import org.hupo.psi.mi.psicquic.registry.client.PsicquicRegistryClientException;
 import org.hupo.psi.mi.psicquic.registry.client.registry.DefaultPsicquicRegistryClient;
 import org.hupo.psi.mi.psicquic.registry.client.registry.PsicquicRegistryClient;
 import org.hupo.psi.mi.psicquic.wsclient.PsicquicSimpleClient;
+import psidev.psi.mi.tab.PsimiTabException;
 import psidev.psi.mi.tab.PsimiTabReader;
 import psidev.psi.mi.tab.model.BinaryInteraction;
-import psidev.psi.mi.xml.converter.ConverterException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -90,7 +90,7 @@ public class PsicquicService {
             BinaryInteraction interaction = null;
             try {
                 interaction = tabReader.readLine(str);
-            } catch (ConverterException e) {
+            } catch (PsimiTabException e) {
                 throw new IOException("Impossible to read the mitab line", e);
             }
             results.add(interaction);
