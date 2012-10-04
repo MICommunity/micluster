@@ -34,6 +34,8 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
     protected int queryStart;
     protected int queryRange;
 
+    protected String registryUrl;
+
     /* Data to be clustered by other means than PSICQUIC. */
     protected Iterator<BinaryInteraction> binaryInteractionIterator;
 
@@ -184,7 +186,7 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
             int range = queryRange;
             int stop = queryStart + queryRange -1;
 
-            PsicquicService pService = new PsicquicService(querySource);
+            PsicquicService pService = new PsicquicService(querySource, this.registryUrl);
             if(pService.getService() != null){
                 int count = 0;
                 final Integer serviceInteractionCount = pService.countInteractions( miqlQuery );
@@ -614,6 +616,16 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
         }
     }
 
+    public String getRegistryUrl() {
+        return registryUrl;
+    }
+
+    public void setRegistryUrl(String registryUrl) {
+        this.registryUrl = registryUrl;
+    }
+
     public abstract void saveResultsInMitab(String fileName) throws IOException;
+
+
 
 }
