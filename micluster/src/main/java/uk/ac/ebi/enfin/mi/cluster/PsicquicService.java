@@ -50,7 +50,7 @@ public class PsicquicService {
     public PsicquicService(String serviceName, String registryUrl){
         this.serviceName = serviceName;
         PsicquicRegistryClient registryClient;
-        if (registryUrl == null){
+        if (registryUrl == null || (registryUrl != null && registryUrl.length() == 0)){
              registryClient = new DefaultPsicquicRegistryClient();
         }
         else {
