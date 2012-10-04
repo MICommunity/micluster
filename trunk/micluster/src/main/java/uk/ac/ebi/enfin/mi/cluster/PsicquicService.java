@@ -47,6 +47,27 @@ public class PsicquicService {
         }
     }
 
+    public PsicquicService(String serviceName, String registryUrl){
+        this.serviceName = serviceName;
+        PsicquicRegistryClient registryClient;
+        if (registryUrl == null){
+             registryClient = new DefaultPsicquicRegistryClient();
+        }
+        else {
+            registryClient = new DefaultPsicquicRegistryClient(registryUrl);
+        }
+        try {
+            service = registryClient.getService(serviceName);
+            if(service == null){
+                logger.warn("Could not find service for " + this.serviceName);
+            }
+        } catch (PsicquicRegistryClientException e) {
+            e.printStackTrace();
+            logger.error("Could not get " + serviceName + " psicquic service");
+            logger.error(e);
+        }
+    }
+
     public ServiceType getService() {
         return service;
     }
