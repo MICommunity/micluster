@@ -15,6 +15,6 @@ public class TestSaveScore extends TestCase {
         ics.addQueryAcc("P04637");
         ics.addQuerySource("IntAct");
         ics.saveScores();
-        //assertTrue(ics.getInteractionMapping().size() > 0);
+        assertTrue(ics.getInteractionMapping().size() > 0);
     }
 }
