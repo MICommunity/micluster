@@ -17,7 +17,6 @@ import java.io.InputStreamReader;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.GZIPInputStream;
 
 /**
  * Class to help on retriving Psicquic information for
@@ -99,13 +98,11 @@ public class PsicquicService {
         String url = service.getRestUrl();
         PsicquicSimpleClient client = new PsicquicSimpleClient(url);
 
-        InputStream is = client.getByQuery(query, PsicquicSimpleClient.MITAB25_COMPRESSED, firstResult, maxNumberOfResults);
-
-        GZIPInputStream gzipIs = new GZIPInputStream(is);
+        InputStream is = client.getByQuery(query, PsicquicSimpleClient.MITAB25, firstResult, maxNumberOfResults);
 
         PsimiTabReader tabReader = new PsimiTabReader();
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(gzipIs));
+        BufferedReader in = new BufferedReader(new InputStreamReader(is));
         String str;
         while ((str = in.readLine()) != null) {
             BinaryInteraction interaction = null;
