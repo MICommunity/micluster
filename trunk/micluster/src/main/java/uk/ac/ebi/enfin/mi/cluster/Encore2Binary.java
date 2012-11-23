@@ -197,7 +197,7 @@ public class Encore2Binary {
                 if (pair.getType() != null){
 
                     CrossReference psitype = new CrossReferenceImpl();
-                    psitype.setIdentifier(pair.getMethod());
+                    psitype.setIdentifier(pair.getType());
                     if(miTypeOntologyTerms.containsKey(pair.getType())){
                         psitype.setText(miTypeOntologyTerms.get(pair.getType()));
                         psitype.setDatabase("psi-mi");
