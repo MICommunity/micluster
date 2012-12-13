@@ -5,14 +5,14 @@
 
     <groupId>uk.ac.ebi.enfin.mi.cluster</groupId>
     <artifactId>micluster</artifactId>
-    <version>1.7.2</version>
+    <version>1.7.3-SNAPSHOT</version>
 
     <name>Molecular interaction cluster</name>
 
     <scm>
-        <connection>scm:svn:https://micluster.googlecode.com/svn/tags/micluster-1.7.2</connection>
-        <developerConnection>scm:svn:https://micluster.googlecode.com/svn/tags/micluster-1.7.2</developerConnection>
-        <url>http://code.google.com/p/micluster/source/browse/#svn/tags/micluster-1.7.2</url>
+        <connection>scm:svn:https://micluster.googlecode.com/svn/trunk/micluster</connection>
+        <developerConnection>scm:svn:https://micluster.googlecode.com/svn/trunk/micluster</developerConnection>
+        <url>http://code.google.com/p/micluster/source/browse/#svn/trunk/micluster</url>
     </scm>
 
     <build>
