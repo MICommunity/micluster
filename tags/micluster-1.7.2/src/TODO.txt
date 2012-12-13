@@ -1,0 +1,4 @@
+//todo: for documentation check all the available acc db names. So far: uniprotkb,intact,ddbj/embl/genbank,refseq,chebi,irefindex,hgnc,ensembl  (entrez gene/locuslink)?
+//todo: otherInteractorAcc (maybe it should be named UniProt. It seems just to accept uniprot
+//todo: When several accessions are available with the same database name synonymous just take the first one. It should take all of them.
+//todo: test registry functionality
