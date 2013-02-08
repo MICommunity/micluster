@@ -323,7 +323,9 @@ public class Binary2Encore {
                     //todo: add option to collect more uniprotkb accs and ids. They could be trembla dn swissprot.
                     //todo: add option to collect uniprotkb recomended names
                     if(idDbName.equalsIgnoreCase("uniprotkb")){
-                        if(!accs.containsKey(sourceIdDbName)){
+                        if(accs.containsKey("uniprotkb")){
+                            // Uniprot acc already in accs
+                        } else if(!accs.containsKey(sourceIdDbName)){
                             accs.put(sourceIdDbName, acc);
                         } else {
                             if(UNIPROT_ACC.matcher(acc).matches()){
