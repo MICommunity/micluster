@@ -1,4 +1,4 @@
-*Update to the [micluster latest version]!*
+*Update to the [micluster latest version]!*<br/>
 
 = Micluster 1.6 =
 Java library to cluster molecular interactions.
