@@ -1,0 +1,547 @@
+= Micluster 1.7.3 =
+Java library to cluster molecular interactions.
+
+== Version changes ==
+[miclusterVersions Changes among the different versions of MiCluster]
+
+This pages includes several examples:
+   * [#Cluster How to use MiCluster to cluster PSI-MI binary interactions].
+   * [#Cluster_and_score How to use MiCluster to cluster and score PSI-MI binary interactions].
+   * [#Micluster_results How to use the results from MiCluster].
+   * More specific examples:
+     * [RetrieveInteractorsForListOfProteins Retrieve interactors (UniProt and CHEBI) for a list of proteins (UniProt) from several molecular interaction resources (PSICQUIC services)].
+<br/>
+
+== Maven dependency ==
+{{{
+  <dependency>
+     <groupId>uk.ac.ebi.enfin.mi.cluster</groupId>
+     <artifactId>micluster</artifactId>
+     <version>1.7.3</version>
+  </dependency>
+}}}
+{{{
+  <repository>
+     <id>ebi-repo</id>
+     <name>EBI repository</name>
+     <url>http://www.ebi.ac.uk/~maven/m2repo</url>
+  </repository>
+  <repository>
+     <id>ebi-repo-snapshots</id>
+     <name>EBI snapshots repository</name>
+     <url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
+  </repository>
+}}}
+<br>
+
+= Examples =
+You can find examples below in this page or alternatively you can download a java project including functional examples.
+{{{
+svn checkout http://micluster.googlecode.com/svn/trunk/micluster-example micluster-example
+}}}
+
+== Cluster ==
+Examples of how to use MiCluster to cluster PSI-MI binary interactions.
+=== Cluster binary interactions from a PSI MITAB file: === 
+{{{
+...
+        /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl";
+        /* File */
+        final File P37173_intact = new File( PsiMitabFile.class.getResource( "/P37173_intact.tsv" ).getFile() );
+
+        /* Cluster data */
+        InteractionCluster iC = new InteractionCluster();
+        iC.setBinaryInteractionIterator(P37173_intact, false);
+        iC.setMappingIdDbNames(allMappingNames);
+        iC.runService();
+...
+}}}
+
+=== Cluster binary interactions from several PSI MITAB files === 
+{{{
+...
+        /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl";
+        /* File */
+        final File P37173_intact = new File( PsiMitabFile.class.getResource( "/P37173_intact.tsv" ).getFile() );
+        final File P37173_mint = new File( PsiMitabFile.class.getResource( "/P37173_mint.tsv" ).getFile() );
+        final File P37173_innatedb = new File( PsiMitabFile.class.getResource( "/P37173_innatedb.tsv" ).getFile() );
+
+        /* Cluster data */
+        InteractionCluster iC = new InteractionCluster();
+        iC.setBinaryInteractionIterator(new File[] {P37173_intact,P37173_mint,P37173_innatedb}, false);
+        iC.setMappingIdDbNames(allMappingNames);
+        iC.runService();
+...
+}}}
+
+=== Cluster binary interactions from a PSICQUIC service: === 
+{{{
+...
+        /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl";
+        /* MIQL Query */
+        String query = "identifier:P37173";
+        /* PSICQUIC service */
+        String psicquicService = "IntAct";
+
+        /* Cluster data */
+        InteractionCluster iC = new InteractionCluster();
+        iC.addMIQLQuery(query);
+        iC.addQuerySource(psicquicService);
+        iC.setMappingIdDbNames(allMappingNames);
+        iC.runService();
+...
+}}}
+
+=== Cluster binary interactions from several PSICQUIC services ===
+{{{
+...
+        /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl";
+        /* MIQL Query */
+        String query = "identifier:P37173";
+        /* PSICQUIC service */
+        List psicquicServices = new ArrayList();
+        psicquicServices.add("IntAct");
+        psicquicServices.add("MINT");
+
+        /* Cluster data */
+        InteractionCluster iC = new InteractionCluster();
+        iC.addMIQLQuery(query);
+        iC.setQuerySources(psicquicServices);
+        iC.setMappingIdDbNames(allMappingNames);
+        iC.runService();
+...
+}}}
+
+=== Cluster binary interactions from a PSICQUIC service URL ===
+{{{
+...
+        /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl";
+        /* PSICQUIC URL */
+        String query = "identifier:P37173";
+        URL intactQuery = new URL("http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/" + query);
+        PsimiTabReader mitabReader = new PsimiTabReader(false);
+        List<BinaryInteraction> binaryInteractions = new ArrayList<BinaryInteraction>();
+        binaryInteractions.addAll(mitabReader.read(intactQuery));
+
+        /* Cluster data */
+        InteractionCluster iC = new InteractionCluster();
+        iC.setBinaryInteractionIterator(binaryInteractions.iterator());
+        iC.setMappingIdDbNames(allMappingNames);
+        iC.runService();
+...
+}}}
+
+=== Cluster binary interactions from several PSICQUIC service URLs === 
+{{{
+...
+        /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl";
+        /* PSICQUIC URL */
+        String query = "identifier:P37173";
+        URL intactQuery = new URL("http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/" + query);
+        URL mintQuery = new URL("http://mint.bio.uniroma2.it/mint/psicquic/webservices/current/search/query/" + query);
+        PsimiTabReader mitabReader = new PsimiTabReader(false);
+        List<BinaryInteraction> binaryInteractions = new ArrayList<BinaryInteraction>();
+        binaryInteractions.addAll(mitabReader.read(intactQuery));
+        binaryInteractions.addAll(mitabReader.read(mintQuery));
+
+        /* Cluster data */
+        InteractionCluster iC = new InteractionCluster();
+        iC.setBinaryInteractionIterator(binaryInteractions.iterator());
+        iC.setMappingIdDbNames(allMappingNames);
+        iC.runService();
+...
+}}}
+
+=== Cluster binary interactions from all the PSICQUIC services available in the PSICQUIC registry === 
+{{{
+...
+        /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl";
+        /* MIQL Query */
+        String query = "identifier:P37173";
+
+        /* Cluster data */
+        InteractionCluster iC = new InteractionCluster();
+        iC.addMIQLQuery(query);
+        iC.setQuerySourcesFromPsicquicRegistry();
+        iC.setMappingIdDbNames(allMappingNames);
+        iC.runService();
+...
+}}}
+
+=== Two different ways to cluster several sources === 
+{{{
+...
+        /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl";
+        /* File */
+        final File P37173_intact = new File( InputPsiMitabFile.class.getResource( "/P37173_intact.tsv" ).getFile() );
+        final File P37173_mint = new File( InputPsiMitabFile.class.getResource( "/P37173_mint.tsv" ).getFile() );
+        final File P37173_innatedb = new File( InputPsiMitabFile.class.getResource( "/P37173_innatedb.tsv" ).getFile() );
+        /* Create interaction cluster */
+        InteractionCluster iC;
+
+        /* Cluster data: way1 */
+        iC = new InteractionCluster();
+        iC.setMappingIdDbNames(allMappingNames);
+        iC.setBinaryInteractionIterator(P37173_intact, false);
+        iC.runService();
+        iC.setBinaryInteractionIterator(P37173_mint, false);
+        iC.runService();
+        iC.setBinaryInteractionIterator(P37173_innatedb, false);
+        iC.runService();
+        System.out.println("Way1, number of clustered interactions: " + iC.getInteractionMapping().size());
+
+        /* Cluster data: way2 */
+        iC = new InteractionCluster();
+        iC.setBinaryInteractionIterator(new File[] {P37173_intact,P37173_mint,P37173_innatedb}, false);
+        iC.setMappingIdDbNames(allMappingNames);
+        iC.runService();
+        System.out.println("Way2, number of clustered interactions: " + iC.getInteractionMapping().size());
+...
+}}}
+
+<br/>
+
+== Cluster and score == 
+Examples of how to use MiCluster to cluster and score PSI-MI binary interactions
+
+=== Cluster and score binary interactions: === 
+{{{
+...
+        /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl";
+        /* File */
+        final File P37173_intact = new File( InputPsiMitabFile.class.getResource( "/P37173_intact.tsv" ).getFile() );
+        final File P37173_mint = new File( InputPsiMitabFile.class.getResource( "/P37173_mint.tsv" ).getFile() );
+        final File P37173_innatedb = new File( InputPsiMitabFile.class.getResource( "/P37173_innatedb.tsv" ).getFile() );
+
+        /* Cluster data */
+        InteractionClusterScore iC = new InteractionClusterScore();
+        iC.setBinaryInteractionIterator(new File[] {P37173_intact,P37173_mint,P37173_innatedb}, false);
+        iC.setScoreName("miscore");
+        iC.setMappingIdDbNames(allMappingNames);
+        iC.runService();
+...
+}}}
+
+=== Cluster and score binary interactions customizing score configuration: === 
+{{{
+...
+        /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
+        final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl";
+        /* File */
+        final File P37173_intact = new File( InputPsiMitabFile.class.getResource( "/P37173_intact.tsv" ).getFile() );
+        final File P37173_mint = new File( InputPsiMitabFile.class.getResource( "/P37173_mint.tsv" ).getFile() );
+        final File P37173_innatedb = new File( InputPsiMitabFile.class.getResource( "/P37173_innatedb.tsv" ).getFile() );
+
+        /* Override default configuration for type score with custom values */
+        Map<String,Float> customOntologyTypeScores = new HashMap<String,Float>();
+        customOntologyTypeScores.put("MI:0208", 0.05f); // cv1 // genetic interaction
+        customOntologyTypeScores.put("MI:0403", 0.20f); // cv2 // colocalization
+        customOntologyTypeScores.put("MI:0914", 0.20f); // cv3 // association
+        customOntologyTypeScores.put("MI:0915", 0.40f); // cv4 // physical association
+        customOntologyTypeScores.put("MI:0407", 1.00f); // cv5 // direct interaction
+        customOntologyTypeScores.put("unknown", 0.02f); // cv6 // unknown
+
+        /* Custom method score */
+        Map<String,Float> customOntologyMethodScores = new HashMap<String,Float>();
+        customOntologyMethodScores.put("MI:0013", 1.00f); // cv1 // biophysical
+        customOntologyMethodScores.put("MI:0090", 0.66f); // cv2 // protein complementation assay
+        customOntologyMethodScores.put("MI:0254", 0.10f); // cv3 // genetic interference
+        customOntologyMethodScores.put("MI:0255", 0.10f); // cv4 // post transcriptional interference
+        customOntologyMethodScores.put("MI:0401", 1.00f); // cv5 // biochemical
+        customOntologyMethodScores.put("MI:0428", 0.33f); // cv6 // imagining technique
+        customOntologyMethodScores.put("unknown", 0.05f); // cv7 // unknown
+
+         /* Number of publications for the highest score  */
+        int customPublicationNumber = 10;
+
+        /* Cluster data */
+        InteractionClusterScore iC = new InteractionClusterScore();
+        iC.setBinaryInteractionIterator(new File[] {P37173_intact,P37173_mint,P37173_innatedb}, false);
+        iC.setScoreName("miscore");
+        iC.setCustomOntologyTypeScores(customOntologyTypeScores);
+        iC.setCustomOntologyMethodScores(customOntologyMethodScores);
+        iC.setCustomPublicationNumberWithHighestScore(customPublicationNumber);
+        iC.setMappingIdDbNames(allMappingNames);
+        iC.runService();
+...
+}}}
+
+
+<br/>
+
+== Micluster results ==
+
+How to use the results from MiCluster
+=== Print example results from clustered data: === 
+{{{
+...
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
+        Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
+        Map<String, String> interactorSynonyms = iC.getSynonymMapping();
+
+        /* PRINT SOME RESULTS */
+        String fisrtSeparator = "\t";
+        String secondSeparator = ",";
+
+        /* Print interactors for clustered binary interactions including publication accessions */
+        System.out.println("Print interactors for clustered binary interactions including publication accessions");
+        System.out.println("interaction_location"+ fisrtSeparator + "interactor_A" + fisrtSeparator + "interactor_B" + fisrtSeparator + "publications");
+        for(Integer i:interactionMapping.keySet()){
+            EncoreInteraction eI = interactionMapping.get(i);
+
+            /* Get publications */
+            String publications = "";
+            for(String publication:eI.getExperimentToPubmed().values()){
+                publications += publication + secondSeparator;
+            }
+            publications = publications.substring(0,publications.length()-1);
+
+            System.out.println(i + fisrtSeparator + eI.getInteractorA() + fisrtSeparator + eI.getInteractorB() + fisrtSeparator + publications);
+        }
+        System.out.println("");
+
+        /* Print interactors and its location in the interactionMapping */
+        System.out.println("Print interactors and its location in the interactionMapping");
+        System.out.println("interactor"+ fisrtSeparator + "interaction_location");
+        for(String interactor:interactorMapping.keySet()){
+            System.out.println(interactor + fisrtSeparator + interactorMapping.get(interactor));
+        }
+        System.out.println("");
+
+        /* Print interactors and publication */
+        System.out.println("Print synonyms for interactors");
+        System.out.println("synonym"+ fisrtSeparator + "interactor");
+        for(String synonym:interactorSynonyms.keySet()){
+            System.out.println(interactorSynonyms.get(synonym) + fisrtSeparator + synonym);
+        }
+...
+}}}
+Output example:
+{{{
+Print interactors for clustered binary interactions including publication accessions
+interaction_location	interactor_A	interactor_B	publications
+1	P37173	Q81LN0	20711500
+2	P37173	O35613	11483955
+3	P37173	P35243	21988832
+4	Q9HD26	P37173	21988832
+5	P37173	Q99K41	16530041
+6	P10600	P37173	11850637
+7	Q9UER7	P37173	11483955,11483955
+8	P16234	P37173	21988832
+9	P37173	P07200	16530041,16530041
+10	P37173	P01137	20856203,20856203
+
+Print interactors and its location in the interactionMapping
+interactor	interaction_location
+Q9HD26	[4]
+P35243	[3]
+P37173	[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+Q99K41	[5]
+O35613	[2]
+P16234	[8]
+P10600	[6]
+P07200	[9]
+Q9UER7	[7]
+Q81LN0	[1]
+P01137	[10]
+
+Print synonyms for interactors
+synonym	interactor
+P01137	GUaqNKvv9KyghUkyrflFnZiWPAE9606
+O35613	qxe2zFFAJmtXHlRAzZkQA1zq7+010090
+P35243	a40aBpj2a3EafaLavE1WuT5wJ1k9606
+Q9UER7	gdt0ZYt3ZE61GLZekP8jnWjY1VY9606
+P07200	M8X8sxTQ7x3n3aZBp8ZWD+fO/549823
+P16234	EPgwWrufh0xXc4hwzybI4WLehSY9606
+O35613	EBI-77304
+Q99K41	EI5U0Rs9tAme0JfEwyRWyjbwjrs10090
+P37173	hxcAAra96c/MOyY41mR/8MT0fcI9606
+Q9HD26	nyWXK4V9/xiyzGtAQF1ABYHUrfk9606
+P16234	EBI-2861522
+P01137	EBI-779636
+P37173	EBI-296151
+Q9UER7	EBI-77321
+Q9HD26	EBI-349832
+P10600	EBI-1033020
+Q81LN0	GB2j4Snn26HiyL4umac7sD150T41392
+P07200	EBI-907660
+Q81LN0	EBI-2820887
+P10600	pPkY9D2AFZVrKFiwA8B4U6BmLb49606
+P35243	EBI-954661
+Q99K41	EBI-906561
+}}}
+
+=== Print example results from clustered data with miscore information: === 
+{{{
+...
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
+
+        /* PRINT SOME RESULTS */
+        String fisrtSeparator = "\t";
+        String secondSeparator = ",";
+
+        /* Print interactors for clustered binary interactions including publication accessions */
+        System.out.println("Print interactors for clustered binary interactions including publication accessions");
+        System.out.println("interaction_location"+ fisrtSeparator + "interactor_A" + fisrtSeparator + "interactor_B" + fisrtSeparator +
+                "score" + fisrtSeparator + "publications"+ fisrtSeparator + "types" + fisrtSeparator + "methods");
+        for(Integer i:interactionMapping.keySet()){
+            EncoreInteraction eI = interactionMapping.get(i);
+
+            /* Get score */
+            String score = "";
+            List<Confidence> confidenceScores = eI.getConfidenceValues();
+            for(Confidence confidenceScore:confidenceScores){
+                if(confidenceScore.getType().equalsIgnoreCase("miscore")){
+                    score = confidenceScore.getValue();
+                }
+            }
+
+            /* Get publications */
+            String publications = "";
+            for(String publication:eI.getExperimentToPubmed().values()){
+                publications += publication + secondSeparator;
+            }
+            publications = publications.substring(0,publications.length()-1);
+
+            /* Get types */
+            String types = "";
+            for(String type:eI.getTypeToPubmed().keySet()){
+                types += type + secondSeparator;
+            }
+            types = types.substring(0,types.length()-1);
+
+            /* Get methods */
+            String methods = "";
+            for(String method:eI.getMethodToPubmed().keySet()){
+                methods += method + secondSeparator;
+            }
+            methods = methods.substring(0,methods.length()-1);
+
+            System.out.println(i + fisrtSeparator + eI.getInteractorA() + fisrtSeparator + eI.getInteractorB() + fisrtSeparator +
+                    score + fisrtSeparator + publications + fisrtSeparator + types + fisrtSeparator + methods);
+        }
+        System.out.println("");
+...
+}}}
+Output example:
+{{{
+interaction_location	interactor_A	interactor_B	score	publications	types	methods
+1	P37173	Q81LN0	0.23642068	20711500	MI:0915	MI:0398
+2	P37173	O35613	0.26973546	11483955	MI:0915	MI:0096
+3	P37173	P35243	0.23642068	21988832	MI:0915	MI:0397
+4	Q9HD26	P37173	0.23642068	21988832	MI:0915	MI:0397
+5	P37173	Q99K41	0.26973546	16530041	MI:0914	MI:0007
+6	P10600	P37173	0.81777763	15017149,21423151,11850637,18243111,21423151,21423151,21423151	MI:0407,MI:0915	MI:0107,MI:0077,MI:0114,MI:0276
+7	Q9UER7	P37173	0.33150592	11483955,11483955	MI:0915	MI:0019,MI:0018
+8	P16234	P37173	0.23642068	21988832	MI:0915	MI:0397
+9	P37173	P07200	0.50613064	16530041,16530041	MI:0407,MI:0914	MI:0007
+10	P37173	P01137	0.82401556	18382895,20860622,15034927,18382895,20856203,21054789,20856203	MI:0407,MI:0915	MI:0096,MI:0007,MI:0107,MI:0018,MI:0030
+11	P37173	P29353	0.26973546	17440088	MI:0914	MI:0019
+12	P37173	Q12841	0.43887317	20860622	MI:0407	MI:0107
+13	P36897	P37173	0.4996667	18243111,21423151,21423151,21423151	MI:0915	MI:0071,MI:0107,MI:0276,MI:0226
+14	P37173	P37173	0.6230328	9169454,9169454,12015308	MI:0217	MI:0423
+15	Q92831	P37173	0.26973546	11744689	MI:0915	MI:0004
+17	P18146	P37173	0.26973546	10982796	MI:0915	MI:0412
+16	NR_029493	P37173	0.26973546	19816956	MI:0915	MI:0415
+19	P25208	P37173	0.26973546	11744689	MI:0915	MI:0413
+18	P23511	P37173	0.34777966	11744689,11744689	MI:0915	MI:0004,MI:0413
+21	P78545	P37173	0.26973546	9417054	MI:0915	MI:0413
+20	P37173	P09486	0.26973546	15034927	MI:0915	MI:0007
+23	P37173	P37023	0.34777966	18333754,18333754	MI:0915	MI:0007,MI:0030
+22	P62993	P37173	0.26973546	18174260	MI:0915	MI:0007
+25	P08047	P37173	0.41277552	10982796,11741970	MI:0915	MI:0413,MI:0412
+24	P05412	P37173	0.26973546	11741970	MI:0915	MI:0413
+27	Q15796	P37173	0.26973546	8980228	MI:0915	MI:0007
+26	P17813	P37173	0.41277552	12015308,16785228	MI:0915	MI:0007
+29	P49716	P37173	0.26973546	21072181,21072181	MI:0915	MI:0007
+28	Q02447	P37173	0.26973546	10982796	MI:0915	MI:0412
+}}}
+
+
+
+
+
+
+
+=== Save scores in a file in CSV format === 
+{{{
+...
+        InteractionClusterScore iC = new InteractionClusterScore();
+        iC.addMIQLQuery("brca2");
+        iC.addQuerySource("IntAct");
+        iC.saveScores("scores.txt");
+...
+}}}
+Output example:
+{{{
+0.26973546,0.48985693,0.48985693,0.4996667,0.26973546,0.43887317,0.26973546,0.33150592,0.34777966,0.625032,0.5902725,0.48985693,0.43887317,0.34777966,0.34777966,0.8771727,0.26973546,0.5902725,0.3978283,0.23642068,0.5902725,0.23642068,0.23642068,0.23642068,0.23642068,0.23642068,0.23642068,0.26973546,0.26973546,0.23642068,0.23642068,0.23642068,0.23642068,
+}}}
+
+
+
+
+
+
+
+=== Print PSI MITAB results from clustered data: === 
+{{{
+...
+        /* Convert EncoreInteractions into BinaryInteractions */
+        List<BinaryInteraction> binaryInteractions = new ArrayList<BinaryInteraction>();
+        Encore2Binary iConverter = new Encore2Binary(iC.getMappingIdDbNames());
+        for(EncoreBinaryInteraction eI:iC.getInteractionMapping().values()){
+            binaryInteractions.add(iConverter.getBinaryInteraction(eI));
+        }
+        /* Print PSI MITAB clustered binary interactions */
+        PsimiTabWriter writer = new PsimiTabWriter();
+        writer.write(binaryInteractions, System.out);
+...
+}}}
+Output example:
+{{{
+#ID(s) interactor A	ID(s) interactor B	Alt. ID(s) interactor A	Alt. ID(s) interactor B	Alias(es) interactor A	Alias(es) interactor B	Interaction detection method(s)	Publication 1st author(s)	Publication Identifier(s)	Taxid interactor A	Taxid interactor B	Interaction type(s)	Source database(s)	Interaction identifier(s)	Confidence value(s)
+uniprotkb:P37173	uniprotkb:Q81LN0	irefindex:hxcAAra96c/MOyY41mR/8MT0fcI9606|intact:EBI-296151	irefindex:GB2j4Snn26HiyL4umac7sD150T41392|intact:EBI-2820887	uniprotkb:TGF-beta type II receptor|uniprotkb:Transforming growth factor-beta receptor type II|uniprotkb:tgfr2_human|uniprotkb:TGFBR2	uniprotkb:BA_4584|uniprotkb:BAS4252|uniprotkb:GBAA_4584|uniprotkb:q81ln0_bacan|uniprotkb:vpR	psi-mi:"MI:0398"(two hybrid pooling approach)	Dyer et al. (2010)	pubmed:20711500|imex:IM-13779	taxid:9606(Human)	taxid:1392(Bacillus anthracis)	psi-mi:"MI:0915"(physical association)	psi-mi:"MI:0469"(intact)	intact:EBI-2820893	author-score:1(free-text)|miscore:0.23642068
+uniprotkb:P37173	uniprotkb:O35613	irefindex:hxcAAra96c/MOyY41mR/8MT0fcI9606|intact:EBI-296151	irefindex:qxe2zFFAJmtXHlRAzZkQA1zq7+010090|intact:EBI-77304	uniprotkb:TGF-beta type II receptor|uniprotkb:Transforming growth factor-beta receptor type II|uniprotkb:tgfr2_human|uniprotkb:TGFBR2	uniprotkb:Daxx|uniprotkb:daxx_mouse	psi-mi:"MI:0096"(pull down)	Perlman et al. (2001)	pubmed:11483955	taxid:9606(Human)	taxid:10090(Mouse)	psi-mi:"MI:0915"(physical association)	psi-mi:"MI:0469"(intact)	intact:EBI-296235	intact confidence:0.53(free-text)|miscore:0.26973546
+uniprotkb:P37173	uniprotkb:P35243	irefindex:hxcAAra96c/MOyY41mR/8MT0fcI9606|intact:EBI-296151	irefindex:a40aBpj2a3EafaLavE1WuT5wJ1k9606|intact:EBI-954661	uniprotkb:TGF-beta type II receptor|uniprotkb:Transforming growth factor-beta receptor type II|uniprotkb:tgfr2_human|uniprotkb:TGFBR2	uniprotkb:RCV1|uniprotkb:Cancer-associated retinopathy protein|uniprotkb:reco_human|uniprotkb:RCVRN	psi-mi:"MI:0397"(two hybrid array)	- (2011)	imex:IM-15364|pubmed:21988832	taxid:9606(Human)	taxid:9606(Human)	psi-mi:"MI:0915"(physical association)	psi-mi:"MI:0469"(intact)	intact:EBI-3912871	miscore:0.23642068
+uniprotkb:Q9HD26	uniprotkb:P37173	irefindex:nyWXK4V9/xiyzGtAQF1ABYHUrfk9606|intact:EBI-349832	irefindex:hxcAAra96c/MOyY41mR/8MT0fcI9606|intact:EBI-296151	uniprotkb:CAL|uniprotkb:Fused in glioblastoma|uniprotkb:CFTR-associated ligand|uniprotkb:PDZ protein interacting specifically with TC10|uniprotkb:FIG|uniprotkb:gopc_human|uniprotkb:GOPC	uniprotkb:TGF-beta type II receptor|uniprotkb:Transforming growth factor-beta receptor type II|uniprotkb:tgfr2_human|uniprotkb:TGFBR2	psi-mi:"MI:0397"(two hybrid array)	- (2011)	imex:IM-15364|pubmed:21988832	taxid:9606(Human)	taxid:9606(Human)	psi-mi:"MI:0915"(physical association)	psi-mi:"MI:0469"(intact)	intact:EBI-3920800	miscore:0.23642068
+uniprotkb:P37173	uniprotkb:Q99K41	irefindex:hxcAAra96c/MOyY41mR/8MT0fcI9606|intact:EBI-296151	irefindex:EI5U0Rs9tAme0JfEwyRWyjbwjrs10090|intact:EBI-906561	uniprotkb:TGF-beta type II receptor|uniprotkb:Transforming growth factor-beta receptor type II|uniprotkb:tgfr2_human|uniprotkb:TGFBR2	uniprotkb:Elastin microfibril interface-located protein 1|uniprotkb:emil1_mouse|uniprotkb:Emilin1	psi-mi:"MI:0007"(anti tag coimmunoprecipitation)	Zacchigna et al. (2006)	pubmed:16530041|imex:IM-11825	taxid:9606(Human)	taxid:10090(Mouse)	psi-mi:"MI:0914"(association)	psi-mi:"MI:0469"(intact)	intact:EBI-902913	miscore:0.26973546
+uniprotkb:P10600	uniprotkb:P37173	irefindex:pPkY9D2AFZVrKFiwA8B4U6BmLb49606|ensembl:ENSG00000119699|refseq:NM_003239|hgnc:TGFB3|intact:EBI-1033020	irefindex:hxcAAra96c/MOyY41mR/8MT0fcI9606|ensembl:ENSG00000163513|refseq:NM_001024847|hgnc:TGFBR2|intact:EBI-296151	uniprotkb:tgfb3_human|uniprotkb:TGFB3|uniprotkb:TGFB3_HUMAN|refseq:NP_003230|innatedb:IDBG-13145	uniprotkb:TGF-beta type II receptor|uniprotkb:Transforming growth factor-beta receptor type II|uniprotkb:tgfr2_human|uniprotkb:TGFBR2|uniprotkb:TbetaR-II|uniprotkb:TGFR-2|uniprotkb:TGFR2_HUMAN|refseq:NP_001020018|refseq:NM_003242|refseq:NP_003233|innatedb:IDBG-23359	psi-mi:"MI:0107"(surface plasmon resonance)|psi-mi:"MI:0077"(nuclear magnetic resonance)|psi-mi:"MI:0114"(x-ray crystallography)|psi-mi:"MI:0276"(blue native page)	Hart et al. (2002)|Groppe et al. (2008)|Ilangovan et al. (2004)	pubmed:11850637|pubmed:21423151|imex:IM-15413|pubmed:18243111|pubmed:15017149	taxid:9606(Human)	taxid:9606(Human)	psi-mi:"MI:0407"(direct interaction)|psi-mi:"MI:0915"(physical association)	psi-mi:"MI:0469"(intact)|psi-mi:"MI:0471"(mint)|psi-mi:"MI:0974"(InnateDB)	innatedb:IDB-120140|mint:MINT-8182908|intact:EBI-1033040|innatedb:IDB-120096|mint:MINT-8182809|mint:MINT-8182846|mint:MINT-8182884	intact confidence:0.51(free-text)|mint-score:0.802(free-text)|homomint-score:0.802(free-text)|lpr:3(free-text)|hpr:3(free-text)|np:1(free-text)|lpr:1(free-text)|hpr:1(free-text)|miscore:0.81777763
+uniprotkb:Q9UER7	uniprotkb:P37173	irefindex:gdt0ZYt3ZE61GLZekP8jnWjY1VY9606|intact:EBI-77321	irefindex:hxcAAra96c/MOyY41mR/8MT0fcI9606|intact:EBI-296151	uniprotkb:BING2|uniprotkb:Daxx|uniprotkb:ETS1-associated protein 1|uniprotkb:Fas death domain-associated protein|uniprotkb:DAP6|uniprotkb:daxx_human|uniprotkb:DAXX	uniprotkb:TGF-beta type II receptor|uniprotkb:Transforming growth factor-beta receptor type II|uniprotkb:tgfr2_human|uniprotkb:TGFBR2	psi-mi:"MI:0019"(coimmunoprecipitation)|psi-mi:"MI:0018"(two hybrid)	Perlman et al. (2001)	pubmed:11483955	taxid:9606(Human)	taxid:9606(Human)	psi-mi:"MI:0915"(physical association)	psi-mi:"MI:0469"(intact)	intact:EBI-296166|intact:EBI-296246	intact confidence:0.51(free-text)|miscore:0.33150592
+uniprotkb:P16234	uniprotkb:P37173	irefindex:EPgwWrufh0xXc4hwzybI4WLehSY9606|intact:EBI-2861522	irefindex:hxcAAra96c/MOyY41mR/8MT0fcI9606|intact:EBI-296151	uniprotkb:Platelet-derived growth factor alpha receptor|uniprotkb:PDGFR2|uniprotkb:RHEPDGFRA|uniprotkb:Platelet-derived growth factor receptor 2|uniprotkb:Alpha platelet-derived growth factor receptor|uniprotkb:Alpha-type platelet-derived growth factor receptor|uniprotkb:CD140a antigen|uniprotkb:CD140 antigen-like family member A|uniprotkb:pgfra_human|uniprotkb:PDGFRA	uniprotkb:TGF-beta type II receptor|uniprotkb:Transforming growth factor-beta receptor type II|uniprotkb:tgfr2_human|uniprotkb:TGFBR2	psi-mi:"MI:0397"(two hybrid array)	- (2011)	imex:IM-15364|pubmed:21988832	taxid:9606(Human)	taxid:9606(Human)	psi-mi:"MI:0915"(physical association)	psi-mi:"MI:0469"(intact)	intact:EBI-3912124	miscore:0.23642068
+uniprotkb:P37173	uniprotkb:P07200	irefindex:hxcAAra96c/MOyY41mR/8MT0fcI9606|intact:EBI-296151	irefindex:M8X8sxTQ7x3n3aZBp8ZWD+fO/549823|intact:EBI-907660	uniprotkb:TGF-beta type II receptor|uniprotkb:Transforming growth factor-beta receptor type II|uniprotkb:tgfr2_human|uniprotkb:TGFBR2	uniprotkb:tgfb1_pig|uniprotkb:TGFB1	psi-mi:"MI:0007"(anti tag coimmunoprecipitation)	Zacchigna et al. (2006)	pubmed:16530041|imex:IM-11825	taxid:9606(Human)	taxid:9823(Pig)	psi-mi:"MI:0407"(direct interaction)|psi-mi:"MI:0914"(association)	psi-mi:"MI:0469"(intact)	intact:EBI-902937|intact:EBI-902913	intact confidence:0.52(free-text)|miscore:0.50613064
+uniprotkb:P37173	uniprotkb:P01137	irefindex:hxcAAra96c/MOyY41mR/8MT0fcI9606|ensembl:ENSG00000163513|refseq:NM_001024847|hgnc:TGFBR2|intact:EBI-296151	irefindex:GUaqNKvv9KyghUkyrflFnZiWPAE9606|ensembl:ENSG00000105329|refseq:NM_000660|hgnc:TGFB1|intact:EBI-779636	uniprotkb:TGF-beta type II receptor|uniprotkb:Transforming growth factor-beta receptor type II|uniprotkb:tgfr2_human|uniprotkb:TGFBR2|uniprotkb:TbetaR-II|uniprotkb:TGFR-2|uniprotkb:TGFR2_HUMAN|refseq:NP_001020018|refseq:NM_003242|refseq:NP_003233|innatedb:IDBG-23359	uniprotkb:TGFB|uniprotkb:tgfb1_human|uniprotkb:TGFB1|uniprotkb:TGFB1_HUMAN|refseq:NP_000651|innatedb:IDBG-52846	psi-mi:"MI:0096"(pull down)|psi-mi:"MI:0007"(anti tag coimmunoprecipitation)|psi-mi:"MI:0107"(surface plasmon resonance)|psi-mi:"MI:0018"(two hybrid)|psi-mi:"MI:0030"(cross-linking study)	Pardali et al. (2011)|Chu et al. (2008)|Francki et al. (2004)	pubmed:20856203|imex:IM-15782|pubmed:20860622|imex:IM-15624|pubmed:21054789|pubmed:18382895|pubmed:15034927	taxid:9606(Human)	taxid:9606(Human)	psi-mi:"MI:0407"(direct interaction)|psi-mi:"MI:0915"(physical association)	unknown:i2d(i2d)|psi-mi:"MI:0471"(mint)|psi-mi:"MI:0974"(InnateDB)	innatedb:IDB-120151|mint:MINT-7990932|innatedb:IDB-156462|innatedb:IDB-120149|intact:EBI-3504782|mint:MINT-8044787|intact:EBI-3504814	mint-score:0.59(free-text)|homomint-score:0.59(free-text)|lpr:2(free-text)|hpr:2(free-text)|np:1(free-text)|lpr:1(free-text)|hpr:1(free-text)|miscore:0.82401556
+uniprotkb:P37173	uniprotkb:P29353	-	-	uniprotkb:TGFBR2|uniprotkb:Transforming growth factor-beta receptor type II|uniprotkb:TGF-beta type II receptor|uniprotkb:TbetaR-II|uniprotkb:TGFR-2	uniprotkb:Src homology 2 domain-containi|uniprotkb:SHC-transforming protein 3|uniprotkb:SHC-transforming protein A|uniprotkb:SHC1|uniprotkb:SHC|uniprotkb:SHCA	psi-mi:"MI:0019"(coimmunoprecipitation)	-	pubmed:17440088	taxid:9606(Homo sapiens)	taxid:9606(Homo sapiens)	psi-mi:"MI:0914"(association)	psi-mi:"MI:0471"(mint)	mint:MINT-8030651	mint-score:0.28(free-text)|homomint-score:0.28(free-text)|miscore:0.26973546
+uniprotkb:P37173	uniprotkb:Q12841	-	-	uniprotkb:TGFBR2|uniprotkb:Transforming growth factor-beta receptor type II|uniprotkb:TGF-beta type II receptor|uniprotkb:TbetaR-II|uniprotkb:TGFR-2	uniprotkb:Follistatin-like protein 1|uniprotkb:FRP|uniprotkb:FSTL1	psi-mi:"MI:0107"(surface plasmon resonance)	-	pubmed:20860622|imex:IM-15624	taxid:9606(Homo sapiens)	taxid:9606(Homo sapiens)	psi-mi:"MI:0407"(direct interaction)	psi-mi:"MI:0471"(mint)	mint:MINT-7990898	mint-score:0.431(free-text)|homomint-score:0.431(free-text)|miscore:0.43887317
+uniprotkb:P36897	uniprotkb:P37173	ensembl:ENSG00000106799|refseq:NM_004612|hgnc:TGFBR1	ensembl:ENSG00000163513|refseq:NM_001024847|hgnc:TGFBR2	uniprotkb:TGFBR1|uniprotkb:Transforming growth factor-beta receptor type I|uniprotkb:TGF-beta type I receptor|uniprotkb:TbetaR-I|uniprotkb:TGFR-1|uniprotkb:Serine/threonine-protein kinase receptor R4|uniprotkb:Activin receptor-like kinase 5|uniprotkb:TGFR1_HUMAN|refseq:NP_004603|refseq:NP_001124388|refseq:NM_001130916|innatedb:IDBG-78488	uniprotkb:TGFBR2|uniprotkb:Transforming growth factor-beta receptor type II|uniprotkb:TGF-beta type II receptor|uniprotkb:TbetaR-II|uniprotkb:TGFR-2|uniprotkb:TGFR2_HUMAN|refseq:NP_001020018|refseq:NM_003242|refseq:NP_003233|innatedb:IDBG-23359	psi-mi:"MI:0071"(molecular sieving)|psi-mi:"MI:0107"(surface plasmon resonance)|psi-mi:"MI:0276"(blue native page)|psi-mi:"MI:0226"(ion exchange chromatography)	Groppe et al. (2008)	pubmed:21423151|imex:IM-15413|pubmed:18243111	taxid:9606(Homo sapiens)	taxid:9606(Homo sapiens)	psi-mi:"MI:0915"(physical association)	psi-mi:"MI:0471"(mint)|psi-mi:"MI:0974"(InnateDB)	innatedb:IDB-120099|mint:MINT-8182828|mint:MINT-8182931|mint:MINT-8183771	mint-score:0.36(free-text)|lpr:3(free-text)|hpr:3(free-text)|np:1(free-text)|miscore:0.4996667
+uniprotkb:P37173	uniprotkb:P37173	ensembl:ENSG00000163513|refseq:NM_001024847|hgnc:TGFBR2	ensembl:ENSG00000163513|refseq:NM_001024847|hgnc:TGFBR2	uniprotkb:TGFR2_HUMAN|refseq:NP_001020018|refseq:NM_003242|refseq:NP_003233|innatedb:IDBG-23359	uniprotkb:TGFR2_HUMAN|refseq:NP_001020018|refseq:NM_003242|refseq:NP_003233|innatedb:IDBG-23359	psi-mi:"MI:0423"(in-gel kinase assay)	Lawler et al. (1997)|Guerrero-Esteo et al. (2002)	pubmed:9169454|pubmed:12015308	taxid:9606(Human)	taxid:9606(Human)	psi-mi:"MI:0217"(phosphorylation reaction)	psi-mi:"MI:0974"(InnateDB)	innatedb:IDB-120076|innatedb:IDB-120075|innatedb:IDB-120586	lpr:2(free-text)|hpr:2(free-text)|np:1(free-text)|lpr:11(free-text)|hpr:11(free-text)|miscore:0.6230328
+uniprotkb:Q92831	uniprotkb:P37173	ensembl:ENSG00000114166|refseq:NM_003884|hgnc:KAT2B	ensembl:ENSG00000163513|refseq:NM_001024847|hgnc:TGFBR2	uniprotkb:KAT2B_HUMAN|refseq:NP_003875|innatedb:IDBG-21805	uniprotkb:TGFR2_HUMAN|refseq:NP_001020018|refseq:NM_003242|refseq:NP_003233|innatedb:IDBG-23359	psi-mi:"MI:0004"(affinity chromatography technology)	Park et al. (2002)	pubmed:11744689	taxid:9606(Human)	taxid:9606(Human)	psi-mi:"MI:0915"(physical association)	psi-mi:"MI:0974"(InnateDB)	innatedb:IDB-120120	lpr:4(free-text)|hpr:4(free-text)|np:1(free-text)|miscore:0.26973546
+uniprotkb:P18146	uniprotkb:P37173	ensembl:ENSG00000120738|refseq:NM_001964|hgnc:EGR1	ensembl:ENSG00000163513|refseq:NM_001024847|hgnc:TGFBR2	uniprotkb:EGR1_HUMAN|refseq:NP_001955|innatedb:IDBG-47191	uniprotkb:TGFR2_HUMAN|refseq:NP_001020018|refseq:NM_003242|refseq:NP_003233|innatedb:IDBG-23359	psi-mi:"MI:0412"(electrophoretic mobility supershift assay)	Du et al. (2000)	pubmed:10982796	taxid:9606(Human)	taxid:9606(Human)	psi-mi:"MI:0915"(physical association)	psi-mi:"MI:0974"(InnateDB)	innatedb:IDB-225107	lpr:3(free-text)|hpr:3(free-text)|np:1(free-text)|miscore:0.26973546
+hgnc:MIR21	uniprotkb:P37173	ensembl:ENSG00000199004|refseq:NR_029493	ensembl:ENSG00000163513|refseq:NM_001024847|hgnc:TGFBR2	innatedb:IDBG-126673	uniprotkb:TGFR2_HUMAN|refseq:NP_001020018|refseq:NM_003242|refseq:NP_003233|innatedb:IDBG-23359	psi-mi:"MI:0415"(enzymatic study)	Kim et al. (2009)	pubmed:19816956	taxid:9606(Human)	taxid:9606(Human)	psi-mi:"MI:0915"(physical association)	psi-mi:"MI:0974"(InnateDB)	innatedb:IDB-188692	lpr:1(free-text)|hpr:1(free-text)|np:1(free-text)|miscore:0.26973546
+uniprotkb:P25208	uniprotkb:P37173	ensembl:ENSG00000120837|refseq:NM_006166|hgnc:NFYB	ensembl:ENSG00000163513|refseq:NM_001024847|hgnc:TGFBR2	uniprotkb:NFYB_HUMAN|refseq:NP_006157|innatedb:IDBG-54317	uniprotkb:TGFR2_HUMAN|refseq:NP_001020018|refseq:NM_003242|refseq:NP_003233|innatedb:IDBG-23359	psi-mi:"MI:0413"(electrophoretic mobility shift assay)	Park et al. (2002)	pubmed:11744689	taxid:9606(Human)	taxid:9606(Human)	psi-mi:"MI:0915"(physical association)	psi-mi:"MI:0974"(InnateDB)	innatedb:IDB-120119	lpr:4(free-text)|hpr:4(free-text)|np:1(free-text)|miscore:0.26973546
+uniprotkb:P23511	uniprotkb:P37173	ensembl:ENSG00000001167|refseq:NM_002505|hgnc:NFYA	ensembl:ENSG00000163513|refseq:NM_001024847|hgnc:TGFBR2	uniprotkb:NFYA_HUMAN|refseq:NP_002496|refseq:NM_021705|refseq:NP_068351|innatedb:IDBG-86491	uniprotkb:TGFR2_HUMAN|refseq:NP_001020018|refseq:NM_003242|refseq:NP_003233|innatedb:IDBG-23359	psi-mi:"MI:0004"(affinity chromatography technology)|psi-mi:"MI:0413"(electrophoretic mobility shift assay)	Park et al. (2002)	pubmed:11744689	taxid:9606(Human)	taxid:9606(Human)	psi-mi:"MI:0915"(physical association)	psi-mi:"MI:0974"(InnateDB)	innatedb:IDB-120121|innatedb:IDB-120118	lpr:4(free-text)|hpr:4(free-text)|np:1(free-text)|miscore:0.34777966
+uniprotkb:P78545	uniprotkb:P37173	ensembl:ENSG00000163435|refseq:NP_004424|hgnc:ELF3	ensembl:ENSG00000163513|refseq:NM_001024847|hgnc:TGFBR2	uniprotkb:ELF3_HUMAN|refseq:NP_001107781|refseq:NM_001114309|refseq:NM_004433|innatedb:IDBG-105810	uniprotkb:TGFR2_HUMAN|refseq:NP_001020018|refseq:NM_003242|refseq:NP_003233|innatedb:IDBG-23359	psi-mi:"MI:0413"(electrophoretic mobility shift assay)	Choi et al. (1998)	pubmed:9417054	taxid:9606(Human)	taxid:9606(Human)	psi-mi:"MI:0915"(physical association)	psi-mi:"MI:0974"(InnateDB)	innatedb:IDB-120480	lpr:1(free-text)|hpr:1(free-text)|np:1(free-text)|miscore:0.26973546
+uniprotkb:P37173	uniprotkb:P09486	ensembl:ENSG00000163513|refseq:NM_001024847|hgnc:TGFBR2	ensembl:ENSG00000113140|refseq:NM_003118|hgnc:SPARC	uniprotkb:TGFR2_HUMAN|refseq:NP_001020018|refseq:NM_003242|refseq:NP_003233|innatedb:IDBG-23359	uniprotkb:SPRC_HUMAN|refseq:NP_003109|innatedb:IDBG-54562	psi-mi:"MI:0007"(anti tag coimmunoprecipitation)	Francki et al. (2004)	pubmed:15034927	taxid:9606(Human)	taxid:9606(Human)	psi-mi:"MI:0915"(physical association)	psi-mi:"MI:0974"(InnateDB)	innatedb:IDB-156462	lpr:1(free-text)|hpr:1(free-text)|np:1(free-text)|miscore:0.26973546
+uniprotkb:P37173	uniprotkb:P37023	ensembl:ENSG00000163513|refseq:NM_001024847|hgnc:TGFBR2	ensembl:ENSG00000139567|refseq:NP_000011|hgnc:ACVRL1	uniprotkb:TGFR2_HUMAN|refseq:NP_001020018|refseq:NM_003242|refseq:NP_003233|innatedb:IDBG-23359	uniprotkb:ACVL1_HUMAN|refseq:NP_001070869|refseq:NM_000020|refseq:NM_001077401|innatedb:IDBG-33826	psi-mi:"MI:0007"(anti tag coimmunoprecipitation)|psi-mi:"MI:0030"(cross-linking study)	Finnson et al. (2008)	pubmed:18333754	taxid:9606(Human)	taxid:9606(Human)	psi-mi:"MI:0915"(physical association)	psi-mi:"MI:0974"(InnateDB)	innatedb:IDB-120771|innatedb:IDB-120079	lpr:5(free-text)|hpr:5(free-text)|np:1(free-text)|miscore:0.34777966
+uniprotkb:P62993	uniprotkb:P37173	ensembl:ENSG00000177885|refseq:NP_002077|hgnc:GRB2	ensembl:ENSG00000163513|refseq:NM_001024847|hgnc:TGFBR2	uniprotkb:GRB2_HUMAN|refseq:NP_987102|refseq:NM_002086|refseq:NM_203506|innatedb:IDBG-68262	uniprotkb:TGFR2_HUMAN|refseq:NP_001020018|refseq:NM_003242|refseq:NP_003233|innatedb:IDBG-23359	psi-mi:"MI:0007"(anti tag coimmunoprecipitation)	Galliher-Beckley et al. (2008)	pubmed:18174260	taxid:9606(Human)	taxid:9606(Human)	psi-mi:"MI:0915"(physical association)	psi-mi:"MI:0974"(InnateDB)	innatedb:IDB-120153	lpr:1(free-text)|hpr:1(free-text)|np:1(free-text)|miscore:0.26973546
+uniprotkb:P08047	uniprotkb:P37173	ensembl:ENSG00000185591|refseq:NM_138473|hgnc:SP1	ensembl:ENSG00000163513|refseq:NM_001024847|hgnc:TGFBR2	uniprotkb:SP1_HUMAN|refseq:NP_612482|refseq:NM_003109|refseq:NP_003100|innatedb:IDBG-36616	uniprotkb:TGFR2_HUMAN|refseq:NP_001020018|refseq:NM_003242|refseq:NP_003233|innatedb:IDBG-23359	psi-mi:"MI:0413"(electrophoretic mobility shift assay)|psi-mi:"MI:0412"(electrophoretic mobility supershift assay)	Adnane et al. (2002)|Du et al. (2000)	pubmed:11741970|pubmed:10982796	taxid:9606(Human)	taxid:9606(Human)	psi-mi:"MI:0915"(physical association)	psi-mi:"MI:0974"(InnateDB)	innatedb:IDB-225108|innatedb:IDB-120147	lpr:2(free-text)|hpr:2(free-text)|np:1(free-text)|lpr:3(free-text)|hpr:3(free-text)|miscore:0.41277552
+uniprotkb:P05412	uniprotkb:P37173	ensembl:ENSG00000177606|refseq:NM_002228|hgnc:JUN	ensembl:ENSG00000163513|refseq:NM_001024847|hgnc:TGFBR2	uniprotkb:JUN_HUMAN|refseq:NP_002219|innatedb:IDBG-99221	uniprotkb:TGFR2_HUMAN|refseq:NP_001020018|refseq:NM_003242|refseq:NP_003233|innatedb:IDBG-23359	psi-mi:"MI:0413"(electrophoretic mobility shift assay)	Adnane et al. (2002)	pubmed:11741970	taxid:9606(Human)	taxid:9606(Human)	psi-mi:"MI:0915"(physical association)	psi-mi:"MI:0974"(InnateDB)	innatedb:IDB-120146	lpr:2(free-text)|hpr:2(free-text)|np:1(free-text)|miscore:0.26973546
+uniprotkb:Q15796	uniprotkb:P37173	ensembl:ENSG00000175387|refseq:NP_001003652|hgnc:SMAD2	ensembl:ENSG00000163513|refseq:NM_001024847|hgnc:TGFBR2	uniprotkb:SMAD2_HUMAN|refseq:NP_005892|refseq:NP_001129409|refseq:NM_001135937|refseq:NM_005901|refseq:NM_001003652|innatedb:IDBG-3127	uniprotkb:TGFR2_HUMAN|refseq:NP_001020018|refseq:NM_003242|refseq:NP_003233|innatedb:IDBG-23359	psi-mi:"MI:0007"(anti tag coimmunoprecipitation)	Mac?as-Silva et al. (1996)	pubmed:8980228	taxid:9606(Human)	taxid:9606(Human)	psi-mi:"MI:0915"(physical association)	psi-mi:"MI:0974"(InnateDB)	innatedb:IDB-120587	lpr:2(free-text)|hpr:2(free-text)|np:1(free-text)|miscore:0.26973546
+uniprotkb:P17813	uniprotkb:P37173	ensembl:ENSG00000106991|refseq:NM_000118|hgnc:ENG	ensembl:ENSG00000163513|refseq:NM_001024847|hgnc:TGFBR2	uniprotkb:EGLN_HUMAN|refseq:NP_000109|refseq:NP_001108225|refseq:NM_001114753|innatedb:IDBG-86582	uniprotkb:TGFR2_HUMAN|refseq:NP_001020018|refseq:NM_003242|refseq:NP_003233|innatedb:IDBG-23359	psi-mi:"MI:0007"(anti tag coimmunoprecipitation)	Koleva et al. (2006)|Guerrero-Esteo et al. (2002)	pubmed:16785228|pubmed:12015308	taxid:9606(Human)	taxid:9606(Human)	psi-mi:"MI:0915"(physical association)	psi-mi:"MI:0974"(InnateDB)	innatedb:IDB-120583|innatedb:IDB-120536	lpr:7(free-text)|hpr:7(free-text)|np:1(free-text)|lpr:11(free-text)|hpr:11(free-text)|miscore:0.41277552
+uniprotkb:P49716	uniprotkb:P37173	ensembl:ENSG00000221869|refseq:NP_005186|hgnc:CEBPD	ensembl:ENSG00000163513|refseq:NM_001024847|hgnc:TGFBR2	uniprotkb:CEBPD_HUMAN|refseq:NM_005195|innatedb:IDBG-281563	uniprotkb:TGFR2_HUMAN|refseq:NP_001020018|refseq:NM_003242|refseq:NP_003233|innatedb:IDBG-23359	psi-mi:"MI:0007"(anti tag coimmunoprecipitation)	Borrelli et al. (2010)	pubmed:21072181	taxid:9606(Human)	taxid:9606(Human)	psi-mi:"MI:0915"(physical association)	psi-mi:"MI:0974"(InnateDB)	innatedb:IDB-225685|innatedb:IDB-225774	lpr:77(free-text)|hpr:77(free-text)|np:1(free-text)|miscore:0.26973546
+uniprotkb:Q02447	uniprotkb:P37173	ensembl:ENSG00000172845|refseq:NM_003111|hgnc:SP3	ensembl:ENSG00000163513|refseq:NM_001024847|hgnc:TGFBR2	uniprotkb:SP3_HUMAN|refseq:NP_003102|refseq:NP_001017371|refseq:NM_001017371|refseq:NM_001172712|refseq:NP_001166183|innatedb:IDBG-75293	uniprotkb:TGFR2_HUMAN|refseq:NP_001020018|refseq:NM_003242|refseq:NP_003233|innatedb:IDBG-23359	psi-mi:"MI:0412"(electrophoretic mobility supershift assay)	Du et al. (2000)	pubmed:10982796	taxid:9606(Human)	taxid:9606(Human)	psi-mi:"MI:0915"(physical association)	psi-mi:"MI:0974"(InnateDB)	innatedb:IDB-225109	lpr:3(free-text)|hpr:3(free-text)|np:1(free-text)|miscore:0.26973546
+}}}
+
+
+== Source code ==
+You can find the source code in:
+<br>
+http://code.google.com/p/micluster/source/browse/#svn%2Ftrunk%2Fmicluster
