@@ -1,6 +1,7 @@
 import psidev.psi.mi.tab.PsimiTabException;
 import psidev.psi.mi.tab.PsimiTabReader;
 import psidev.psi.mi.tab.model.BinaryInteraction;
+import psidev.psi.mi.xml.converter.ConverterException;
 import uk.ac.ebi.enfin.mi.cluster.ClusterServiceException;
 import uk.ac.ebi.enfin.mi.cluster.InteractionCluster;
 
@@ -18,7 +19,7 @@ import java.util.List;
  * @since 1.0
  */
 public class InputPsicquicServicesByUrl {
-    public static void main(String[] args) throws ClusterServiceException, IOException, PsimiTabException {
+    public static void main(String[] args) throws ClusterServiceException, IOException, PsimiTabException, ConverterException {
         /* Set priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473) */
         final String allMappingNames = "uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl";
         /* PSICQUIC URL */
