@@ -23,6 +23,18 @@
     * It includes an additional result (synonymMapping) to help users to find interactor synonyms. 
 
 <br/>
+= Micluster-score-distribution =
+Library to create score distribution histograms.
+
+== [MiClusterScoreDistribution12 Version 1.2] ==
+    * It uses [MiCluster16 MiCluster 1.6] 
+    * Includes 3 different clients to run the library from the command line 
+
+== Version 1.1==
+    * It uses the new version of [MiClusterScore13 MiCluster-Score] 
+    * Saves results in a results folder
+
+<br/>
 = Micluster-score =
 
   * MiClusterScore is *<font color="red">deprecated</font>*
@@ -34,15 +46,3 @@
 
 == Version 1.3==
   * It includes all the changes implemented in [MiCluster14 MiCluster 1.4]
-
-<br/>
-= Micluster-score-distribution =
-Library to create score distribution histograms.
-
-== Version 1.2==
-    * It uses [MiCluster16 MiCluster 1.6] 
-    * Includes 3 different clients to run the library from the command line 
-
-== Version 1.1==
-    * It uses the new version of [MiClusterScore13 MiCluster-Score] 
-    * Saves results in a results folder
