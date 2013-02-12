@@ -1,3 +1,5 @@
+*Update to the [micluster latest version]!*<br/>
+
 = MiCluster-Score =
 Java library to cluster and score molecular interactions.
 
