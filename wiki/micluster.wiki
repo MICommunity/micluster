@@ -1,16 +1,8 @@
 = Micluster 1.7.3 =
-Java library to cluster molecular interactions.
+Java library to cluster (and score) molecular interactions.
 
 == Version changes ==
-[miclusterVersions Changes among the different versions of MiCluster]
-
-This pages includes several examples:
-   * [#Cluster How to use MiCluster to cluster PSI-MI binary interactions].
-   * [#Cluster_and_score How to use MiCluster to cluster and score PSI-MI binary interactions].
-   * [#Micluster_results How to use the results from MiCluster].
-   * More specific examples:
-     * [RetrieveInteractorsForListOfProteins Retrieve interactors (UniProt and CHEBI) for a list of proteins (UniProt) from several molecular interaction resources (PSICQUIC services)].
-<br/>
+[miclusterVersions MiCluster versions and changes]
 
 == Maven dependency ==
 {{{
@@ -34,11 +26,20 @@ This pages includes several examples:
 }}}
 <br>
 
+
 = Examples =
-You can find examples below in this page or alternatively you can download a java project including functional examples.
+   * [#Cluster How to use MiCluster to cluster PSI-MI binary interactions].
+   * [#Cluster_and_score How to use MiCluster to cluster and score PSI-MI binary interactions].
+   * [#Micluster_results How to use the results from MiCluster].
+
+The code for these examples:
 {{{
 svn checkout http://micluster.googlecode.com/svn/trunk/micluster-example micluster-example
 }}}
+
+   * More examples:
+     * [RetrieveInteractorsForListOfProteins Retrieve interactors (UniProt and CHEBI) for a list of proteins (UniProt) from several molecular interaction resources (PSICQUIC services)].
+<br/>
 
 == Cluster ==
 Examples of how to use MiCluster to cluster PSI-MI binary interactions.
