@@ -1,5 +1,5 @@
 = Micluster =
-== Version 1.7 ==
+== [micluster Version 1.7] ==
     * Takes into account intra-molecular interactions
     * Includes bug fixes
 
