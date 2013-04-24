@@ -1,0 +1,27 @@
+#labels Phase-Deploy
+= MiMerge - REST =
+This is a brief specification document for *MiMerge REST API*.
+
+== Contents: ==
+
+ # Cluster
+  * Parameters
+  * Responce
+  * Error Codes
+  * Examples
+ # Status
+  * Parameters
+  * Responce
+  * Examples
+ # Download
+
+== Cluster ==
+The *cluster* command sends a request to the server in order to start a clustering job.
+
+|| *Attribute* || *Description* || *Sample Value* || *Method* ||
+|| q || PSMI Query || identifier:P37173 || GET ||
+|| service || List of PSICQUIC services to target. To target all of them, this parameter must be set to 'all' || IntAct,MINT || GET ||
+|| serviceurl || List of PSICQUIC urls to target. || <a href='http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/identifier:P37173'>http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/identifier:P37173</a> || GET ||
+|| 1930 || _N/A_ || _N/A_ ||
+|| 1940 || -2 || 40 ||
+ 
