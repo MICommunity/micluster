@@ -18,10 +18,38 @@ This is a brief specification document for *MiMerge REST API*.
 == Cluster ==
 The *cluster* command sends a request to the server in order to start a clustering job.
 
+=== Parameters ===
+
 || *Attribute* || *Description* || *Sample Value* || *Method* ||
 || q || PSMI Query || identifier:P37173 || GET ||
 || service || List of PSICQUIC services to target. To target all of them, this parameter must be set to 'all' || IntAct,MINT || GET ||
 || serviceurl || List of PSICQUIC urls to target. || <a href='http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/identifier:P37173'>http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/identifier:P37173</a> || GET ||
-|| 1930 || _N/A_ || _N/A_ ||
-|| 1940 || -2 || 40 ||
+|| file || A PSI-MI TAB file  || <a href='http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/identifier:P37173'>example</a> || POST ||
+|| mapping || Sets the priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473). By default it is set to uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl || uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl || GET or POST ||
  
+=== Responce ===
+A job id which can be used to ask for the status of the current clustering job.
+
+=== Errors ===
+Errors are returned as plain text starting with the prefix 'ERROR'. The table bellow shows the different errors reported by MICluster REST.
+
+|| *Error* || *Description* ||
+|| ERROR Either 'q' or 'serviceurl' parameter must be defined || The current query is missing either the 'q' or 'serviceurl' parameter ||
+|| ERROR 'service' parameter must be defined || The current query is missing either the 'service' parameter ||
+|| ERROR Clustering error || Exception during the clustering process. ||
+|| ERROR URL parsing error || URL parsing exception ||
+|| ERROR Couldn't read URL, maybe is not a PSICQUIC URL || Service is unable to read from the provided URL. ||
+|| ERROR uploading file || Exception during file uploading ||
+|| ERROR processing request || Exception procesing the request ||
+|| ERROR Unexpected exception || Any other unexpected exception ||
+
+=== Examples ===
+
+ # Cluster by Services
+  * cluster/?q=identifier:P37173&service=intact&score=true
+  * cluster/?q=identifier:P37173&service=intact,mint
+  * cluster/?q=identifier:P37173&service=all
+  * cluster/?q=identifier:P37173&service=intact&mapping=uniprotkb,intact
+ # Cluster by URL
+  * cluster/?serviceurl=http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/identifier:P37173&score=true
+  * cluster/?q=identifier:P37173&serviceurl=http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/identifier:P37173&mapping=uniprotkb,intact
