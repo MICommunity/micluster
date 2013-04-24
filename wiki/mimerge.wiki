@@ -6,12 +6,12 @@ This is a brief specification document for *MiMerge REST API*.
 
  # Cluster
   * Parameters
-  * Responce
+  * Response
   * Error Codes
   * Examples
  # Status
   * Parameters
-  * Responce
+  * Response
   * Examples
  # Download
 
@@ -27,7 +27,7 @@ The *cluster* command sends a request to the server in order to start a clusteri
 || file || A PSI-MI TAB file  || <a href='http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/identifier:P37173'>example</a> || POST ||
 || mapping || Sets the priority for molecule accession mapping (find more database names in the MI Ontology, MI:0473). By default it is set to uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl || uniprotkb,intact,ddbj/embl/genbank,chebi,irefindex,hgnc,ensembl || GET or POST ||
  
-=== Responce ===
+=== Response ===
 A job id which can be used to ask for the status of the current clustering job.
 
 === Errors ===
@@ -53,3 +53,42 @@ Errors are returned as plain text starting with the prefix 'ERROR'. The table be
  # Cluster by URL
   * cluster/?serviceurl=http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/identifier:P37173&score=true
   * cluster/?q=identifier:P37173&serviceurl=http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/identifier:P37173&mapping=uniprotkb,intact
+
+== Status ==
+The *status* command checks the status of a particular clustering job.
+
+=== Parameters ===
+The *status* command follows this syntax:
+{{{
+http://BASE_URL/status/JOBID
+}}}
+
+=== Response ===
+
+|| *Status* || *Description* ||
+|| COMPLETED || The clustering job is done ||
+|| STARTED || The clustering job is running ||
+|| FAILED || The clustering job failed ||
+
+=== Example ===
+{{{
+http://BASE_URL/status/54d149b4-d120-48b4-bf82-11abc9e42b88
+}}}
+
+== Download ==
+The *download* command returns the result of a particular clustering job.
+
+=== Parameters ==
+
+The *download* command follows this syntax: 
+{{{
+http://BASE_URL/download/JOBID
+}}}
+
+=== Response ===
+The responce is a PSI-MI TAB file. For more information about  PSI-MI TAB click <a href='https://code.google.com/p/psimi/wiki/PsimiTabFormat'>here</a>.
+
+=== Example ===
+{{{
+http://BASE_URL/download/54d149b4-d120-48b4-bf82-11abc9e42b88
+}}}
