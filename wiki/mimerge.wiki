@@ -1,19 +1,8 @@
 #labels Phase-Deploy
-= MiMerge - REST =
+<wiki:toc max_depth="3" />
+
+=mimerge rest=
 This is a brief specification document for *MiMerge REST API*.
-
-== Contents: ==
-
- # Cluster
-  * Parameters
-  * Response
-  * Error Codes
-  * Examples
- # Status
-  * Parameters
-  * Response
-  * Examples
- # Download
 
 == Cluster ==
 The *cluster* command sends a request to the server in order to start a clustering job.
