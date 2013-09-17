@@ -275,7 +275,7 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
             Map<String,String> interactorAccsA = encoreInteraction.getInteractorAccsA();
             Map<String,String> interactorAccsB = encoreInteraction.getInteractorAccsB();
 
-            // if at leats one interactor column is given, we can process the encore interaction
+            // if at least one interactor column is given, we can process the encore interaction
             if (!interactorAccsA.isEmpty() || !interactorAccsB.isEmpty()){
                 /* Get the first acc following the idCbNameList */
                 String interactorAccA = null;
@@ -288,18 +288,18 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
                 // first column given, not second. We do assume that we have an intramolecular interaction
                 else if (!interactorAccsA.isEmpty() && interactorAccsB.isEmpty()){
                     interactorAccA = getInteractorFromAccs(interactorAccsA, idDbNameList);
-                    interactorAccB = interactorAccA;
+                    interactorAccB = "-";
 
-                    encoreInteraction.setInteractorAccsB(interactorAccsA);
-                    interactorAccsB = interactorAccsA;
+                    //encoreInteraction.setInteractorAccsB(new HashMap<String,String>());
+                    interactorAccsB = new HashMap<String,String>();
                 }
                 // second column given, not first. We do assume that we have an intramolecular interaction
                 else {
                     interactorAccB = getInteractorFromAccs(interactorAccsB, idDbNameList);
-                    interactorAccA = interactorAccB;
+                    interactorAccA = "-";
 
-                    encoreInteraction.setInteractorAccsA(interactorAccsB);
-                    interactorAccsA = interactorAccsB;
+                    //encoreInteraction.setInteractorAccsA(new HashMap<String,String>());
+                    interactorAccsA = new HashMap<String,String>();
                 }
 
                 /* Find interactionMapping Ids for iA */

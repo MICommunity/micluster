@@ -112,10 +112,12 @@ public class Binary2Encore {
             encoreInteraction.setInteractorAccsA(interactorAccsA.getAccessions());
             encoreInteraction.setOtherInteractorAccsA(interactorAccsA.getOtherAccessions());
             /* get taxId for interactor A */
-            if(iA.getOrganism() != null){
-                encoreInteraction.addOrganismsA(iA.getOrganism().getIdentifiers());
-            } else {
-                logger.warn("Organism is null");
+            if(iA != null){
+                if(iA.getOrganism() != null){
+                    encoreInteraction.addOrganismsA(iA.getOrganism().getIdentifiers());
+                } else {
+                    logger.warn("Organism is null");
+                }
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -124,14 +126,17 @@ public class Binary2Encore {
         /* get the interactor B */
         try{
             Interactor iB = binaryInteraction.getInteractorB();
+//            if(iB)
             EncoreIdentifiers interactorAccsB = getInteractorAccs(iB);
             encoreInteraction.setInteractorAccsB(interactorAccsB.getAccessions());
             encoreInteraction.setOtherInteractorAccsB(interactorAccsB.getOtherAccessions());
             /* get taxId for interactor B */
-            if(iB.getOrganism() != null){
-                encoreInteraction.addOrganismsB(iB.getOrganism().getIdentifiers());
-            } else {
-                logger.warn("Organism is null");
+            if(iB != null){
+                if(iB.getOrganism() != null){
+                    encoreInteraction.addOrganismsB(iB.getOrganism().getIdentifiers());
+                } else {
+                    logger.warn("Organism is null");
+                }
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -367,41 +372,49 @@ public class Binary2Encore {
         Map<String,String> accs = new HashMap<String,String>();
         Map<String,List<String>> otherAccs = new HashMap<String,List<String>>();
 
-        /* FIND ACCS FROM THE LIST OF IDS idBdNameList */
-        /* Interactor id column : XREF */
-        for (CrossReference xref : interactor.getIdentifiers()) {
-            String acc = xref.getIdentifier();
-            String sourceIdDbName = xref.getDatabase();
-            int firtSize = accs.size();
-            updateAccMap(accs, acc, idDbNameList, sourceIdDbName);
-            int newSize = accs.size();
-            /* No acc found from the idDbNameList */
-            if(firtSize == newSize){
-                updateOtherAccMap(otherAccs, sourceIdDbName, acc);
+        if(interactor != null){
+            /* FIND ACCS FROM THE LIST OF IDS idBdNameList */
+            /* Interactor id column : XREF */
+            if(interactor.getIdentifiers() != null){
+                for (CrossReference xref : interactor.getIdentifiers()) {
+                    String acc = xref.getIdentifier();
+                    String sourceIdDbName = xref.getDatabase();
+                    int firtSize = accs.size();
+                    updateAccMap(accs, acc, idDbNameList, sourceIdDbName);
+                    int newSize = accs.size();
+                    /* No acc found from the idDbNameList */
+                    if(firtSize == newSize){
+                        updateOtherAccMap(otherAccs, sourceIdDbName, acc);
+                    }
+                }
             }
-        }
-        /* Alternative id column : aXref */
-        for (CrossReference aXref : interactor.getAlternativeIdentifiers()) {
-            String acc = aXref.getIdentifier();
-            String sourceIdDbName = aXref.getDatabase();
-            int firtSize = accs.size();
-            updateAccMap(accs, acc, idDbNameList, sourceIdDbName);
-            int newSize = accs.size();
-            /* No acc found from the idDbNameList */
-            if(firtSize == newSize){
-                updateOtherAccMap(otherAccs, sourceIdDbName, acc);
+            /* Alternative id column : aXref */
+            if(interactor.getAlternativeIdentifiers() != null){
+                for (CrossReference aXref : interactor.getAlternativeIdentifiers()) {
+                    String acc = aXref.getIdentifier();
+                    String sourceIdDbName = aXref.getDatabase();
+                    int firtSize = accs.size();
+                    updateAccMap(accs, acc, idDbNameList, sourceIdDbName);
+                    int newSize = accs.size();
+                    /* No acc found from the idDbNameList */
+                    if(firtSize == newSize){
+                        updateOtherAccMap(otherAccs, sourceIdDbName, acc);
+                    }
+                }
             }
-        }
-        /* Alias id column : alias */
-        for (Alias alias : interactor.getAliases()) {
-            String acc = alias.getName();
-            String sourceIdDbName = alias.getDbSource();
-            int firtSize = accs.size();
-            updateAccMap(accs, acc, idDbNameList, sourceIdDbName);
-            int newSize = accs.size();
-            /* No acc found from the idDbNameList */
-            if(firtSize == newSize){
-                updateOtherAccMap(otherAccs, sourceIdDbName, acc);
+            /* Alias id column : alias */
+            if(interactor.getAliases() != null){
+                for (Alias alias : interactor.getAliases()) {
+                    String acc = alias.getName();
+                    String sourceIdDbName = alias.getDbSource();
+                    int firtSize = accs.size();
+                    updateAccMap(accs, acc, idDbNameList, sourceIdDbName);
+                    int newSize = accs.size();
+                    /* No acc found from the idDbNameList */
+                    if(firtSize == newSize){
+                        updateOtherAccMap(otherAccs, sourceIdDbName, acc);
+                    }
+                }
             }
         }
 
@@ -413,6 +426,7 @@ public class Binary2Encore {
                 break;
             }
         }
+
         /* First result are acc from the selected list. Second result are other accs. */
         eIds.setAccessions(accs);
         eIds.setOtherAccessions(otherAccs);
