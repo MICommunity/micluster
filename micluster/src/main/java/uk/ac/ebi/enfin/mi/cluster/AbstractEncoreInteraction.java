@@ -378,7 +378,11 @@ public abstract class AbstractEncoreInteraction implements EncoreBinaryInteracti
         }
         /* If interactor is not in the list take the first one */
         if(interactorAcc == null){
-            interactorAcc = interactorAccs.values().iterator().next();
+            if(interactorAccs.size() != 0){
+                interactorAcc = interactorAccs.values().iterator().next();
+            } else {
+                interactorAcc = "-";
+            }
         }
         return interactorAcc;
     }
