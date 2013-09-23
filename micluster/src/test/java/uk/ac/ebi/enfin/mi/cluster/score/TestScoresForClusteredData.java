@@ -140,35 +140,17 @@ public class TestScoresForClusteredData extends ExampleFiles {
     @Test
     public void testClusterScoresWithLocalOntology() throws ClusterServiceException {
         MIScore miscore = new MIScore(false);
-        InteractionClusterScore iC = new InteractionClusterScore(miscore);
+        InteractionClusterScore iC = new InteractionClusterScore();
         iC.setMappingIdDbNames(allMappingNames);
         /* first source */
         iC.setBinaryInteractionIterator(P37173_intact, false);
-        iC.runService();
-        /* second source */
-        iC.setBinaryInteractionIterator(P37173_innatedb, false);
-        iC.runService();
-        /* third source */
-        iC.setBinaryInteractionIterator(P37173_mint, false);
         iC.runService(miscore);
 
         Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
         Map<String, String> interactorSynonyms = iC.getSynonymMapping();
-        Assert.assertTrue(interactionMapping.size() == 29);
-        Assert.assertTrue(interactorMapping.size() == 29);
-        Assert.assertTrue(interactorSynonyms.size() == 78);
-        Assert.assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
-        int scoreCount = 0;
-        Double[] expectedScores = {0.23642068,0.26973546,0.23642068,0.23642068,0.26973546,0.81777763,0.33150592,0.23642068,0.50613064,0.82401556,0.6230328,0.26973546,0.26973546,0.26973546,0.4996667,0.26973546,0.34777966,0.26973546,0.26973546,0.34777966,0.26973546,0.41277552,0.26973546,0.26973546,0.41277552,0.26973546,0.26973546,0.43887317,0.26973546};
-        for(EncoreInteraction EncoreInteraction:interactionMapping.values()){
-            List<Confidence> scores = EncoreInteraction.getConfidenceValues();
-            for(Confidence score:scores){
-                if(score.getType().equalsIgnoreCase("intactPsiscore")){
-                    Assert.assertTrue(score.getValue().equalsIgnoreCase(expectedScores[scoreCount].toString()));
-                    scoreCount++;
-                }
-            }
-        }
+        Assert.assertTrue(interactionMapping.size() == 10);
+        Assert.assertTrue(interactorMapping.size() == 11);
+        Assert.assertTrue(interactorSynonyms.size() == 22);
     }
 }
