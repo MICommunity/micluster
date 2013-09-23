@@ -40,6 +40,7 @@ public class InteractionClusterScore extends InteractionCluster {
         this.synonymMapping = new HashMap<String, String>();
     }
 
+    //todo: miScore define as well in runService. Look at removing one of them
     public InteractionClusterScore(MIScore miScore){
         super(0, 200);
         this.miscore = miScore;
@@ -155,6 +156,9 @@ public class InteractionClusterScore extends InteractionCluster {
 
     protected void runService(MIScore scoreGenerator) {
         logger.debug("runService");
+        if(scoreGenerator.isUseOls() == false){
+            MIO = new MIOntology(false);
+        }
         super.runService();
         processScore(scoreGenerator);
     }
