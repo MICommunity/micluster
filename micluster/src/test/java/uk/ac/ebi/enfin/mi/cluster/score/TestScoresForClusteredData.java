@@ -5,6 +5,8 @@ import psidev.psi.mi.tab.model.Confidence;
 import uk.ac.ebi.enfin.mi.cluster.ClusterServiceException;
 import uk.ac.ebi.enfin.mi.cluster.EncoreInteraction;
 import uk.ac.ebi.enfin.mi.cluster.ExampleFiles;
+import uk.ac.ebi.enfin.mi.score.scores.MIScore;
+
 import java.util.*;
 
 
@@ -101,6 +103,43 @@ public class TestScoresForClusteredData extends ExampleFiles {
         Assert.assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
         int scoreCount = 0;
         Double[] expectedScores = {0.17064172,0.194438,0.17064172,0.17064172,0.194438,0.79372567,0.23748763,0.17064172,0.5101404,0.7810743,0.6359532,0.194438,0.194438,0.194438,0.35831782,0.194438,0.24911173,0.194438,0.194438,0.24911173,0.194438,0.29742372,0.194438,0.194438,0.29742372,0.194438,0.194438,0.46284923,0.194438};
+        for(EncoreInteraction EncoreInteraction:interactionMapping.values()){
+            List<Confidence> scores = EncoreInteraction.getConfidenceValues();
+            for(Confidence score:scores){
+                if(score.getType().equalsIgnoreCase("intactPsiscore")){
+                    Assert.assertTrue(score.getValue().equalsIgnoreCase(expectedScores[scoreCount].toString()));
+                    scoreCount++;
+                }
+            }
+        }
+    }
+
+    //todo:create test for score using local ontology
+
+    @Test
+    public void testClusterScoresWithLocalOntology() throws ClusterServiceException {
+        MIScore miscore = new MIScore();
+        InteractionClusterScore iC = new InteractionClusterScore(miscore);
+        iC.setMappingIdDbNames(allMappingNames);
+        /* first source */
+        iC.setBinaryInteractionIterator(P37173_intact, false);
+        iC.runService();
+        /* second source */
+        iC.setBinaryInteractionIterator(P37173_innatedb, false);
+        iC.runService();
+        /* third source */
+        iC.setBinaryInteractionIterator(P37173_mint, false);
+        iC.runService();
+
+        Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
+        Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
+        Map<String, String> interactorSynonyms = iC.getSynonymMapping();
+        Assert.assertTrue(interactionMapping.size() == 29);
+        Assert.assertTrue(interactorMapping.size() == 29);
+        Assert.assertTrue(interactorSynonyms.size() == 78);
+        Assert.assertTrue(iC.getInteractionMappingId() == interactionMapping.size());
+        int scoreCount = 0;
+        Double[] expectedScores = {0.23642068,0.26973546,0.23642068,0.23642068,0.26973546,0.81777763,0.33150592,0.23642068,0.50613064,0.82401556,0.6230328,0.26973546,0.26973546,0.26973546,0.4996667,0.26973546,0.34777966,0.26973546,0.26973546,0.34777966,0.26973546,0.41277552,0.26973546,0.26973546,0.41277552,0.26973546,0.26973546,0.43887317,0.26973546};
         for(EncoreInteraction EncoreInteraction:interactionMapping.values()){
             List<Confidence> scores = EncoreInteraction.getConfidenceValues();
             for(Confidence score:scores){
