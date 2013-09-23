@@ -116,8 +116,30 @@ public class TestScoresForClusteredData extends ExampleFiles {
 
 
     @Test
+    public void testGetScoreUsingLocalOntology(){
+        Float score = null;
+
+        ArrayList methodInput = new ArrayList();
+        methodInput.add("MI:0051");
+        methodInput.add("MI:0042");
+
+        ArrayList typeInput = new ArrayList();
+        typeInput.add("MI:0208");
+        typeInput.add("MI:0403");
+        typeInput.add("MI:0407");
+        typeInput.add("MI:0407");
+
+        MIScore tS = new MIScore(false);
+        tS.setMethodScore(methodInput);
+        tS.setTypeScore(typeInput);
+        tS.setPublicationScore(4);
+        score = tS.getScore();
+        Assert.assertTrue(score >= 0 && score <= 1);
+    }
+
+    @Test
     public void testClusterScoresWithLocalOntology() throws ClusterServiceException {
-        MIScore miscore = new MIScore();
+        MIScore miscore = new MIScore(false);
         InteractionClusterScore iC = new InteractionClusterScore(miscore);
         iC.setMappingIdDbNames(allMappingNames);
         /* first source */
@@ -128,7 +150,7 @@ public class TestScoresForClusteredData extends ExampleFiles {
         iC.runService();
         /* third source */
         iC.setBinaryInteractionIterator(P37173_mint, false);
-        iC.runService();
+        iC.runService(miscore);
 
         Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
