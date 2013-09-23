@@ -114,7 +114,6 @@ public class TestScoresForClusteredData extends ExampleFiles {
         }
     }
 
-    //todo:create test for score using local ontology
 
     @Test
     public void testClusterScoresWithLocalOntology() throws ClusterServiceException {
