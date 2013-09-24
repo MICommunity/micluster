@@ -137,14 +137,15 @@ public class TestScoresForClusteredData extends ExampleFiles {
         Assert.assertTrue(score >= 0 && score <= 1);
     }
 
+
     @Test
     public void testClusterScoresWithLocalOntology() throws ClusterServiceException {
         MIScore miscore = new MIScore(false);
-        InteractionClusterScore iC = new InteractionClusterScore();
+        InteractionClusterScore iC = new InteractionClusterScore(miscore);
         iC.setMappingIdDbNames(allMappingNames);
         /* first source */
         iC.setBinaryInteractionIterator(P37173_intact, false);
-        iC.runService(miscore);
+        iC.runService();
 
         Map<Integer, EncoreInteraction> interactionMapping = iC.getInteractionMapping();
         Map<String, List<Integer>> interactorMapping = iC.getInteractorMapping();
