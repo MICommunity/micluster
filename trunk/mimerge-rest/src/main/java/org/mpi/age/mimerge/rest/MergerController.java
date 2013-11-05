@@ -19,6 +19,7 @@
 package org.mpi.age.mimerge.rest;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +40,16 @@ public class MergerController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MergerController.class);
 	
+	/**
+	 * Returns wrong command
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/download", method = RequestMethod.GET)
+	public String download(Model model) {
+		model.addAttribute("msg", "Wrong method, please have a look at the documentation in http://code.google.com/p/micluster/wiki/mimerge");
+		return "plaintext";
+	}
 	
 	/**
 	 * Returns a clustered file to download
@@ -54,6 +65,18 @@ public class MergerController {
 		model.addAttribute("msg", "No file matching job id '"+taskId+"' was found. It may have been deleted.");
 		return "FileRenderer";
 	}
+	
+	/**
+	 * Returns wrong command
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/status", method = RequestMethod.GET)
+	public String status(Model model) {
+		model.addAttribute("msg", "Wrong method, please have a look at the documentation in http://code.google.com/p/micluster/wiki/mimerge");
+		return "plaintext";
+	}
+	
 	
 	/**
 	 * Returns the status of a cluster job
@@ -90,7 +113,7 @@ public class MergerController {
 			@RequestParam(value="methods", required=false) String methods,
 			@RequestParam(value="pubnumber", required=false) Double pubnumber,
 			@RequestParam(value="score", required=false) boolean score, Model model) {
-	
+		
 		JobParametersBuilder params = new JobParametersBuilder()
 			.addString("q", query)
 			.addString("service", services)
@@ -116,6 +139,7 @@ public class MergerController {
 	 * @param score
 	 * @param model
 	 * @return
+	 * @throws IOException 
 	 */
 	@RequestMapping(value = "/cluster", method = RequestMethod.POST)
 	public String cluster(@RequestParam(value="file", required=false) MultipartFile file, 
@@ -123,7 +147,7 @@ public class MergerController {
 			@RequestParam(value="types", required=false) String types,
 			@RequestParam(value="methods", required=false) String methods,
 			@RequestParam(value="pubnumber", required=false) Double pubnumber,
-			@RequestParam(value="score", required=false) boolean score, Model model) {
+			@RequestParam(value="score", required=false) boolean score, Model model) throws IOException {
 		
 		String msg = FileManager.INSTANCE.createTempFile(file);
 		

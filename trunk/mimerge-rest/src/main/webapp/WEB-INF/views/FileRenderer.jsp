@@ -2,6 +2,11 @@
 <%@ page session="false" %>
 <%@ page import="java.io.*" %>
 <%
+
+	response.addHeader("Access-Control-Allow-Origin", "*");
+	response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+	response.addHeader("Access-Control-Allow-Headers", "origin, content-type, accept, x-requested-with, sid, mycustom, smuser");
+
 	response.setContentType("text/plain");
 	PrintWriter writer = response.getWriter();
 	String msg = (String) request.getAttribute("msg");	

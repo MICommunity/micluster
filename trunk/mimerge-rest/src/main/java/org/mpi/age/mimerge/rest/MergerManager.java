@@ -112,17 +112,27 @@ public enum MergerManager {
 			BatchStatus st = ex.getStatus();
 			String status = "";
 			if(BatchStatus.FAILED == st){
-				status = "Clustering job aborted. Please make sure the given parameters comply with the specification.";
+				status = "Clustering job aborted.";// Please make sure the given parameters comply with the specification.";
+				
+				List<Throwable> lst = ex.getAllFailureExceptions();
+				for(Throwable e : lst){
+					e.printStackTrace();
+					status += "\n "+e.getMessage();
+				}
 			}else if(ex.getExecutionContext().containsKey("status")){
 				status = ex.getExecutionContext().getString("status");
 			}
 			return st.name() + " - " + status;
 		}
+		
+		if(FileManager.INSTANCE.getTaskFile(id) != null)
+			return "COMPLETED - clustered job '"+id+"'";
+		
 		return "Unknown job '"+id+"'";
 	}
 	
 	/**
-	 * Job cleanance
+	 * Job clearance
 	 */
 	public void checkExecutions(){
 		for(String key : executions.keySet()){

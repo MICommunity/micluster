@@ -36,7 +36,7 @@ import psidev.psi.mi.xml.converter.ConverterException;
 public enum FileManager {
 	INSTANCE;
 	
-	private static final String FILE_DIR = "", TSV = ".tsv";
+	private static final String FILE_DIR = "webapps/mimerge/data/", TSV = ".tsv";
 	private static final long MAX_SIZE = 5000000;//5 MB
 	
 	/**
@@ -48,11 +48,13 @@ public enum FileManager {
 	 */
 	public void saveToFile(String taskId, ArrayList<BinaryInteraction> interactions) throws IOException, ConverterException{
 		File file = new File(FILE_DIR+taskId+TSV);
+		file.createNewFile();
 		FileOutputStream fop = new FileOutputStream(file);
-	    
+	   
 	    /* Print PSI MITAB clustered binary interactions */
         PsimiTabWriter writer = new PsimiTabWriter();
         writer.write(interactions, fop);
+        
 	}
 	
 	/**
@@ -69,8 +71,9 @@ public enum FileManager {
 	 * Creates a temporal file from a MultipartFile.
 	 * @param mFile
 	 * @return
+	 * @throws IOException 
 	 */
-	public String createTempFile(MultipartFile mFile){
+	public String createTempFile(MultipartFile mFile) throws IOException{
 		
 		if(mFile.getSize() == 0){
 			return "No file to cluster";
@@ -81,6 +84,7 @@ public enum FileManager {
 		}
 		
 		File file = new File(System.getProperty("java.io.tmpdir") + File.separator + mFile.getOriginalFilename());
+		file.createNewFile();
 		try {
 			mFile.transferTo(file);
 		} catch (IllegalStateException e) {
