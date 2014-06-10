@@ -1,5 +1,6 @@
 package uk.ac.ebi.enfin.mi.cluster.model;
 
+import psidev.psi.mi.jami.model.Xref;
 import psidev.psi.mi.tab.model.Author;
 import psidev.psi.mi.tab.model.Confidence;
 import psidev.psi.mi.tab.model.CrossReference;
@@ -62,13 +63,13 @@ public interface EncoreBinaryInteraction extends Serializable{
 
     public String getInteractorB(String mappingIdDbNames);
 
-    public List<CrossReference> getPublicationIds();
+    public List<Xref> getPublicationIds();
 
-    public void setPublicationIds(List<CrossReference> publicationIds);
+    public void setPublicationIds(List<Xref> publicationIds);
 
-    public void addPublicationId(CrossReference publicationId);
+    public void addPublicationId(Xref publicationId);
 
-    public void addPublicationId(List<CrossReference> publicationIds);
+    public void addPublicationId(List<Xref> publicationIds);
 
 
     public Map<String, List<String>> getMethodToPubmed();
@@ -111,27 +112,27 @@ public interface EncoreBinaryInteraction extends Serializable{
 
     public List<CrossReference> getSourceDatabases();
 
-    public void setSourceDatabases(List<CrossReference> sourceDatabases);
+    public void setSourceDatabases(List<Xref> sourceDatabases);
 
-    public void addSourceDatabases(List<CrossReference> sourceDatabases);
+    public void addSourceDatabases(List<Xref> sourceDatabases);
 
     public void addSourceDatabase(CrossReference sourceDatabase);
 
     public List<CrossReference> getOrganismsA();
 
-    public void setOrganismsA(List<CrossReference> organismsA);
+    public void setOrganismsA(List<Xref> organismsA);
 
-    public void addOrganismsA(List<CrossReference> organismsA);
+    public void addOrganismsA(List<Xref> organismsA);
 
-    public void addOrganismA(CrossReference organismA);
+    public void addOrganismA(Xref organismA);
 
     public List<CrossReference> getOrganismsB();
 
-    public void setOrganismsB(List<CrossReference> organismsB);
+    public void setOrganismsB(List<Xref> organismsB);
 
-    public void addOrganismsB(List<CrossReference> organismsB);
+    public void addOrganismsB(List<Xref> organismsB);
 
-    public void addOrganismB(CrossReference organismB);
+    public void addOrganismB(Xref organismB);
 
     public String getMappingIdDbNames();
 

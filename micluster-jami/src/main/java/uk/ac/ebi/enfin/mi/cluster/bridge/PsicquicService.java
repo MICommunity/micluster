@@ -12,6 +12,9 @@ import psidev.psi.mi.tab.model.BinaryInteraction;
 
 import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.util.URIUtil;
+import uk.ac.ebi.enfin.mi.cluster.InteractionCluster;
+import uk.ac.ebi.enfin.mi.cluster.model.BinaryInteractionCluster;
+import uk.ac.ebi.enfin.mi.cluster.model.InteractorCluster;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -93,8 +96,8 @@ public class PsicquicService {
         return psicquicCount;
     }
 
-    public List<BinaryInteraction> getInteractions(String query, int firstResult, int maxNumberOfResults) throws IOException {
-        List<BinaryInteraction> results = new ArrayList<BinaryInteraction>(Math.min(2048, maxNumberOfResults));
+    public List<BinaryInteractionCluster> getInteractions(String query, int firstResult, int maxNumberOfResults) throws IOException {
+        List<BinaryInteractionCluster> results = new ArrayList<BinaryInteractionCluster>(Math.min(2048, maxNumberOfResults));
 
         String encoded = getUriEncondedQuery(query);
 
@@ -108,9 +111,9 @@ public class PsicquicService {
         BufferedReader in = new BufferedReader(new InputStreamReader(is));
         String str;
         while ((str = in.readLine()) != null) {
-            BinaryInteraction interaction = null;
+            BinaryInteractionCluster interaction = null;
             try {
-                interaction = tabReader.readLine(str);
+                interaction = InteractionCluster.getFromBinaryInteraction(tabReader.readLine(str));
             } catch (PsimiTabException e) {
                 throw new IOException("Impossible to read the mitab line", e);
             }
