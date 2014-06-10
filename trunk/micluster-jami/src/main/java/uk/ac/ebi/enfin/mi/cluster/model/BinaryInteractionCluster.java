@@ -43,9 +43,9 @@ public interface BinaryInteractionCluster<T extends EncoreBinaryInteraction> ext
 
     public String getMappingIdDbNames();
 
-    public Iterator<BinaryInteraction> getBinaryInteractionIterator();
+    public Iterator<BinaryInteractionCluster> getBinaryInteractionIterator();
 
-    public void setBinaryInteractionIterator(Iterator<BinaryInteraction> binaryInteractionIterator);
+    public void setBinaryInteractionIterator(Iterator<BinaryInteractionCluster> binaryInteractionIterator);
 
     public void setBinaryInteractionIterator(InputStream is, boolean hasHeader) throws ClusterServiceException;
 

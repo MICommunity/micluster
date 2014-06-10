@@ -7,6 +7,7 @@ import org.hupo.psi.mi.psicquic.registry.client.registry.DefaultPsicquicRegistry
 import org.hupo.psi.mi.psicquic.registry.client.registry.PsicquicRegistryClient;
 import psidev.psi.mi.tab.PsimiTabWriter;
 import psidev.psi.mi.tab.model.BinaryInteraction;
+import psidev.psi.mi.tab.model.CrossReference;
 import uk.ac.ebi.enfin.mi.cluster.exception.ClusterServiceException;
 import uk.ac.ebi.enfin.mi.cluster.model.*;
 
@@ -253,7 +254,6 @@ public class InteractionCluster extends AbstractInteractionCluster<EncoreInterac
     }
 
 
-
     public void setQueryAccs(List<String> queryAccs) {
         this.queryAccs = queryAccs;
     }
@@ -329,5 +329,17 @@ public class InteractionCluster extends AbstractInteractionCluster<EncoreInterac
 
     public void setComparator(ClusterComparator comparator) {
         this.comparator = comparator;
+    }
+
+    public static BinaryInteractionCluster getFromBinaryInteraction(BinaryInteraction binaryInteraction){
+        BinaryInteractionCluster cluster = new InteractionCluster();
+
+        StringBuilder dbs = new StringBuilder();
+        for(CrossReference DB: binaryInteraction.getSourceDatabases()){
+            dbs.append(DB.getDatabase());
+        }
+        cluster.setMappingIdDbNames(dbs.toString());
+
+        return cluster;
     }
 }

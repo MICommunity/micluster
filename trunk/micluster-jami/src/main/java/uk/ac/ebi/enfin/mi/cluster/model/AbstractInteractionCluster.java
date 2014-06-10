@@ -88,7 +88,7 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
         }
     }
 
-    public AbstractInteractionCluster( Iterator<BinaryInteraction> iterator ) throws ClusterServiceException {
+    public AbstractInteractionCluster( Iterator<BinaryInteractionCluster> iterator ) throws ClusterServiceException {
         if ( iterator == null ) {
             throw new IllegalArgumentException( "You must give a non null iterator" );
         }
@@ -171,7 +171,7 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
         if(binaryInteractionIterator != null){
             String[] idDbNameList = mappingIdDbNames.split(",");
             while ( binaryInteractionIterator.hasNext() ) {
-                BinaryInteraction binaryInteraction = binaryInteractionIterator.next();
+                BinaryInteractionCluster binaryInteraction = binaryInteractionIterator.next();
                 setMappings(binaryInteraction, idDbNameList);
             }
         }
@@ -218,7 +218,7 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
                     if( logger.isInfoEnabled() ) logger.debug("Psicquic source: " + pService.getServiceName() + " | Query num: " + queryCount + " | start: " + start + ", stop: " + stop + ", range: " + range);
 
                     /* Query psiquic and populate mapping objects */
-                    List<BinaryInteraction> searchResult = null;
+                    List<BinaryInteractionCluster> searchResult = null;
                     try{
                         searchResult =  pService.getInteractions(miqlQuery, start, range);
                     } catch (Exception e) {
@@ -249,7 +249,7 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
                         } else {
                             queryTry = 0;
                             queryCount++;
-                            for (BinaryInteraction interaction : searchResult) {
+                            for (BinaryInteractionCluster interaction : searchResult) {
                                 setMappings(interaction, idDbNameList);
                             }
                         }
@@ -259,7 +259,7 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
         }
     }
 
-    protected abstract T convertEncoreInteractionFrom(BinaryInteraction interaction, String[] idDbNameList);
+    protected abstract T convertEncoreInteractionFrom(BinaryInteractionCluster interaction, String[] idDbNameList);
 
     /**
      * This function checks if an interaction is already in the interaction mapping
@@ -271,7 +271,7 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
      * @param interaction
      * @param idDbNameList
      */
-    protected void setMappings(BinaryInteraction interaction, String[] idDbNameList){
+    protected void setMappings(BinaryInteractionCluster interaction, String[] idDbNameList){
         T encoreInteraction = convertEncoreInteractionFrom(interaction, idDbNameList);
 
         if (encoreInteraction != null ){
@@ -573,6 +573,7 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
         if ( inputStream != null ) {
             final PsimiTabReader reader = new PsimiTabReader( );
             try {
+                //TODO: Read from Mitab with JAMI??
                 this.binaryInteractionIterator = reader.iterate( inputStream );
             } catch ( Exception e ) {
                 throw new ClusterServiceException( "An error occured while read MITAB data", e );
@@ -612,6 +613,7 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
         if ( r != null ) {
             final PsimiTabReader reader = new PsimiTabReader( );
             try {
+                //TODO: Read from Mitab with JAMI??
                 this.binaryInteractionIterator = reader.iterate( r );
             } catch ( Exception e ) {
                 throw new ClusterServiceException( "An error occured while read MITAB data", e );
@@ -629,6 +631,10 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
 
     public abstract void saveResultsInMitab(String fileName) throws IOException;
 
+    public static BinaryInteractionCluster getFromBinaryInteraction(BinaryInteraction binaryInteraction){
+        BinaryInteractionCluster cluster = new AbstractInteractionCluster() {
+        }
+    }
 
 
 }
