@@ -1,5 +1,6 @@
 package psidev.psi.mi.jami.cluster.io.input;
 
+import org.apache.log4j.Logger;
 import psidev.psi.mi.jami.model.Interaction;
 import psidev.psi.mi.jami.tab.io.parser.BinaryLineParser;
 import psidev.psi.mi.jami.tab.io.parser.ParseException;
@@ -15,9 +16,9 @@ public class MitabClusterInput extends AbstractClusterInput {
     /***   Constructors   ***/
     /************************/
     public MitabClusterInput(InputStream input) {
-        this.parser = new BinaryLineParser(input);
-        this.next = null;
         this.first = true;
+        this.next = null;
+        this.parser = new BinaryLineParser(input);
     }
 
     /**************************/
@@ -30,6 +31,7 @@ public class MitabClusterInput extends AbstractClusterInput {
             try {
                 setUpFirstNext();
             } catch (ParseException e) {
+                this.log.error("", e);
                 e.printStackTrace();
             }
         }
@@ -63,6 +65,7 @@ public class MitabClusterInput extends AbstractClusterInput {
     /***   Private Attributes   ***/
     /******************************/
     private boolean first;
+    private Logger log = Logger.getLogger(MitabClusterInput.class);
     private Interaction next;
     private BinaryLineParser parser;
 
