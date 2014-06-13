@@ -1,6 +1,5 @@
 package psidev.psi.mi.jami.cluster.io.input;
 
-import psidev.psi.mi.jami.cluster.exception.ClusterException;
 import psidev.psi.mi.jami.model.Interaction;
 
 import java.util.Iterator;
