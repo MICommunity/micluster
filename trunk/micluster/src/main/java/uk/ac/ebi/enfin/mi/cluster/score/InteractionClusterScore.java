@@ -160,10 +160,10 @@ public class InteractionClusterScore extends InteractionCluster {
             MIO = new MIOntology(false);
         }
         super.runService();
-        processScore(scoreGenerator);
+        processScore();
     }
 
-    private void processScore(MIScore scoreGenerator) {
+    private void processScore() {
         logger.debug("Create a map of method terms using parent terms");
         ArrayList<String> methodParentTerms = new ArrayList<String>();
         methodParentTerms.add("MI:0013");
@@ -216,15 +216,14 @@ public class InteractionClusterScore extends InteractionCluster {
             logger.debug("Calculate confidence score");
             Float scoreResult = 0f;
 
-            if (scoreGenerator != null){
-                scoreGenerator.setTypeWeight(typeWeight);
-                scoreGenerator.setMethodWeight(methodWeight);
-                scoreGenerator.setPublicationWeight(publicationWeight);
-                scoreGenerator.setMethodScore(methods, mapOfMethodTerms, customOntologyMethodScores);
-                scoreGenerator.setTypeScore(types, mapOfTypeTerms);
-//                scoreGenerator.setTypeScore(types, mapOfTypeTerms, customOntologyTypeScores);
-                scoreGenerator.setPublicationScore(numberOfPubmedIds, customPublicationNumberWithHighestScore);
-                scoreResult = scoreGenerator.getScore();
+            if (this.miscore != null){
+                this.miscore.setTypeWeight(typeWeight);
+                this.miscore.setMethodWeight(methodWeight);
+                this.miscore.setPublicationWeight(publicationWeight);
+                this.miscore.setMethodScore(methods, mapOfMethodTerms, customOntologyMethodScores);
+                this.miscore.setTypeScore(types, mapOfTypeTerms);
+                this.miscore.setPublicationScore(numberOfPubmedIds, customPublicationNumberWithHighestScore);
+                scoreResult = this.miscore.getScore();
             }
 
             logger.debug("Reassign confidence score if it is already present");
