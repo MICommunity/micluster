@@ -6,6 +6,7 @@ import uk.ac.ebi.enfin.mi.cluster.ClusterServiceException;
 import uk.ac.ebi.enfin.mi.cluster.EncoreInteraction;
 import uk.ac.ebi.enfin.mi.cluster.ExampleFiles;
 import uk.ac.ebi.enfin.mi.score.scores.MIScore;
+import uk.ac.ebi.enfin.mi.score.scores.UnNormalizedMIScore;
 
 import java.util.*;
 
@@ -21,6 +22,8 @@ public class TestScoresForClusteredData extends ExampleFiles {
     @Test
     public void testClusterScoresForP37173InIntactAndInnatedbAndMint() throws ClusterServiceException {
         InteractionClusterScore iC = new InteractionClusterScore();
+        iC.setMiscore(new UnNormalizedMIScore());
+        iC.setScoreName("intactPsiscore");
         iC.setMappingIdDbNames(allMappingNames);
         /* first source */
         iC.setBinaryInteractionIterator(P37173_intact, false);
@@ -106,7 +109,7 @@ public class TestScoresForClusteredData extends ExampleFiles {
         for(EncoreInteraction EncoreInteraction:interactionMapping.values()){
             List<Confidence> scores = EncoreInteraction.getConfidenceValues();
             for(Confidence score:scores){
-                if(score.getType().equalsIgnoreCase("intactPsiscore")){
+                if(score.getType().equalsIgnoreCase("miscore")){
                     Assert.assertTrue(score.getValue().equalsIgnoreCase(expectedScores[scoreCount].toString()));
                     scoreCount++;
                 }
