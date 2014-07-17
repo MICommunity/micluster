@@ -5,4 +5,9 @@ package psidev.psi.mi.jami.cluster.model;
  */
 public class InteractionClusterStatus {
 
+
+
+    /******************************/
+    /***   Private Attributes   ***/
+    /******************************/
 }
