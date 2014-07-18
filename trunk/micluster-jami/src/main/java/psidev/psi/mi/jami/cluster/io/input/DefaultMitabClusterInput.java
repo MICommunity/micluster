@@ -11,12 +11,12 @@ import java.util.Map;
 /**
  * Created by maitesin on 12/06/2014.
  */
-public class MitabClusterInput extends AbstractClusterInput {
+public class DefaultMitabClusterInput extends AbstractClusterInput {
 
     /************************/
     /***   Constructors   ***/
     /************************/
-    public MitabClusterInput(InputStream input) {
+    public DefaultMitabClusterInput(InputStream input) {
         super();
         Map<String, Object> parsingOptions = optionfactory.getDefaultMitabOptions(input);
         InteractionStream stream = dataSourceFactory.getInteractionSourceWith(parsingOptions);
