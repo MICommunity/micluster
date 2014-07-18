@@ -1,8 +1,10 @@
 package psidev.psi.mi.jami.cluster.io.output;
 
+import psidev.psi.mi.jami.datasource.InteractionWriter;
+
 /**
- * Created by maitesin on 14/07/2014.
+ * Created by maitesin on 17/07/2014.
  */
-public interface ClusterOutput {
+public interface ClusterOutput extends InteractionWriter{
 
 }

@@ -4,27 +4,17 @@ package psidev.psi.mi.jami.cluster.io.input;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import psidev.psi.mi.jami.model.Annotation;
-import psidev.psi.mi.jami.model.Interaction;
-import psidev.psi.mi.jami.model.Participant;
-import psidev.psi.mi.jami.model.Xref;
-import psidev.psi.mi.jami.tab.extension.MitabInteractionEvidence;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.PrintWriter;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
 
-public class MitabClusterInputTest {
+public class DefaultMitabClusterInputTest {
 
-    private MitabClusterInput mitab = null;
+    private DefaultMitabClusterInput mitab = null;
 
     @Before
     public void setUp() throws Exception {
         //It has 106 lines
-        this.mitab = new MitabClusterInput(
+        this.mitab = new DefaultMitabClusterInput(
                 new FileInputStream("src/test/resources/mitab_samples/EBI-988710_AND_EBI-1003831.tsv"));
     }
 
