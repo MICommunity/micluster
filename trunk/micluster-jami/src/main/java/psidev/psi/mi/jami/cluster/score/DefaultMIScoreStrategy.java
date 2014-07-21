@@ -9,6 +9,7 @@ public class DefaultMIScoreStrategy extends AbstractMIScoreStrategy {
     public DefaultMIScoreStrategy(MIScore miScore) {
         super(miScore);
     }
+    public DefaultMIScoreStrategy(String filename) { super(filename); }
 
     @Override
     public Double getInteractorScore(Interactor interactor) {

@@ -11,5 +11,7 @@ public abstract class AbstractMIScore implements MIScore {
     }
     protected Map<String, Double> methods;
     protected Map<String, Double> types;
+    protected Double methodWeight;
+    protected Double typeWeight;
 
 }
