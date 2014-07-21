@@ -7,4 +7,7 @@ public interface MIScore {
     public Double getMethodScore(String methodId);
     public Double getTypeScore(String typeId);
     public Double getPublicationScore(String pubmed);
+    public void setMethodWeight(Double weight);
+    public void setTypeWeight(Double weight);
+    public void setPublicationWeight(Double weight);
 }
