@@ -9,9 +9,7 @@ import java.util.Collection;
  */
 //TODO
 public class InteractionCluster{
-    public void addInteraction(Interaction interaction) {
 
-    }
 
     /******************************/
     /***   Private Attributes   ***/

@@ -1,9 +1,6 @@
 package psidev.psi.mi.jami.cluster.model.summary;
 
-import psidev.psi.mi.jami.model.CvTerm;
-import psidev.psi.mi.jami.model.Experiment;
-import psidev.psi.mi.jami.model.Feature;
-import psidev.psi.mi.jami.model.Interactor;
+import psidev.psi.mi.jami.model.*;
 
 import java.util.Collection;
 import java.util.HashMap;
