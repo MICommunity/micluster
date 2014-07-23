@@ -3,7 +3,7 @@ package psidev.psi.mi.jami.cluster;
 import psidev.psi.mi.jami.cluster.io.input.ClusterInput;
 import psidev.psi.mi.jami.cluster.io.input.DefaultMitabClusterInput;
 import psidev.psi.mi.jami.cluster.io.output.ClusterOutput;
-import psidev.psi.mi.jami.cluster.io.output.DefaultMitabClusterOutput;
+//import psidev.psi.mi.jami.cluster.io.output.DefaultMitabClusterOutput;
 import psidev.psi.mi.jami.cluster.model.InteractionCluster;
 import psidev.psi.mi.jami.cluster.util.InteractionClusterUniqueIdentification;
 import psidev.psi.mi.jami.cluster.util.InteractionClusterUtils;
@@ -25,7 +25,7 @@ public class InteractionClusterManager {
     public InteractionClusterManager(InputStream in){
         this.identification = null; //TODO: Create a way to identify unique
         this.input = new DefaultMitabClusterInput(in);
-        this.output = new DefaultMitabClusterOutput();
+        //this.output = new DefaultMitabClusterOutput();
         PsiJami.initialiseAllFactories();
     }
 

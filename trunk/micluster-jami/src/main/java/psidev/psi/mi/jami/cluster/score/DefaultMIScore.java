@@ -12,17 +12,17 @@ public class DefaultMIScore extends AbstractMIScore {
     @Override
     public Double getMethodScore(String methodId) {
         if (this.methodWeight != null) {
-            return this.methodWeight * this.methods.get(methodId);
+            return this.methodWeight * this.methods.get(methodId).getUnNormalizedScore();
         }
-        return this.methods.get(methodId);
+        return this.methods.get(methodId).getUnNormalizedScore();
     }
 
     @Override
     public Double getTypeScore(String typeId) {
         if(this.typeWeight != null) {
-            return this.typeWeight * this.types.get(typeId);
+            return this.typeWeight * this.types.get(typeId).getUnNormalizedScore();
         }
-        return this.types.get(typeId);
+        return this.types.get(typeId).getUnNormalizedScore();
     }
 
     @Override
