@@ -3,18 +3,14 @@ package psidev.psi.mi.jami.cluster.model;
 import psidev.psi.mi.jami.model.Interaction;
 
 import java.util.Collection;
+import java.util.Set;
 
 /**
- * Created by maitesin on 12/06/2014.
+ * Created by maitesin on 25/07/2014.
  */
-//TODO
-public class InteractionCluster{
+public interface InteractionCluster {
 
-
-    /******************************/
-    /***   Private Attributes   ***/
-    /******************************/
-    private Collection<Interaction> interactions;
-
-
+    public void clear();
+    public String getId(Interaction interaction);
+    public Collection<Interaction> getInteractions(String id);
 }
