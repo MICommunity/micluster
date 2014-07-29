@@ -8,7 +8,7 @@ public abstract class AbstractMIScoreStrategy implements MIScoreStrategy {
         this.miScore = miScore;
     }
     public AbstractMIScoreStrategy(String filename) {
-        this.miScore = new DefaultMIScore(filename);
+        this.miScore = new DefaultUnNormalizedMIScore(filename);
     }
 
     protected MIScore miScore;
