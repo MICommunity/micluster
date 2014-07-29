@@ -1,9 +1,8 @@
 package psidev.psi.mi.jami.cluster;
 
 import psidev.psi.mi.jami.cluster.model.DefaultInteractionCluster;
-import psidev.psi.mi.jami.cluster.model.InteractionCluster;
+import psidev.psi.mi.jami.cluster.model.summary.DefaultInteractionClusterSummary;
 import psidev.psi.mi.jami.cluster.model.summary.InteractionClusterSummary;
-import psidev.psi.mi.jami.cluster.util.InteractionClusterUtils;
 import psidev.psi.mi.jami.model.Interaction;
 
 import java.util.Collection;
@@ -58,10 +57,4 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
     public void score() {
         //TODO: after process the interactions we can score them
     }
-
-    /******************************/
-    /***   Private Attributes   ***/
-    /******************************/
-    private InteractionCluster cluster = null;
-
 }

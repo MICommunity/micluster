@@ -1,5 +1,6 @@
 package psidev.psi.mi.jami.cluster;
 
+import psidev.psi.mi.jami.cluster.model.summary.DefaultInteractionClusterSummary;
 import psidev.psi.mi.jami.cluster.model.summary.InteractionClusterSummary;
 import psidev.psi.mi.jami.model.Interaction;
 
