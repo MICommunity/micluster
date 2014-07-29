@@ -3,10 +3,8 @@ package psidev.psi.mi.jami.cluster.io.input.score;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import psidev.psi.mi.jami.cluster.score.DefaultMIScore;
+import psidev.psi.mi.jami.cluster.score.DefaultUnNormalizedMIScore;
 import psidev.psi.mi.jami.cluster.score.MIScore;
-
-import static org.junit.Assert.*;
 
 public class DefaultMIScoreTest {
 
@@ -15,7 +13,7 @@ public class DefaultMIScoreTest {
 
     @Before
     public void setUp() throws Exception {
-        this.miScore = new DefaultMIScore(this.propertiesFile);
+        this.miScore = new DefaultUnNormalizedMIScore(this.propertiesFile);
     }
 
     @Test

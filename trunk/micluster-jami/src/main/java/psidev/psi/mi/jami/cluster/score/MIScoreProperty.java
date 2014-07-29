@@ -32,19 +32,10 @@ public class MIScoreProperty {
         this.score = score;
     }
 
-    public Double getUnNormalizedScore() {
-        return unNormalizedScore;
-    }
-
-    public void setUnNormalizedScore(Double unNormalizedScore) {
-        this.unNormalizedScore = unNormalizedScore;
-    }
-
     /******************************/
     /***   Private Attributes   ***/
     /******************************/
     private String Id;
     private String name;
     private Double score;
-    private Double unNormalizedScore;
 }
