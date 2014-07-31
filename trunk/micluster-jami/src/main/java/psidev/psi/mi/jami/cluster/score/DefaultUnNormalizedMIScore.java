@@ -49,7 +49,7 @@ public class DefaultUnNormalizedMIScore extends AbstractMIScore {
 
     protected MIScoreProperty getMIScoreproperty(Properties properties, String prefix, String[] fields) {
         MIScoreProperty property = new MIScoreProperty();
-        if (fields.length > 4) {
+        if (fields.length >= 4) {
             property.setId(properties.getProperty(prefix + fields[0])); //ID
             property.setName(properties.getProperty(prefix + fields[1])); //Name
             property.setScore(Double.parseDouble(properties.getProperty(prefix + fields[3]))); //Unnormalized Score
