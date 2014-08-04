@@ -8,6 +8,19 @@ import java.util.*;
 /**
  * Created by maitesin on 12/06/2014.
  */
-public class DefaultInteractionCluster extends AbstractInteractionCluster {
+public class DefaultInteractionCluster<T extends Interaction> extends AbstractInteractionCluster<T> {
 
+    public DefaultInteractionCluster(String Id) {
+        super(Id);
+    }
+
+    @Override
+    public String getId() {
+        return this.Id;
+    }
+
+    @Override
+    public Collection<T> getInteractions() {
+        return this.interactions;
+    }
 }

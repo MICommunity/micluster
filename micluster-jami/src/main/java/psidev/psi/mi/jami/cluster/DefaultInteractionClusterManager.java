@@ -1,5 +1,6 @@
 package psidev.psi.mi.jami.cluster;
 
+import psidev.psi.mi.jami.cluster.model.DefaultInteractionCluster;
 import psidev.psi.mi.jami.cluster.model.InteractionCluster;
 import psidev.psi.mi.jami.cluster.merge.DefaultInteractorMerger;
 import psidev.psi.mi.jami.model.Interaction;
@@ -12,7 +13,7 @@ import java.util.Map;
 /**
  * Created by maitesin on 12/06/2014.
  */
-public class DefaultInteractionClusterManager extends AbstractInteractionClusterManager {
+public class DefaultInteractionClusterManager extends AbstractInteractionClusterManager<DefaultInteractionCluster> {
 
     /***********************/
     /***   Constructor   ***/
@@ -32,20 +33,25 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
 
     @Override
     public void process(Interaction interaction) {
-        Iterator<InteractionCluster> iter = null;
+        Iterator<DefaultInteractionCluster> iteratorCluster = this.interactionClusters.iterator();
+        InteractionCluster interactionClusterAux = null;
+        Iterator<Interaction> iteratorInteraction = null;
         String right_key = null;
-        for(String key : this.id2InteractionsMap.keySet()){
-            iter = this.id2InteractionsMap.get(key).iterator();
-            if (iter.hasNext())
-                if(this.merger.areSame(iter.next(),interaction))
-                    right_key = key;
-
+        while(iteratorCluster.hasNext()){
+            interactionClusterAux = iteratorCluster.next();
+            iteratorInteraction = interactionClusterAux.getInteractions().iterator();
+            if(iteratorInteraction.hasNext() && this.merger.areSame(iteratorInteraction.next(),interaction)) {
+                interactionClusterAux.getInteractions().add(interaction);
+                right_key = interactionClusterAux.getId();
+                break;
+            }
         }
         if(right_key == null){
             //New cluster
-            this.id2InteractionsMap.put(this.getNextId(), new ArrayList<InteractionCluster>());
+            DefaultInteractionCluster defaultInteractionCluster = new DefaultInteractionCluster(this.getNextId());
+            defaultInteractionCluster.getInteractions().add(interaction);
+            this.interactionClusters.add(defaultInteractionCluster);
         }
-        this.id2InteractionsMap.get(right_key).add(interaction);
     }
 
     @Override
@@ -61,8 +67,8 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
     }
 
     @Override
-    public Map<String, Collection<InteractionCluster>> getResults() {
-        return this.id2InteractionsMap;
+    public Iterator<DefaultInteractionCluster> getResults() {
+        return this.interactionClusters.iterator();
     }
 
     /***************************/
