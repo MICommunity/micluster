@@ -5,11 +5,13 @@ import psidev.psi.mi.jami.model.Interaction;
 /**
  * Created by maitesin on 18/07/2014.
  */
-public class DefaultMIScoreStrategy extends AbstractMIScoreStrategy {
-    public DefaultMIScoreStrategy(MIScore miScore) {
-        super(miScore);
+public class DefaultMIScoreNormalizedStrategy extends AbstractMIScoreStrategy {
+    public DefaultMIScoreNormalizedStrategy(MIScore miScore) {
+        this.miScore = miScore;
     }
-    public DefaultMIScoreStrategy(String filename) { super(filename); }
+    public DefaultMIScoreNormalizedStrategy(String filename) {
+        this.miScore = new DefaultNormalizedMIScore(filename);
+    }
 
     @Override
     public Double getInteractorScore(Interaction interaction) {

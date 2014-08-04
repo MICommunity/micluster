@@ -1,4 +1,4 @@
-package psidev.psi.mi.jami.cluster.strategy;
+package psidev.psi.mi.jami.cluster.merge;
 
 import psidev.psi.mi.jami.model.Interaction;
 
