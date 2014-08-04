@@ -1,6 +1,7 @@
 package psidev.psi.mi.jami.cluster.model;
 
 import psidev.psi.mi.jami.model.Interaction;
+import psidev.psi.mi.jami.model.impl.DefaultInteraction;
 
 import java.util.Collection;
 import java.util.Set;
@@ -10,7 +11,4 @@ import java.util.Set;
  */
 public interface InteractionCluster {
 
-    public void clear();
-    public String getId(Interaction interaction);
-    public Collection<Interaction> getInteractions(String id);
 }
