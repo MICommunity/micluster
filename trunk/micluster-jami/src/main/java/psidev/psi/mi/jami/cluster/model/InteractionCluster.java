@@ -9,6 +9,7 @@ import java.util.Set;
 /**
  * Created by maitesin on 25/07/2014.
  */
-public interface InteractionCluster {
-
+public interface InteractionCluster<T extends Interaction> {
+    public String getId();
+    public Collection<T> getInteractions();
 }

@@ -1,10 +1,12 @@
 package psidev.psi.mi.jami.cluster;
 
 import psidev.psi.mi.jami.cluster.model.InteractionCluster;
+import psidev.psi.mi.jami.cluster.score.MIScoreCalculator;
 import psidev.psi.mi.jami.cluster.score.MIScoreStrategy;
 import psidev.psi.mi.jami.cluster.merge.InteractorMerger;
 import psidev.psi.mi.jami.model.Interaction;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,13 +14,13 @@ import java.util.Map;
 /**
  * Created by maitesin on 25/07/2014.
  */
-public abstract class AbstractInteractionClusterManager implements InteractionClusterManager<InteractionCluster> {
+public abstract class AbstractInteractionClusterManager<T extends InteractionCluster> implements InteractionClusterManager<T> {
 
     /********************************/
     /***   Abstract Constructor   ***/
     /********************************/
     public AbstractInteractionClusterManager(){
-        this.id2InteractionsMap = new HashMap<String, Collection<InteractionCluster>>();
+        this.interactionClusters = new ArrayList<T>();
         this.interaction2StringMap = new HashMap<Interaction, String>();
         this.idGenerator = 0L;
     }
@@ -27,7 +29,7 @@ public abstract class AbstractInteractionClusterManager implements InteractionCl
     /***   Public Methods   ***/
     /**************************/
     public void clear(){
-        this.id2InteractionsMap.clear();
+        this.interactionClusters.clear();
         this.interaction2StringMap.clear();
         this.idGenerator = 0L;
     }
@@ -43,9 +45,9 @@ public abstract class AbstractInteractionClusterManager implements InteractionCl
     /***   Protected Attributes   ***/
     /********************************/
     protected InteractorMerger merger = null;
-    protected MIScoreStrategy miScore = null;
+    protected MIScoreCalculator<InteractionCluster> miScoreCalculator = null;
 
-    protected Map<String,Collection<InteractionCluster>> id2InteractionsMap;
+    protected Collection<T> interactionClusters;
     protected Map<Interaction, String> interaction2StringMap;
     protected Long idGenerator;
 }
