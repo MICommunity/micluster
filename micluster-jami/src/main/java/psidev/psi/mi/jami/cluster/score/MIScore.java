@@ -4,10 +4,14 @@ package psidev.psi.mi.jami.cluster.score;
  * Created by maitesin on 18/07/2014.
  */
 public interface MIScore {
-    public Double getMethodScore(String methodId);
-    public Double getTypeScore(String typeId);
-    public Double getPublicationScore(String pubmed);
-    public void setMethodWeight(Double weight);
-    public void setTypeWeight(Double weight);
-    public void setPublicationWeight(Double weight);
+    public double getMethodsScore();
+    public double getTypesScore();
+    public double getPublicationsScore();
+    public void addMethod(String methodId);
+    public void addType(String typeId);
+    public void addPublication(String pubId);
+    public void setMethodWeight(double weight);
+    public void setTypeWeight(double weight);
+    public void setPublicationWeight(double weight);
+    public void clear();
 }

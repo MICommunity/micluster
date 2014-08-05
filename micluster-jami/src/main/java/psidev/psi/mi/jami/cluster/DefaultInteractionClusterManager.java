@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * Created by maitesin on 12/06/2014.
  */
-public class DefaultInteractionClusterManager extends AbstractInteractionClusterManager<DefaultInteractionCluster> {
+public class DefaultInteractionClusterManager extends AbstractInteractionClusterManager<Interaction,DefaultInteractionCluster<Interaction>> {
 
     /***********************/
     /***   Constructor   ***/
@@ -33,7 +33,7 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
 
     @Override
     public void process(Interaction interaction) {
-        Iterator<DefaultInteractionCluster> iteratorCluster = this.interactionClusters.iterator();
+        Iterator<DefaultInteractionCluster<Interaction>> iteratorCluster = this.interactionClusters.iterator();
         InteractionCluster interactionClusterAux = null;
         Iterator<Interaction> iteratorInteraction = null;
         String right_key = null;
@@ -67,7 +67,7 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
     }
 
     @Override
-    public Iterator<DefaultInteractionCluster> getResults() {
+    public Iterator<DefaultInteractionCluster<Interaction>> getResults() {
         return this.interactionClusters.iterator();
     }
 

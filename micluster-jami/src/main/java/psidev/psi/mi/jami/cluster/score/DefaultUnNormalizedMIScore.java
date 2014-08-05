@@ -12,39 +12,19 @@ public class DefaultUnNormalizedMIScore extends AbstractMIScore {
     }
 
     @Override
-    public Double getMethodScore(String methodId) {
-        if (this.methodWeight != null) {
-            return this.methodWeight * this.methods.get(methodId).getScore();
-        }
-        return this.methods.get(methodId).getScore();
+    public double getMethodsScore() {
+        double totalMethods = 0.0d;
+        for(String methodId : this.methods)
+            totalMethods += this.methodWeight * this.methodsValues.get(methodId).getScore();
+        return totalMethods;
     }
 
     @Override
-    public Double getTypeScore(String typeId) {
-        if(this.typeWeight != null) {
-            return this.typeWeight * this.types.get(typeId).getScore();
-        }
-        return this.types.get(typeId).getScore();
-    }
-
-    @Override
-    public Double getPublicationScore(String pubmed) {
-        return 0.0d;
-    }
-
-    @Override
-    public void setMethodWeight(Double weight) {
-        if (weight != null) this.methodWeight = weight;
-    }
-
-    @Override
-    public void setTypeWeight(Double weight) {
-        if (weight != null) this.typeWeight = weight;
-    }
-
-    @Override
-    public void setPublicationWeight(Double weight) {
-        //Nothing to do with that
+    public double getTypesScore() {
+        double totalTypes = 0.0d;
+        for(String typeId : this.types)
+            totalTypes += this.typeWeight * this.typesValues.get(typeId).getScore();
+        return totalTypes;
     }
 
     protected MIScoreProperty getMIScoreproperty(Properties properties, String prefix, String[] fields) {

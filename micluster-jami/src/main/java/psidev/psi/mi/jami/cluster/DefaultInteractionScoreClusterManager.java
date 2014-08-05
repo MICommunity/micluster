@@ -1,9 +1,8 @@
 package psidev.psi.mi.jami.cluster;
 
 import psidev.psi.mi.jami.cluster.model.DefaultInteractionCluster;
-import psidev.psi.mi.jami.cluster.model.InteractionCluster;
 import psidev.psi.mi.jami.cluster.score.DefaultMIScoreCalculator;
-import psidev.psi.mi.jami.cluster.score.DefaultMIScoreUnNormalizedStrategy;
+import psidev.psi.mi.jami.model.Interaction;
 
 import java.util.Iterator;
 
@@ -16,16 +15,16 @@ public class DefaultInteractionScoreClusterManager extends DefaultInteractionClu
     /***********************/
     public DefaultInteractionScoreClusterManager(String filename){
         super();
-        this.miScoreCalculator = new DefaultMIScoreCalculator<DefaultInteractionCluster>();
+        this.miScoreCalculator = new DefaultMIScoreCalculator<Interaction, DefaultInteractionCluster<Interaction>>(filename);
     }
 
     @Override
-    public Iterator<DefaultInteractionCluster> getResults(){
-        Iterator<DefaultInteractionCluster> toScore = super.getResults();
+    public Iterator<DefaultInteractionCluster<Interaction>> getResults(){
+        Iterator<DefaultInteractionCluster<Interaction>> toScore = super.getResults();
         DefaultInteractionCluster auxCluster = null;
         while(toScore.hasNext()){
             auxCluster = toScore.next();
-            auxCluster.setScore(this.miScoreCalculator.computeScore(auxCluster));
+            this.miScoreCalculator.computeScore(auxCluster);
         }
         return super.getResults();
     }
