@@ -45,7 +45,7 @@ public abstract class AbstractInteractionClusterManager<T extends InteractionClu
     /***   Protected Attributes   ***/
     /********************************/
     protected InteractorMerger merger = null;
-    protected MIScoreCalculator<InteractionCluster> miScoreCalculator = null;
+    protected MIScoreCalculator<T> miScoreCalculator = null;
 
     protected Collection<T> interactionClusters;
     protected Map<Interaction, String> interaction2StringMap;

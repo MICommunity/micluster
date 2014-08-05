@@ -1,6 +1,5 @@
 package psidev.psi.mi.jami.cluster.model;
 
-import psidev.psi.mi.jami.cluster.util.InteractionClusterUtils;
 import psidev.psi.mi.jami.model.Interaction;
 
 import java.util.*;
@@ -22,5 +21,15 @@ public class DefaultInteractionCluster<T extends Interaction> extends AbstractIn
     @Override
     public Collection<T> getInteractions() {
         return this.interactions;
+    }
+
+    @Override
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    @Override
+    public double getScore() {
+        return this.score;
     }
 }

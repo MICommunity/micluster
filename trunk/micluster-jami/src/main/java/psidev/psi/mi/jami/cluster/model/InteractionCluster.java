@@ -12,4 +12,6 @@ import java.util.Set;
 public interface InteractionCluster<T extends Interaction> {
     public String getId();
     public Collection<T> getInteractions();
+    public void setScore(double score);
+    public double getScore();
 }
