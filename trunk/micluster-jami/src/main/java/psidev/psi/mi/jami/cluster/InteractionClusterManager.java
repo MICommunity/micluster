@@ -9,7 +9,7 @@ import java.util.Iterator;
 /**
  * Created by maitesin on 25/07/2014.
  */
-public interface InteractionClusterManager<T extends InteractionCluster> {
+public interface InteractionClusterManager<I extends Interaction,T extends InteractionCluster<I>> {
     public void process(Interaction interaction);
     public void process(Iterator<Interaction> iterator);
     public void process(Collection<Interaction> collection);

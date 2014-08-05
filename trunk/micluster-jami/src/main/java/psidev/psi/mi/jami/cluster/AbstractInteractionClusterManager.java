@@ -2,7 +2,6 @@ package psidev.psi.mi.jami.cluster;
 
 import psidev.psi.mi.jami.cluster.model.InteractionCluster;
 import psidev.psi.mi.jami.cluster.score.MIScoreCalculator;
-import psidev.psi.mi.jami.cluster.score.MIScoreStrategy;
 import psidev.psi.mi.jami.cluster.merge.InteractorMerger;
 import psidev.psi.mi.jami.model.Interaction;
 
@@ -14,7 +13,7 @@ import java.util.Map;
 /**
  * Created by maitesin on 25/07/2014.
  */
-public abstract class AbstractInteractionClusterManager<T extends InteractionCluster> implements InteractionClusterManager<T> {
+public abstract class AbstractInteractionClusterManager<I extends Interaction,T extends InteractionCluster<I>> implements InteractionClusterManager<I,T> {
 
     /********************************/
     /***   Abstract Constructor   ***/
