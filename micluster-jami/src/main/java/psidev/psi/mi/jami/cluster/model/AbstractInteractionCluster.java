@@ -15,6 +15,7 @@ public abstract class AbstractInteractionCluster<T extends Interaction> implemen
     public AbstractInteractionCluster(String Id){
         this.Id = Id;
         this.interactions = new ArrayList<T>();
+        this.score = 0.0;
     }
 
     /********************************/
@@ -22,4 +23,5 @@ public abstract class AbstractInteractionCluster<T extends Interaction> implemen
     /********************************/
     protected String Id;
     protected Collection<T> interactions;
+    protected double score;
 }

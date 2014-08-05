@@ -16,12 +16,18 @@ public class DefaultInteractionScoreClusterManager extends DefaultInteractionClu
     /***********************/
     public DefaultInteractionScoreClusterManager(String filename){
         super();
-        this.miScoreCalculator = new DefaultMIScoreCalculator<DefaultInteractionCluster>();//TODO: create all the stuff about MIScoreCalculator classes
+        this.miScoreCalculator = new DefaultMIScoreCalculator<DefaultInteractionCluster>();
     }
 
     @Override
     public Iterator<DefaultInteractionCluster> getResults(){
-        return this.miScoreCalculator.computeScore(super.getResults());
+        Iterator<DefaultInteractionCluster> toScore = super.getResults();
+        DefaultInteractionCluster auxCluster = null;
+        while(toScore.hasNext()){
+            auxCluster = toScore.next();
+            auxCluster.setScore(this.miScoreCalculator.computeScore(auxCluster));
+        }
+        return super.getResults();
     }
 
 }
