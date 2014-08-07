@@ -15,8 +15,8 @@ public class DefaultMIScoreCalculator<I extends Interaction,T extends DefaultInt
     }
 
     @Override
-    public void computeScore(T interactions) {
-        this.miScore.clear();
+    public double computeScore(T interactions) {
+        this.getMiScore().clear();
         double score = 0.0d;
 
         for(I interaction : interactions.getInteractions()){
@@ -25,10 +25,10 @@ public class DefaultMIScoreCalculator<I extends Interaction,T extends DefaultInt
             //this.miScore.addType();
         }
 
-        score += this.miScore.getMethodsScore();
-        score += this.miScore.getTypesScore();
+        score += this.getMiScore().getMethodsScore();
+        score += this.getMiScore().getTypesScore();
 
-        interactions.setScore(score);
+        return score;
     }
 
 }

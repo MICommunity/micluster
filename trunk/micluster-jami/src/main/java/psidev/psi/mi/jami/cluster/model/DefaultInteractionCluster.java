@@ -22,14 +22,4 @@ public class DefaultInteractionCluster<T extends Interaction> extends AbstractIn
     public Collection<T> getInteractions() {
         return this.interactions;
     }
-
-    @Override
-    public void setScore(double score) {
-        this.score = score;
-    }
-
-    @Override
-    public double getScore() {
-        return this.score;
-    }
 }
