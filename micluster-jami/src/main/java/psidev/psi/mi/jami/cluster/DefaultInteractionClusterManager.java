@@ -33,6 +33,8 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
 
     @Override
     public void process(Interaction interaction) {
+        //TODO:check if interaction is null
+        //TODO:use interface to declare the variables
         Iterator<DefaultInteractionCluster<Interaction>> iteratorCluster = this.interactionClusters.iterator();
         InteractionCluster interactionClusterAux = null;
         Iterator<Interaction> iteratorInteraction = null;
@@ -40,6 +42,7 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
         while(iteratorCluster.hasNext()){
             interactionClusterAux = iteratorCluster.next();
             iteratorInteraction = interactionClusterAux.getInteractions().iterator();
+            //TODO: check the interactors no the interactions
             if(iteratorInteraction.hasNext() && this.merger.areSame(iteratorInteraction.next(),interaction)) {
                 interactionClusterAux.getInteractions().add(interaction);
                 right_key = interactionClusterAux.getId();

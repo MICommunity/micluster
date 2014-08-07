@@ -16,11 +16,20 @@ public abstract class AbstractMIScoreCalculator<T extends InteractionCluster> im
     /***   Constructor   ***/
     /***********************/
     public AbstractMIScoreCalculator(String filename){
-        this.miScore = new DefaultUnNormalizedMIScore(filename);
+        this.filename = filename;
     }
-
-    /********************************/
-    /***   Protected Attributes   ***/
-    /********************************/
-    protected MIScore miScore;
+    /******************/
+    /***   Getter   ***/
+    /******************/
+    public MIScore getMiScore() {
+        if (miScore == null){
+            this.miScore = new DefaultUnNormalizedMIScore(this.filename);
+        }
+        return miScore;
+    }
+    /******************************/
+    /***   Private Attributes   ***/
+    /******************************/
+    private MIScore miScore;
+    private String filename;
 }
