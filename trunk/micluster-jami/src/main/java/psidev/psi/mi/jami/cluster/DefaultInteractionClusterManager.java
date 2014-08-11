@@ -3,6 +3,7 @@ package psidev.psi.mi.jami.cluster;
 import psidev.psi.mi.jami.cluster.model.DefaultInteractionCluster;
 import psidev.psi.mi.jami.cluster.model.InteractionCluster;
 import psidev.psi.mi.jami.cluster.merge.DefaultInteractorMerger;
+import psidev.psi.mi.jami.cluster.util.InteractionClusterUtils;
 import psidev.psi.mi.jami.model.Interaction;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
             interactionClusterAux = iteratorCluster.next();
             iteratorInteraction = interactionClusterAux.getInteractions().iterator();
             //TODO: check the interactors no the interactions
-            if(iteratorInteraction.hasNext() && this.merger.areSame(iteratorInteraction.next(),interaction)) {
+            if(iteratorInteraction.hasNext() && InteractionClusterUtils.areSame(iteratorInteraction.next(), interaction, this.merger)) {
                 interactionClusterAux.getInteractions().add(interaction);
                 right_key = interactionClusterAux.getId();
                 break;
@@ -77,5 +78,6 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
     /***************************/
     /***   Private Methods   ***/
     /***************************/
+
 
 }
