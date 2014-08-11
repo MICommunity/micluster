@@ -35,8 +35,29 @@ public class DefaultInteractorMerger extends AbstractInteractorMerger {
     @Override
     public Interactor merge(Interactor in1, Interactor in2) {
         if (! areSame(in1,in2)) return null;
+        //Copy some information from the first Interactor parameter
         Interactor interactor = new DefaultInteractor(in1.getFullName());
-        //TODO
+        interactor.setInteractorType(in1.getInteractorType());
+        interactor.setShortName(in1.getShortName());
+        interactor.setOrganism(in1.getOrganism());
+        //Merge both interactor information
+        //TODO: Could be better to put the information of both interactors in a set to avoid duplicates?
+        //TODO: For example, put the identifiers of both interactors in a set, then we don't have twice the same Id
+        //Aliases
+        interactor.getAliases().addAll(in1.getAliases());
+        interactor.getAliases().addAll(in2.getAliases());
+        //Annotations
+        interactor.getAnnotations().addAll(in1.getAnnotations());
+        interactor.getAnnotations().addAll(in2.getAnnotations());
+        //Checksums
+        interactor.getChecksums().addAll(in1.getChecksums());
+        interactor.getChecksums().addAll(in2.getChecksums());
+        //Identifiers
+        interactor.getIdentifiers().addAll(in1.getIdentifiers());
+        interactor.getIdentifiers().addAll(in2.getIdentifiers());
+        //Xrefs
+        interactor.getXrefs().addAll(in1.getXrefs());
+        interactor.getXrefs().addAll(in2.getXrefs());
         return interactor;
     }
 }
