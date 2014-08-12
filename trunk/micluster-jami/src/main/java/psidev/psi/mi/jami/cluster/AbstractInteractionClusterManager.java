@@ -1,14 +1,11 @@
 package psidev.psi.mi.jami.cluster;
 
 import psidev.psi.mi.jami.cluster.model.InteractionCluster;
-import psidev.psi.mi.jami.cluster.score.MIScoreCalculator;
 import psidev.psi.mi.jami.cluster.merge.InteractorMerger;
 import psidev.psi.mi.jami.model.Interaction;
+import psidev.psi.mi.jami.model.Interactor;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by maitesin on 25/07/2014.
@@ -20,8 +17,9 @@ public abstract class AbstractInteractionClusterManager<I extends Interaction,T 
     /********************************/
     public AbstractInteractionClusterManager(){
         this.interactionClusters = new ArrayList<T>();
-        this.interaction2StringMap = new HashMap<Interaction, String>();
+        this.interaction2String = new HashMap<Interaction, String>();
         this.idGenerator = 0L;
+        this.string2Interactor = new TreeMap<String, Interactor>();
     }
 
     /**************************/
@@ -29,23 +27,23 @@ public abstract class AbstractInteractionClusterManager<I extends Interaction,T 
     /**************************/
     public void clear(){
         this.interactionClusters.clear();
-        this.interaction2StringMap.clear();
+        this.interaction2String.clear();
         this.idGenerator = 0L;
     }
 
     /*****************************/
     /***   Protected Methods   ***/
     /*****************************/
-    protected String getNextId(){
-        return (++this.idGenerator).toString();
+    protected Long getNextId(){
+        return ++this.idGenerator;
     }
 
     /********************************/
     /***   Protected Attributes   ***/
     /********************************/
     protected InteractorMerger merger = null;
-
     protected Collection<T> interactionClusters;
-    protected Map<Interaction, String> interaction2StringMap;
+    protected Map<Interaction, String> interaction2String;
+    protected Map<String, Interactor> string2Interactor;
     protected Long idGenerator;
 }

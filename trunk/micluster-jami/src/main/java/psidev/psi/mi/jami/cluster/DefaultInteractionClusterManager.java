@@ -6,6 +6,7 @@ import psidev.psi.mi.jami.cluster.model.InteractionCluster;
 import psidev.psi.mi.jami.cluster.merge.DefaultInteractorMerger;
 import psidev.psi.mi.jami.cluster.util.InteractionClusterUtils;
 import psidev.psi.mi.jami.model.Interaction;
+import psidev.psi.mi.jami.model.Participant;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,7 +44,7 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
                 interactionClusterAux = iteratorCluster.next();
                 iteratorInteraction = interactionClusterAux.getInteractions().iterator();
                 //TODO: check the interactors no the interactions
-                if (iteratorInteraction.hasNext() && InteractionClusterUtils.areSame(iteratorInteraction.next(), interaction, getInteractorMerger())) {
+                if (iteratorInteraction.hasNext() && areSame(iteratorInteraction.next(), interaction)) {
                     interactionClusterAux.getInteractions().add(interaction);
                     right_key = interactionClusterAux.getId();
                     break;
@@ -97,5 +98,12 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
     /***************************/
     /***   Private Methods   ***/
     /***************************/
+    private boolean areSame(Interaction i1, Interaction i2){
+        Iterator<Participant> participants1 = i1.getParticipants().iterator();
+        Iterator<Participant> participants2 = i2.getParticipants().iterator();
+        //TODO: we have to think a way to be able to sort interactors
+
+        return true;
+    }
 
 }
