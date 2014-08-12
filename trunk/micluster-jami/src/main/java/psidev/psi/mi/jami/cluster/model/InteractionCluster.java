@@ -10,6 +10,15 @@ import java.util.Set;
  * Created by maitesin on 25/07/2014.
  */
 public interface InteractionCluster<T extends Interaction> {
-    public String getId();
+    /**
+     *
+     * @return
+     */
+    public Long getId();
+
+    /**
+     *
+     * @return
+     */
     public Collection<T> getInteractions();
 }
