@@ -14,10 +14,5 @@ import java.util.List;
  */
 public class InteractionClusterUtils {
 
-    public static boolean areSame(Interaction i1, Interaction i2, InteractorMerger merger){
-        Iterator<Participant> participants1 = i1.getParticipants().iterator();
-        Iterator<Participant> participants2 = i2.getParticipants().iterator();
-        //TODO: we have to think a way to be able to sort interactors
-        return true;
-    }
+
 }

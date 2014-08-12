@@ -9,12 +9,12 @@ import java.util.*;
  */
 public class DefaultInteractionCluster<T extends Interaction> extends AbstractInteractionCluster<T> {
 
-    public DefaultInteractionCluster(String Id) {
+    public DefaultInteractionCluster(Long Id) {
         super(Id);
     }
 
     @Override
-    public String getId() {
+    public Long getId() {
         return this.Id;
     }
 

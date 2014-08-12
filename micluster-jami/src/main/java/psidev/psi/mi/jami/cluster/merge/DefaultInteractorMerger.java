@@ -2,6 +2,7 @@ package psidev.psi.mi.jami.cluster.merge;
 
 import psidev.psi.mi.jami.model.Interactor;
 import psidev.psi.mi.jami.model.Xref;
+import psidev.psi.mi.jami.model.impl.DefaultAlias;
 import psidev.psi.mi.jami.model.impl.DefaultInteractor;
 import psidev.psi.mi.jami.utils.comparator.xref.UnambiguousXrefComparator;
 
@@ -43,9 +44,11 @@ public class DefaultInteractorMerger extends AbstractInteractorMerger {
         //Merge both interactor information
         //TODO: Could be better to put the information of both interactors in a set to avoid duplicates?
         //TODO: For example, put the identifiers of both interactors in a set, then we don't have twice the same Id
-        //Aliases
+        //Aliases and in2 names
         interactor.getAliases().addAll(in1.getAliases());
         interactor.getAliases().addAll(in2.getAliases());
+        interactor.getAliases().add(new DefaultAlias(in2.getFullName()));
+        interactor.getAliases().add(new DefaultAlias(in2.getShortName()));
         //Annotations
         interactor.getAnnotations().addAll(in1.getAnnotations());
         interactor.getAnnotations().addAll(in2.getAnnotations());

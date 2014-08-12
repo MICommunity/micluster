@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public abstract class AbstractInteractionCluster<T extends Interaction> implements InteractionCluster<T> {
 
-    public AbstractInteractionCluster(String Id){
+    public AbstractInteractionCluster(Long Id){
         this.Id = Id;
         this.interactions = new ArrayList<T>();
     }
@@ -20,7 +20,7 @@ public abstract class AbstractInteractionCluster<T extends Interaction> implemen
     /********************************/
     /***   Protected Attributes   ***/
     /********************************/
-    protected String Id;
+    protected Long Id;
     protected Collection<T> interactions;
 
 }
