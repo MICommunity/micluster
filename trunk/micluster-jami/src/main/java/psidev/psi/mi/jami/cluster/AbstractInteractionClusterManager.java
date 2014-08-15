@@ -2,8 +2,8 @@ package psidev.psi.mi.jami.cluster;
 
 import psidev.psi.mi.jami.cluster.model.InteractionCluster;
 import psidev.psi.mi.jami.cluster.merge.InteractorMerger;
+import psidev.psi.mi.jami.cluster.model.Interactor2Interactions;
 import psidev.psi.mi.jami.model.Interaction;
-import psidev.psi.mi.jami.model.Interactor;
 import psidev.psi.mi.jami.model.Xref;
 
 import java.util.*;
@@ -17,19 +17,18 @@ public abstract class AbstractInteractionClusterManager<I extends Interaction,T 
     /***   Abstract Constructor   ***/
     /********************************/
     public AbstractInteractionClusterManager(){
-        this.interactionClusters = new ArrayList<T>();
-        this.interaction2String = new HashMap<Interaction, String>();
+        this.id2Interactor = new TreeMap<Xref, Interactor2Interactions>();
         this.idGenerator = 0L;
-        this.id2Interactor = new TreeMap<Xref, Interactor>();
+        this.interactionClusters = new ArrayList<T>();
     }
 
     /**************************/
     /***   Public Methods   ***/
     /**************************/
     public void clear(){
-        this.interactionClusters.clear();
-        this.interaction2String.clear();
+        this.id2Interactor.clear();
         this.idGenerator = 0L;
+        this.interactionClusters.clear();
     }
 
     /*****************************/
@@ -42,9 +41,8 @@ public abstract class AbstractInteractionClusterManager<I extends Interaction,T 
     /********************************/
     /***   Protected Attributes   ***/
     /********************************/
-    protected InteractorMerger merger = null;
-    protected Collection<T> interactionClusters;
-    protected Map<Interaction, String> interaction2String;
-    protected Map<Xref, Interactor> id2Interactor;
+    protected Map<Xref, Interactor2Interactions> id2Interactor;
     protected Long idGenerator;
+    protected Collection<T> interactionClusters;
+    protected InteractorMerger merger = null;
 }
