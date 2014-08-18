@@ -5,6 +5,9 @@ import psidev.psi.mi.jami.cluster.merge.InteractorMerger;
 import psidev.psi.mi.jami.cluster.model.Interactor2Interactions;
 import psidev.psi.mi.jami.model.Interaction;
 import psidev.psi.mi.jami.model.Xref;
+import psidev.psi.mi.jami.utils.comparator.xref.DefaultExternalIdentifierComparator;
+import psidev.psi.mi.jami.utils.comparator.xref.DefaultXrefComparator;
+import psidev.psi.mi.jami.utils.comparator.xref.UnambiguousXrefComparator;
 
 import java.util.*;
 
@@ -17,7 +20,7 @@ public abstract class AbstractInteractionClusterManager<I extends Interaction,T 
     /***   Abstract Constructor   ***/
     /********************************/
     public AbstractInteractionClusterManager(){
-        this.id2Interactor = new TreeMap<Xref, Interactor2Interactions>();
+        this.id2Interactor = new TreeMap<Xref, Interactor2Interactions>(new UnambiguousXrefComparator());
         this.idGenerator = 0L;
         this.interactionClusters = new ArrayList<T>();
     }

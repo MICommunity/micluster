@@ -40,8 +40,10 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
             //Merge all interactors that match with current Interactor's ID
             Interactor2Interactions merged = getMergedInteractor(interactor);
             //Update the Interactor->Collection<Interaction> Map and the ID->Interactor Map
+            merged.getInteractions().add(interaction);
             updateId2InteractorMapAndInteractor2InteractionsMap(getAllIdsFromAnInteractor(interactor), merged);
         }
+        //TODO: Add the right InteractionCluster or update the current one with the new information added
     }
 
     @Override
@@ -93,15 +95,25 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
      */
     private List<Xref> getAllIdsFromAnInteractor(Interactor interactor){
         if(interactor.getPreferredIdentifier() == null) return Collections.EMPTY_LIST;
-        List<Xref> ids = new ArrayList<Xref>();
-        ids.add(interactor.getPreferredIdentifier());
-        ids.addAll(interactor.getIdentifiers());
-        return ids;
+        if(interactor.getIdentifiers().contains(interactor.getPreferredIdentifier()))
+            return (List<Xref>) interactor.getIdentifiers();
+        else {
+            List<Xref> ids = new ArrayList<Xref>();
+            ids.add(interactor.getPreferredIdentifier());
+            ids.addAll(interactor.getIdentifiers());
+            return ids;
+        }
     }
 
+    /**
+     *
+     * @param interactor
+     * @return
+     */
     private Interactor2Interactions getMergedInteractor(Interactor interactor) {
+        Interactor imerged = new DefaultInteractor(interactor.getShortName(),interactor.getPreferredIdentifier());
         Interactor2Interactions merged = new DefaultInteractor2Interactions(getInteractorMerger().merge(
-                new DefaultInteractor(interactor.getFullName(),interactor.getPreferredIdentifier()),
+                imerged,
                 interactor)); //initialize the merged identifier with the interactor passed as parameter
         if(this.id2Interactor.containsKey(interactor.getPreferredIdentifier()))
             merged.getInteractions().addAll(this.id2Interactor.get(interactor.getPreferredIdentifier()).getInteractions());
@@ -112,14 +124,21 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
             Xref id = null;
             while (ids.hasNext()) {
                 id = ids.next();
-                aux = getInteractorMerger().merge(merged.getInteractor(),this.id2Interactor.get(id).getInteractor());
-                merged.getInteractions().addAll(this.id2Interactor.get(id).getInteractions());
-                merged.setInteractor(aux);
+                if(this.id2Interactor.containsKey(id)) {
+                    aux = getInteractorMerger().merge(merged.getInteractor(), this.id2Interactor.get(id).getInteractor());
+                    merged.getInteractions().addAll(this.id2Interactor.get(id).getInteractions());
+                    merged.setInteractor(aux);
+                }
             }
         }
         return merged;
     }
 
+    /**
+     *
+     * @param allIdsFromAnInteractor
+     * @param merged
+     */
     private void updateId2InteractorMapAndInteractor2InteractionsMap(List<Xref> allIdsFromAnInteractor, Interactor2Interactions merged) {
         Iterator<Xref> idsIterator = allIdsFromAnInteractor.iterator();
         Xref id = null;

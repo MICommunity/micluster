@@ -40,7 +40,7 @@ public class DefaultInteractorMerger extends AbstractInteractorMerger {
         if ( in1 == in2 ) return in1; //There is nothing to merge. Both are the same object
         if (! areSame(in1,in2)) return null;
         //Copy some information from the first Interactor parameter
-        Interactor interactor = new DefaultInteractor(in1.getFullName());
+        Interactor interactor = new DefaultInteractor(in1.getShortName());
         try {
             getEnricher().enrich(interactor, in1);
             getEnricher().enrich(interactor, in2);
