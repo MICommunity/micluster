@@ -35,15 +35,47 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
     @Override
     public void process(Interaction interaction) {
         Iterator<Participant> participantIterator = interaction.getParticipants().iterator();
+        //This loop is for updating and merging the current information with the new one carried by this interaction
         while(participantIterator.hasNext()){
             Interactor interactor = participantIterator.next().getInteractor();
             //Merge all interactors that match with current Interactor's ID
             Interactor2Interactions merged = getMergedInteractor(interactor);
             //Update the Interactor->Collection<Interaction> Map and the ID->Interactor Map
-            merged.getInteractions().add(interaction);
-            updateId2InteractorMapAndInteractor2InteractionsMap(getAllIdsFromAnInteractor(interactor), merged);
+            updateMergedInteraction(merged, interaction);
+            updateId2InteractorMapAndInteractor2InteractionsMap(merged);
         }
         //TODO: Add the right InteractionCluster or update the current one with the new information added
+        //This loop is to retrieve the
+        participantIterator = interaction.getParticipants().iterator();
+        while (participantIterator.hasNext()){
+            Interactor interactor = participantIterator.next().getInteractor();
+            List<Collection<Interaction>> listCollectionInteractions =
+                    new ArrayList<Collection<Interaction>>(interaction.getParticipants().size());
+            listCollectionInteractions.add(this.id2Interactor.get(interactor.getPreferredIdentifier()).getInteractions());
+            //TODO: Calculate the intersection of this list of collections to find if they have at least one in common
+            List<Interaction> intersection = getIntersection(listCollectionInteractions);
+        }
+
+    }
+
+    private List<Interaction> getIntersection(List<Collection<Interaction>> listCollectionInteractions) {
+        Iterator<Collection<Interaction>> iterator = listCollectionInteractions.iterator();
+        Collection<Interaction> auxCollection = null;
+        Collection<Interaction> minCollection = null;
+        if (iterator.hasNext()){
+            minCollection = iterator.next();
+            int minSize = minCollection.size();
+            while(iterator.hasNext()){
+                auxCollection = iterator.next();
+                if(auxCollection.size() < minSize)
+                    minCollection = auxCollection;
+            }
+        }
+        List<Interaction> intersection = new LinkedList<Interaction>();
+
+        //TODO: Magic stuff to find the intersection
+
+        return intersection;
     }
 
     @Override
@@ -126,7 +158,7 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
                 id = ids.next();
                 if(this.id2Interactor.containsKey(id)) {
                     aux = getInteractorMerger().merge(merged.getInteractor(), this.id2Interactor.get(id).getInteractor());
-                    merged.getInteractions().addAll(this.id2Interactor.get(id).getInteractions());
+                    updateMergedInteractions(merged, this.id2Interactor.get(id).getInteractions());
                     merged.setInteractor(aux);
                 }
             }
@@ -134,12 +166,26 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
         return merged;
     }
 
+    private void updateMergedInteractions(Interactor2Interactions merged, Collection<Interaction> interactions) {
+        Iterator<Interaction> iterator = interactions.iterator();
+        Interaction aux = null;
+        while (iterator.hasNext()) {
+            updateMergedInteraction(merged, iterator.next());
+
+        }
+    }
+
+    private void updateMergedInteraction(Interactor2Interactions merged, Interaction interaction) {
+        if ( ! merged.getInteractions().contains(interaction))
+            merged.getInteractions().add(interaction);
+    }
+
     /**
      *
-     * @param allIdsFromAnInteractor
      * @param merged
      */
-    private void updateId2InteractorMapAndInteractor2InteractionsMap(List<Xref> allIdsFromAnInteractor, Interactor2Interactions merged) {
+    private void updateId2InteractorMapAndInteractor2InteractionsMap(Interactor2Interactions merged) {
+        List<Xref> allIdsFromAnInteractor = getAllIdsFromAnInteractor(merged.getInteractor());
         Iterator<Xref> idsIterator = allIdsFromAnInteractor.iterator();
         Xref id = null;
         while(idsIterator.hasNext()){

@@ -8,6 +8,8 @@ import psidev.psi.mi.jami.commons.PsiJami;
 import psidev.psi.mi.jami.datasource.InteractionStream;
 import psidev.psi.mi.jami.factory.MIDataSourceFactory;
 import psidev.psi.mi.jami.model.Interaction;
+import psidev.psi.mi.jami.model.Interactor;
+import psidev.psi.mi.jami.model.impl.*;
 
 import java.io.File;
 import java.util.Iterator;
@@ -32,14 +34,27 @@ public class DefaultInteractionClusterManagerTest {
 
     @Test
     public void testClear() throws Exception {
-        Iterator<InteractionCluster<Interaction>> results = this.manager.getResults();
+
     }
 
     @Test
     public void testProcessInteraction() throws Exception {
-        while(interactionIterator.hasNext()){
-            this.manager.process(interactionIterator.next());
-        }
+        Interactor test1 = new DefaultInteractor("Test1", new DefaultXref(new DefaultCvTerm("IntAct"),"TEST_1"));
+        test1.getIdentifiers().add(new DefaultXref(new DefaultCvTerm("IntAct"),"TEST_2"));
+        test1.getIdentifiers().add(new DefaultXref(new DefaultCvTerm("IntAct"),"TEST_5"));
+        Interactor test2 = new DefaultInteractor("Test2", new DefaultXref(new DefaultCvTerm("IntAct"),"TEST_2"));
+        test2.getIdentifiers().add(new DefaultXref(new DefaultCvTerm("IntAct"),"TEST_1"));
+        test2.getIdentifiers().add(new DefaultXref(new DefaultCvTerm("IntAct"),"TEST_3"));
+        Interactor test3 = new DefaultInteractor("Test3", new DefaultXref(new DefaultCvTerm("IntAct"),"TEST_3"));
+        Interactor test4 = new DefaultInteractor("Test4", new DefaultXref(new DefaultCvTerm("IntAct"),"TEST_4"));
+        Interaction interactionTest = new DefaultInteraction("InteractionTest1");
+        interactionTest.addParticipant(new DefaultParticipant(test1));
+        interactionTest.addParticipant(new DefaultParticipant(test4));
+        this.manager.process(interactionTest);
+        interactionTest = new DefaultInteraction("InteractionTest2");
+        interactionTest.addParticipant(new DefaultParticipant(test2));
+        interactionTest.addParticipant(new DefaultParticipant(test3));
+        this.manager.process(interactionTest);
     }
 
     @Test
