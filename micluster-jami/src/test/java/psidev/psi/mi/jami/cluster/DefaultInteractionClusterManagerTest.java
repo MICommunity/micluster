@@ -44,7 +44,6 @@ public class DefaultInteractionClusterManagerTest {
         test1.getIdentifiers().add(new DefaultXref(new DefaultCvTerm("IntAct"),"TEST_5"));
         Interactor test2 = new DefaultInteractor("Test2", new DefaultXref(new DefaultCvTerm("IntAct"),"TEST_2"));
         test2.getIdentifiers().add(new DefaultXref(new DefaultCvTerm("IntAct"),"TEST_1"));
-        test2.getIdentifiers().add(new DefaultXref(new DefaultCvTerm("IntAct"),"TEST_3"));
         Interactor test3 = new DefaultInteractor("Test3", new DefaultXref(new DefaultCvTerm("IntAct"),"TEST_3"));
         Interactor test4 = new DefaultInteractor("Test4", new DefaultXref(new DefaultCvTerm("IntAct"),"TEST_4"));
         Interaction interactionTest = new DefaultInteraction("InteractionTest1");
@@ -55,6 +54,14 @@ public class DefaultInteractionClusterManagerTest {
         interactionTest.addParticipant(new DefaultParticipant(test2));
         interactionTest.addParticipant(new DefaultParticipant(test3));
         this.manager.process(interactionTest);
+        Interactor test5 = new DefaultInteractor("Test5", new DefaultXref(new DefaultCvTerm("IntAct"),"TEST_5"));
+        Interactor test6 = new DefaultInteractor("Test6", new DefaultXref(new DefaultCvTerm("IntAct"),"TEST_6"));
+        test6.getIdentifiers().add(new DefaultXref(new DefaultCvTerm("IntAct"),"TEST_3"));
+        interactionTest = new DefaultInteraction("InteractionTest3");
+        interactionTest.addParticipant(new DefaultParticipant(test5));
+        interactionTest.addParticipant(new DefaultParticipant(test6));
+        this.manager.process(interactionTest);
+        System.out.println("Just to be able to put here a breakpoint");
     }
 
     @Test
