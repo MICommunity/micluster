@@ -22,6 +22,7 @@ public abstract class AbstractInteractionClusterManager<I extends Interaction,T 
     public AbstractInteractionClusterManager(){
         this.id2Interactor = new TreeMap<Xref, Interactor2Interactions>(new UnambiguousXrefComparator());
         this.idGenerator = 0L;
+        this.interaction2InteractionCluster = new HashMap<Interaction, T>();
         this.interactionClusters = new ArrayList<T>();
     }
 
@@ -46,6 +47,7 @@ public abstract class AbstractInteractionClusterManager<I extends Interaction,T 
     /********************************/
     protected Map<Xref, Interactor2Interactions> id2Interactor;
     protected Long idGenerator;
+    protected Map<Interaction, T> interaction2InteractionCluster;
     protected Collection<T> interactionClusters;
     protected InteractorMerger merger = null;
 }

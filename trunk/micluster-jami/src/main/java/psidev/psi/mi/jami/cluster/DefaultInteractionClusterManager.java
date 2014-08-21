@@ -2,6 +2,7 @@ package psidev.psi.mi.jami.cluster;
 
 import psidev.psi.mi.jami.cluster.merge.DefaultInteractorMerger;
 import psidev.psi.mi.jami.cluster.merge.InteractorMerger;
+import psidev.psi.mi.jami.cluster.model.DefaultInteractionCluster;
 import psidev.psi.mi.jami.cluster.model.DefaultInteractor2Interactions;
 import psidev.psi.mi.jami.cluster.model.InteractionCluster;
 import psidev.psi.mi.jami.cluster.model.Interactor2Interactions;
@@ -44,21 +45,53 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
             updateMergedInteraction(merged, interaction);
             updateId2InteractorMapAndInteractor2InteractionsMap(merged);
         }
-        //TODO: Add the right InteractionCluster or update the current one with the new information added
-        //This loop is to retrieve the
+        //This loop is to retrieve all the interaction where these interactor are part of it.
         participantIterator = interaction.getParticipants().iterator();
+        List<Collection<Interaction>> listCollectionInteractions =
+                new ArrayList<Collection<Interaction>>(interaction.getParticipants().size());
         while (participantIterator.hasNext()){
             Interactor interactor = participantIterator.next().getInteractor();
-            List<Collection<Interaction>> listCollectionInteractions =
-                    new ArrayList<Collection<Interaction>>(interaction.getParticipants().size());
             listCollectionInteractions.add(this.id2Interactor.get(interactor.getPreferredIdentifier()).getInteractions());
-            //TODO: Calculate the intersection of this list of collections to find if they have at least one in common
-            List<Interaction> intersection = getIntersection(listCollectionInteractions);
         }
-
+        List<Interaction> intersection = getIntersection(listCollectionInteractions);
+        intersection.remove(interaction); //We just removed the current Interaction
+        InteractionCluster cluster = null;
+        if(intersection.size() > 0){
+            //We already have one interaction with that information. If there several all of them should be
+            //pointing to the same InteractionCluster
+            cluster = this.interaction2InteractionCluster.get(intersection.get(0));
+            this.interaction2InteractionCluster.put(interaction, cluster);
+        }
+        else{
+            //We should create a new InteractionCluster to add that new Interaction
+            cluster = new DefaultInteractionCluster(getNextId());
+            this.interactionClusters.add(cluster);
+            this.interaction2InteractionCluster.put(interaction, cluster);
+        }
+        cluster.getInteractions().add(interaction);
     }
 
     private List<Interaction> getIntersection(List<Collection<Interaction>> listCollectionInteractions) {
+        Collection<Interaction> minCollection = getMinSizeCollection(listCollectionInteractions);
+        Iterator<Collection<Interaction>> iterator = listCollectionInteractions.iterator();
+        while (iterator.hasNext()){
+            Iterator<Interaction> innerIterator = minCollection.iterator();
+            Collection<Interaction> interactions = iterator.next();
+            Collection<Interaction> auxCollection = new ArrayList<Interaction>();
+            while(innerIterator.hasNext()){
+                Interaction inter = innerIterator.next();
+                if (interactions.contains(inter))
+                    auxCollection.add(inter);
+            }
+            if (auxCollection.size() > 0)
+                minCollection = auxCollection;
+            else
+                return Collections.EMPTY_LIST;
+        }
+        return (List<Interaction>) minCollection;
+    }
+
+    private Collection<Interaction> getMinSizeCollection(List<Collection<Interaction>> listCollectionInteractions) {
         Iterator<Collection<Interaction>> iterator = listCollectionInteractions.iterator();
         Collection<Interaction> auxCollection = null;
         Collection<Interaction> minCollection = null;
@@ -71,11 +104,7 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
                     minCollection = auxCollection;
             }
         }
-        List<Interaction> intersection = new LinkedList<Interaction>();
-
-        //TODO: Magic stuff to find the intersection
-
-        return intersection;
+        return minCollection;
     }
 
     @Override
