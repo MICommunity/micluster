@@ -21,4 +21,17 @@ public interface InteractionCluster<T extends Interaction> {
      * @return
      */
     public Collection<T> getInteractions();
+
+    /**
+     *
+     * @param interaction
+     * @return
+     */
+    public boolean addInteraction(T interaction);
+
+    /**
+     *
+     * @param interactions
+     */
+    public void addInteractions(Collection<T> interactions);
 }

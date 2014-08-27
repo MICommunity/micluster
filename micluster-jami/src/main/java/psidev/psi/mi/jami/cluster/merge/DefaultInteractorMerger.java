@@ -21,14 +21,6 @@ public class DefaultInteractorMerger extends AbstractInteractorMerger {
         //Check preferred identifier
         if( DefaultXrefComparator.areEquals(in1.getPreferredIdentifier(), in2.getPreferredIdentifier() ) ) return true;
         else{
-            //TODO: wrong way. Change to use two list and check "manually" if they are equal
-            //If not check the other identifiers
-//            Set<Xref> ids1 = (Set<Xref>) in1.getIdentifiers();
-//            Set<Xref> ids2 = (Set<Xref>) in2.getIdentifiers();
-//            Set<Xref> intersection = new TreeSet<Xref>(xrefComparator);
-//            intersection.addAll(ids1);
-//            intersection.retainAll(ids2); //calculate the intersection between both sets
-//            if(intersection.size() == 0) return false;
             List<Xref> ids1 = (List<Xref>) in1.getIdentifiers();
             List<Xref> ids2 = (List<Xref>) in2.getIdentifiers();
             List<Xref> auxList = null;
