@@ -57,54 +57,37 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
         intersection.remove(interaction); //We just removed the current Interaction
         InteractionCluster cluster = null;
         if(intersection.size() > 0){
-            //We already have one interaction with that information. If there several all of them should be
-            //pointing to the same InteractionCluster
-            cluster = this.interaction2InteractionCluster.get(intersection.get(0));
-            this.interaction2InteractionCluster.put(interaction, cluster);
+            if(intersection.size() == 1) {
+                //We already have one interaction with that information. If there several all of them should be
+                //pointing to the same InteractionCluster
+                cluster = this.interaction2InteractionCluster.get(intersection.get(0));
+                cluster.addInteraction(interaction);
+
+            }
+            else{
+                //Intersection size larger than 1. That means we have to merge the InteractionClusters
+                cluster = new DefaultInteractionCluster(getNextId());
+                InteractionCluster auxCluster = null;
+                Interaction auxInteraction = null;
+                Iterator<Interaction> interactionIterator = intersection.iterator();
+                while (interactionIterator.hasNext()){
+                    auxInteraction = interactionIterator.next();
+                    auxCluster = this.interaction2InteractionCluster.get(auxInteraction);
+                    cluster.addInteractions(auxCluster.getInteractions());
+                    this.interactionClusters.remove(this.interaction2InteractionCluster.get(auxInteraction));
+                    //this.interaction2InteractionCluster.put(auxInteraction, cluster);
+                }
+                updateInteractionsInInteractionCluster(cluster);
+                this.interactionClusters.add(cluster);
+            }
         }
         else{
             //We should create a new InteractionCluster to add that new Interaction
             cluster = new DefaultInteractionCluster(getNextId());
             this.interactionClusters.add(cluster);
-            this.interaction2InteractionCluster.put(interaction, cluster);
+            cluster.addInteraction(interaction);
         }
-        cluster.getInteractions().add(interaction);
-    }
-
-    private List<Interaction> getIntersection(List<Collection<Interaction>> listCollectionInteractions) {
-        Collection<Interaction> minCollection = getMinSizeCollection(listCollectionInteractions);
-        Iterator<Collection<Interaction>> iterator = listCollectionInteractions.iterator();
-        while (iterator.hasNext()){
-            Iterator<Interaction> innerIterator = minCollection.iterator();
-            Collection<Interaction> interactions = iterator.next();
-            Collection<Interaction> auxCollection = new ArrayList<Interaction>();
-            while(innerIterator.hasNext()){
-                Interaction inter = innerIterator.next();
-                if (interactions.contains(inter))
-                    auxCollection.add(inter);
-            }
-            if (auxCollection.size() > 0)
-                minCollection = auxCollection;
-            else
-                return Collections.EMPTY_LIST;
-        }
-        return (List<Interaction>) minCollection;
-    }
-
-    private Collection<Interaction> getMinSizeCollection(List<Collection<Interaction>> listCollectionInteractions) {
-        Iterator<Collection<Interaction>> iterator = listCollectionInteractions.iterator();
-        Collection<Interaction> auxCollection = null;
-        Collection<Interaction> minCollection = null;
-        if (iterator.hasNext()){
-            minCollection = iterator.next();
-            int minSize = minCollection.size();
-            while(iterator.hasNext()){
-                auxCollection = iterator.next();
-                if(auxCollection.size() < minSize)
-                    minCollection = auxCollection;
-            }
-        }
-        return minCollection;
+        this.interaction2InteractionCluster.put(interaction, cluster);
     }
 
     @Override
@@ -193,6 +176,49 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
             }
         }
         return merged;
+    }
+
+    private List<Interaction> getIntersection(List<Collection<Interaction>> listCollectionInteractions) {
+        Collection<Interaction> minCollection = getMinSizeCollection(listCollectionInteractions);
+        Iterator<Collection<Interaction>> iterator = listCollectionInteractions.iterator();
+        while (iterator.hasNext()){
+            Iterator<Interaction> innerIterator = minCollection.iterator();
+            Collection<Interaction> interactions = iterator.next();
+            Collection<Interaction> auxCollection = new ArrayList<Interaction>();
+            while(innerIterator.hasNext()){
+                Interaction inter = innerIterator.next();
+                if (interactions.contains(inter))
+                    auxCollection.add(inter);
+            }
+            if (auxCollection.size() > 0)
+                minCollection = auxCollection;
+            else
+                return Collections.EMPTY_LIST;
+        }
+        return (List<Interaction>) minCollection;
+    }
+
+    private Collection<Interaction> getMinSizeCollection(List<Collection<Interaction>> listCollectionInteractions) {
+        Iterator<Collection<Interaction>> iterator = listCollectionInteractions.iterator();
+        Collection<Interaction> auxCollection = null;
+        Collection<Interaction> minCollection = null;
+        if (iterator.hasNext()){
+            minCollection = iterator.next();
+            int minSize = minCollection.size();
+            while(iterator.hasNext()){
+                auxCollection = iterator.next();
+                if(auxCollection.size() < minSize)
+                    minCollection = auxCollection;
+            }
+        }
+        return minCollection;
+    }
+
+
+    private void updateInteractionsInInteractionCluster(InteractionCluster cluster) {
+        Iterator<Interaction> interactionIterator = cluster.getInteractions().iterator();
+        while(interactionIterator.hasNext())
+            this.interaction2InteractionCluster.put(interactionIterator.next(), cluster);
     }
 
     private void updateMergedInteractions(Interactor2Interactions merged, Collection<Interaction> interactions) {
