@@ -1,6 +1,5 @@
 package psidev.psi.mi.jami.cluster.model.summary;
 
-import psidev.psi.mi.jami.cluster.model.AbstractInteractionCluster;
 import psidev.psi.mi.jami.model.*;
 
 import java.util.*;
@@ -17,7 +16,7 @@ public class DefaultInteractionClusterSummary extends AbstractInteractionCluster
         this.experiments = new ArrayList<Experiment>();
         this.interactionDetectionMethod2Publication = new HashMap<CvTerm, List<Experiment>>();
         this.interactionTypes = new ArrayList<CvTerm>();
-        this.participants = new ArrayList<DefaultParticipantClusterSummary>();
+        this.participants = new ArrayList<ParticipantClusterSummary>();
         this.publications = new ArrayList<Publication>();
     }
 
@@ -36,7 +35,7 @@ public class DefaultInteractionClusterSummary extends AbstractInteractionCluster
         return interactionTypes;
     }
 
-    public Collection<DefaultParticipantClusterSummary> getParticipants() {
+    public Collection<ParticipantClusterSummary> getParticipants() {
         return participants;
     }
 
@@ -49,7 +48,7 @@ public class DefaultInteractionClusterSummary extends AbstractInteractionCluster
     private Collection<Experiment> experiments;
     private Map<CvTerm, List<Experiment>> interactionDetectionMethod2Publication;
     private Collection<CvTerm> interactionTypes;
-    private Collection<DefaultParticipantClusterSummary> participants;
+    private Collection<ParticipantClusterSummary> participants;
     private Collection<Publication> publications;
 
 }
