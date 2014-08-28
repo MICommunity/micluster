@@ -79,6 +79,7 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
                 }
                 updateInteractionsInInteractionCluster(cluster);
                 this.interactionClusters.add(cluster);
+                cluster.addInteraction(interaction);
             }
         }
         else{
@@ -122,7 +123,7 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
      *
      * @param merger
      */
-    public void setInteractorMeger(InteractorMerger merger){
+    public void setInteractorMerger(InteractorMerger merger){
         if(merger != null) this.merger = merger;
     }
     
