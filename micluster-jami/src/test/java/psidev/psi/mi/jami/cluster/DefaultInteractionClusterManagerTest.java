@@ -6,6 +6,8 @@ import org.junit.Test;
 import psidev.psi.mi.jami.cluster.merge.DefaultInteractorMerger;
 import psidev.psi.mi.jami.cluster.merge.InteractorMerger;
 import psidev.psi.mi.jami.cluster.model.InteractionCluster;
+import psidev.psi.mi.jami.cluster.model.summary.InteractionClusterSummary;
+import psidev.psi.mi.jami.cluster.util.InteractionClusterUtils;
 import psidev.psi.mi.jami.commons.MIDataSourceOptionFactory;
 import psidev.psi.mi.jami.commons.PsiJami;
 import psidev.psi.mi.jami.datasource.InteractionStream;
@@ -15,6 +17,7 @@ import psidev.psi.mi.jami.model.Interactor;
 import psidev.psi.mi.jami.model.impl.*;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -75,6 +78,13 @@ public class DefaultInteractionClusterManagerTest {
     public void testProcessInteractionIterator() throws Exception {
         this.manager.process(interactionIterator);
         Assert.assertTrue(countNumberOfClusters(this.manager.getResults()) == 6);
+    }
+
+    @Test
+    public void testBuildSummary() throws Exception {
+        this.manager.process(interactionIterator);
+        Collection<InteractionClusterSummary> summaries = InteractionClusterUtils.buildSummaries(this.manager.getResults());
+        Assert.assertTrue(summaries.size() == 6);
     }
 
     private int countNumberOfClusters(Iterator<InteractionCluster<Interaction>> iterator){
