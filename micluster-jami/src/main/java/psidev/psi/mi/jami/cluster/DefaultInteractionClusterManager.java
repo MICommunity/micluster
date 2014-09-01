@@ -1,5 +1,6 @@
 package psidev.psi.mi.jami.cluster;
 
+import org.apache.log4j.Logger;
 import psidev.psi.mi.jami.cluster.merge.DefaultInteractorMerger;
 import psidev.psi.mi.jami.cluster.merge.InteractorMerger;
 import psidev.psi.mi.jami.cluster.model.DefaultInteractionCluster;
@@ -27,23 +28,44 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
     /**************************/
     /***   Public Methods   ***/
     /**************************/
+    /**
+     * Cleans the content of the data structures
+     */
     @Override
     public void clear() {
         //Reset data structures to the initial state.
+        if(log.isInfoEnabled()) log.info("Cleaning the structure");
         super.clear();
     }
 
+    /**
+     * Receives an interaction to process and cluster. For that this method follows this steps:
+     * 1) Check if there are already interactors of this interaction. If there are merge them, else add the interactor.
+     * 2) For every interactor of this interaction find all interactions that contains it. And find the intersection of
+     *    that list of groups.
+     * 3) With the intersection of the Interactions we have all Interactions that match with the current one. Depending
+     *    on how many Interactions we have in the intersection we have to do:
+     *    i)   For None Interactions: This Interaction does not have a cluster, then create one.
+     *    ii)  For One Interaction: We just have to add the current Interaction to this cluster.
+     *    iii) For Two or More Interactions: Merge their clusters in a new one and add the current Interaction to it.
+     *
+     * @param interaction interaction to process and cluster
+     */
     @Override
     public void process(Interaction interaction) {
+        if(log.isInfoEnabled()) log.info("Processing interaction: " + interaction.toString());
         Iterator<Participant> participantIterator = interaction.getParticipants().iterator();
         //This loop is for updating and merging the current information with the new one carried by this interaction
         while(participantIterator.hasNext()){
             Interactor interactor = participantIterator.next().getInteractor();
+            if(log.isInfoEnabled()) log.info("Processing interactor: " + interactor.toString());
             //Merge all interactors that match with current Interactor's ID
             Interactor2Interactions merged = getMergedInteractor(interactor);
+            if(log.isInfoEnabled()) log.info("Merged interactor: " + merged.toString());
             //Update the Interactor->Collection<Interaction> Map and the ID->Interactor Map
             updateMergedInteraction(merged, interaction);
-            updateId2InteractorMapAndInteractor2InteractionsMap(merged);
+            if(log.isInfoEnabled()) log.info("Updating all references from interaction to the old interactors to merged one");
+            updateId2Interactor(merged);
         }
         //This loop is to retrieve all the interaction where these interactor are part of it.
         participantIterator = interaction.getParticipants().iterator();
@@ -53,6 +75,7 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
             Interactor interactor = participantIterator.next().getInteractor();
             listCollectionInteractions.add(this.id2Interactor.get(interactor.getPreferredIdentifier()).getInteractions());
         }
+        if(log.isInfoEnabled()) log.info("Calculating the intersection of the interactions");
         List<Interaction> intersection = getIntersection(listCollectionInteractions);
         intersection.remove(interaction); //We just removed the current Interaction
         InteractionCluster cluster = null;
@@ -60,12 +83,13 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
             if(intersection.size() == 1) {
                 //We already have one interaction with that information. If there several all of them should be
                 //pointing to the same InteractionCluster
+                if(log.isInfoEnabled()) log.info("Exist one cluster that match this interaction");
                 cluster = this.interaction2InteractionCluster.get(intersection.get(0));
                 cluster.addInteraction(interaction);
-
             }
             else{
                 //Intersection size larger than 1. That means we have to merge the InteractionClusters
+                if(log.isInfoEnabled()) log.info("Merge several existing clusters in the same one");
                 cluster = new DefaultInteractionCluster(getNextId());
                 InteractionCluster auxCluster = null;
                 Interaction auxInteraction = null;
@@ -84,6 +108,7 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
         }
         else{
             //We should create a new InteractionCluster to add that new Interaction
+            if(log.isInfoEnabled()) log.info("Create a new cluster for this interaction");
             cluster = new DefaultInteractionCluster(getNextId());
             this.interactionClusters.add(cluster);
             cluster.addInteraction(interaction);
@@ -104,8 +129,9 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
     }
 
     /**
+     * Return back the InteractorMerger if has one, if not create a DefaultInteractorMerger and return it.
      *
-     * @return
+     * @return the current InteractorMerger
      */
     public InteractorMerger getInteractorMerger(){
         if(this.merger == null) {
@@ -120,8 +146,9 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
     }
 
     /**
+     * Set the InteractorMerger to be able to merge different Interactors
      *
-     * @param merger
+     * @param merger InteractorMerger provided to use it in the cluster algorithm
      */
     public void setInteractorMerger(InteractorMerger merger){
         if(merger != null) this.merger = merger;
@@ -231,16 +258,24 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
         }
     }
 
+    /**
+     *
+     *
+     * @param merged Interactor2Interaction to store the Interaction object (if is not already there) passed as parameter
+     * @param interaction Interaction to store in the Interactor2Interaction object passed as parameter
+     */
     private void updateMergedInteraction(Interactor2Interactions merged, Interaction interaction) {
         if ( ! merged.getInteractions().contains(interaction))
             merged.getInteractions().add(interaction);
     }
 
     /**
+     * Given an Interactor2Interaction object extract all IDs from it and update their references into the id2Interactor
+     * Map.
      *
-     * @param merged
+     * @param merged Interactor2Interaction instance to update all the IDs references to the Interactors to this one.
      */
-    private void updateId2InteractorMapAndInteractor2InteractionsMap(Interactor2Interactions merged) {
+    private void updateId2Interactor(Interactor2Interactions merged) {
         List<Xref> allIdsFromAnInteractor = getAllIdsFromAnInteractor(merged.getInteractor());
         Iterator<Xref> idsIterator = allIdsFromAnInteractor.iterator();
         Xref id = null;
@@ -249,5 +284,10 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
             this.id2Interactor.put(id, merged);
         }
     }
+
+    /******************************/
+    /***   Private Attributes   ***/
+    /******************************/
+    private Logger log = Logger.getLogger(DefaultInteractionClusterManager.class);
 
 }

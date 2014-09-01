@@ -35,12 +35,13 @@ public class InteractionClusterUtils {
             inter = interactions.next();
             if(inter instanceof InteractionEvidence) {
                 InteractionEvidence interactionEvidence = (InteractionEvidence) inter;
+                Experiment experiment = interactionEvidence.getExperiment();
                 //Experiments
-                summary.getExperiments().add(interactionEvidence.getExperiment());
+                summary.getExperiments().add(experiment);
                 //Interaction Detection Method 2 Publications(Experiments)
-                addExperimen2Map(summary.getInteractionDetectionMethod2Publication(),interactionEvidence.getExperiment().getInteractionDetectionMethod(), interactionEvidence.getExperiment());
+                addExperimen2Map(summary.getInteractionDetectionMethod2Publication(),experiment.getInteractionDetectionMethod(), experiment);
                 //Publication
-                summary.getPublications().add(interactionEvidence.getExperiment().getPublication());
+                summary.getPublications().add(experiment.getPublication());
             }
             //Interaction Type
             summary.getInteractionTypes().add(inter.getInteractionType());
@@ -58,34 +59,35 @@ public class InteractionClusterUtils {
         Interaction inter = participant.getInteraction();
         if(inter instanceof InteractionEvidence) {
             InteractionEvidence interactionEvidence = (InteractionEvidence) inter;
+            Experiment experiment = interactionEvidence.getExperiment();
             //Biological Role 2 Experiments
-            addExperimen2Map(summary.getBiologicalRole2Experiment(), participant.getBiologicalRole(),interactionEvidence.getExperiment());
+            addExperimen2Map(summary.getBiologicalRole2Experiment(), participant.getBiologicalRole(),experiment);
             if(participant instanceof ParticipantEvidence) {
                 ParticipantEvidence participantEvidence = (ParticipantEvidence) participant;
                 //Experimental Role 2 Experiments
-                addExperimen2Map(summary.getExperimentalRole2Experiment(), participantEvidence.getExperimentalRole(), interactionEvidence.getExperiment());
+                addExperimen2Map(summary.getExperimentalRole2Experiment(), participantEvidence.getExperimentalRole(), experiment);
                 //Identification Method 2 Experiments
                 for (CvTerm identificationMethod : participantEvidence.getIdentificationMethods()){
-                    addExperimen2Map(summary.getIdentificationMethod2Experiment(), identificationMethod, interactionEvidence.getExperiment());
+                    addExperimen2Map(summary.getIdentificationMethod2Experiment(), identificationMethod, experiment);
                 }
                 //Interactor 2 Experimental Roles
                 addRole2Map(summary.getInteractor2ExperimentalRole(), participant.getInteractor(), participantEvidence.getExperimentalRole());
             }
             //Feature 2 Experiment
             for (Feature feature : (Collection<Feature>) participant.getFeatures()) {
-                summary.getFeature2Experiment().put(feature, interactionEvidence.getExperiment());
+                summary.getFeature2Experiment().put(feature, experiment);
             }
             //Interactor 2 Bio Roles
             addRole2Map(summary.getInteractor2BioRole(),participant.getInteractor(), participant.getBiologicalRole());
             //Organism 2 Experiments
             if(summary.getOrganism2Experiment().containsKey(participant.getInteractor().getOrganism())){
                 //It is already in the map
-                summary.getOrganism2Experiment().get(participant.getInteractor().getOrganism()).add(interactionEvidence.getExperiment());
+                summary.getOrganism2Experiment().get(participant.getInteractor().getOrganism()).add(experiment);
             }
             else{
                 //New entry in the map
                 List<Experiment> experiments = new ArrayList<Experiment>();
-                experiments.add(interactionEvidence.getExperiment());
+                experiments.add(experiment);
                 summary.getOrganism2Experiment().put(participant.getInteractor().getOrganism(),experiments);
             }
 
