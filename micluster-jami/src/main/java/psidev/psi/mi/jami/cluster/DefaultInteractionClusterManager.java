@@ -150,7 +150,12 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
         }
         return this.merger;
     }
-    
+
+    /**
+     * Returns an Iterator of InteractionCluster
+     *
+     * @return Iterator of InteractionCluster
+     */
     @Override
     public Iterator<InteractionCluster<Interaction>> getResults() {
         return this.interactionClusters.iterator();
