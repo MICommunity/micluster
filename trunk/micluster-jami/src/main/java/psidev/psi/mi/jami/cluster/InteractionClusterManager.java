@@ -11,31 +11,35 @@ import java.util.Iterator;
  */
 public interface InteractionClusterManager<I extends Interaction,T extends InteractionCluster<I>> {
     /**
+     * Cluster this interaction with the ones that already have.
      *
-     * @param interaction
+     * @param interaction Interaction to process.
      */
     public void process(Interaction interaction);
 
     /**
+     * Traverse all Interactions in the Iterator and for each one call the method process for Interaction.
      *
-     * @param iterator
+     * @param iterator Iterator of Interaction to process.
      */
     public void process(Iterator<Interaction> iterator);
 
     /**
+     * Get the Iterator of the Collection of Interaction passed as parameter and calls the method process for Iterator.
      *
-     * @param collection
+     * @param collection Collection of Interaction to process.
      */
     public void process(Collection<Interaction> collection);
 
     /**
-     *
+     * Clear the content of the data structures.
      */
     public void clear();
 
     /**
+     * Return an Iterator of a class that extends InteractionCluster.
      *
-     * @return
+     * @return Iterator of a class that extends InteractionCluster.
      */
     public Iterator<T> getResults();
 }

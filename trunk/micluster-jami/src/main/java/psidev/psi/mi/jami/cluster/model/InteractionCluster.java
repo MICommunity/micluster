@@ -11,27 +11,32 @@ import java.util.Set;
  */
 public interface InteractionCluster<T extends Interaction> {
     /**
+     * Get the ID of the cluster.
      *
-     * @return
+     * @return ID for this cluster
      */
     public Long getId();
 
     /**
+     * Get all the interactions that have this cluster.
      *
-     * @return
+     * @return Collection of a class that extends Interaction.
      */
     public Collection<T> getInteractions();
 
     /**
+     * Add interaction to the cluster (if it is no already) and return false or true if it was or not already in the
+     * Collection.
      *
-     * @param interaction
-     * @return
+     * @param interaction class that extends Interaction to add.
+     * @return true if the interaction is properly added. False is it was there already.
      */
     public boolean addInteraction(T interaction);
 
     /**
+     * Add interactions to the cluster (if they are not already).
      *
-     * @param interactions
+     * @param interactions Collection of a class that extends Interaction.
      */
     public void addInteractions(Collection<T> interactions);
 }
