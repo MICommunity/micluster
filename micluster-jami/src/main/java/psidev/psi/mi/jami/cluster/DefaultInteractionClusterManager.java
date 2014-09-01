@@ -116,6 +116,11 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
         this.interaction2InteractionCluster.put(interaction, cluster);
     }
 
+    /**
+     * This method just traverses all the Iterator and calls the method process for every Interaction.
+     *
+     * @param iterator Iterator of Interactions to process
+     */
     @Override
     public void process(Iterator<Interaction> iterator) {
         while(iterator.hasNext()){
@@ -123,6 +128,12 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
         }
     }
 
+    /**
+     * This method just get the Iterator of Interactions from the Collection passed as parameter and calls the method
+     * process for the Iterator.
+     *
+     * @param collection Collection of Interactions to process
+     */
     @Override
     public void process(Collection<Interaction> collection) {
         process(collection.iterator());
@@ -178,9 +189,11 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
     }
 
     /**
+     * Given an Interactor find all Interactor2Interaction objects pointed by its IDs and merge them into a new
+     * Interactor2Interaction - if it is necessary - and update all references of the IDs to the new one.
      *
-     * @param interactor
-     * @return
+     * @param interactor Interactor to find the Interactor2Interaction object that represents it.
+     * @return Interactor2Interaction that represents the Interactor passed as parameter.
      */
     private Interactor2Interactions getMergedInteractor(Interactor interactor) {
         Interactor imerged = new DefaultInteractor(interactor.getShortName(),interactor.getPreferredIdentifier());
@@ -206,6 +219,16 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
         return merged;
     }
 
+    /**
+     * Given a List of Collections of Interactions find the intersection of them. For that follows this steps:
+     * 1) Find the smallest Collection to do compare with the others.
+     * 2) Traverse for every element in the smallest Collection if is in the others. If is keep it, if not remove it.
+     *
+     * At the end you should have a list with all the Interactions that are part of the intersection.
+     *
+     * @param listCollectionInteractions List of Collections of Interactions to find the intersection of them.
+     * @return The intersection of the Interactions through the List of Collection of Interactions passed as parameter.
+     */
     private List<Interaction> getIntersection(List<Collection<Interaction>> listCollectionInteractions) {
         Collection<Interaction> minCollection = getMinSizeCollection(listCollectionInteractions);
         Iterator<Collection<Interaction>> iterator = listCollectionInteractions.iterator();
@@ -226,6 +249,14 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
         return (List<Interaction>) minCollection;
     }
 
+    /**
+     * Find the smallest Collection in the list passed as parameter. This will be helpful to find to find the
+     * intersection, because if we begin to compare with the smallest Collection that means that we will have to do
+     * less comparisons.
+     *
+     * @param listCollectionInteractions List of Collections of Interactions to find the smallest Collection.
+     * @return The Collection of Interaction with the smallest size.
+     */
     private Collection<Interaction> getMinSizeCollection(List<Collection<Interaction>> listCollectionInteractions) {
         Iterator<Collection<Interaction>> iterator = listCollectionInteractions.iterator();
         Collection<Interaction> auxCollection = null;
@@ -242,13 +273,25 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
         return minCollection;
     }
 
-
+    /**
+     * Update the Interaction2InteractionCluster references with the Interactions that have the InteractionCluster
+     * object passed as parameter.
+     *
+     * @param cluster InteractionCluster to get the Interactions and update them in the Interaction2InteractionCluster
+     */
     private void updateInteractionsInInteractionCluster(InteractionCluster cluster) {
         Iterator<Interaction> interactionIterator = cluster.getInteractions().iterator();
         while(interactionIterator.hasNext())
             this.interaction2InteractionCluster.put(interactionIterator.next(), cluster);
     }
 
+    /**
+     * Update the Interactor2Interactions with this Collection of Interactions. For each interaction of this Collection
+     * it will call the method updateMergedInteraction to add it if is necessary.
+     *
+     * @param merged Interactor2Interaction to update the Interactions.
+     * @param interactions Collections of Interaction to add into the Interactor2Interaction object
+     */
     private void updateMergedInteractions(Interactor2Interactions merged, Collection<Interaction> interactions) {
         Iterator<Interaction> iterator = interactions.iterator();
         Interaction aux = null;
@@ -259,7 +302,8 @@ public class DefaultInteractionClusterManager extends AbstractInteractionCluster
     }
 
     /**
-     *
+     * Add the Interaction passed as parameter to the Interactor2Interaction passed as parameter too only if the
+     * Interaction was not there before.
      *
      * @param merged Interactor2Interaction to store the Interaction object (if is not already there) passed as parameter
      * @param interaction Interaction to store in the Interactor2Interaction object passed as parameter
