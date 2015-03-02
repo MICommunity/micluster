@@ -15,7 +15,10 @@ public class DefaultUnNormalizedMIScore extends AbstractMIScore {
     public double getMethodsScore() {
         double totalMethods = 0.0d;
         for(String methodId : this.methods)
-            totalMethods += this.methodWeight * this.methodsValues.get(methodId).getScore();
+            //TODO load the whole ontology to find the parents
+            if (this.methodsValues.get(methodId) != null) {
+                totalMethods += this.methodWeight * this.methodsValues.get(methodId).getScore();
+            }
         return totalMethods;
     }
 

@@ -1,10 +1,7 @@
 package psidev.psi.mi.jami.cluster.score;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * Created by maitesin on 18/07/2014.
@@ -15,6 +12,8 @@ public abstract class AbstractMIScore implements MIScore {
     /***********************/
     public AbstractMIScore(String filename){
         //Set the default values
+        this.methods = new ArrayList<String>();
+        this.types = new ArrayList<String>();
         this.typesValues = new HashMap<String, MIScoreProperty>();
         this.methodsValues = new HashMap<String, MIScoreProperty>();
         this.typeWeight = 1.0d;

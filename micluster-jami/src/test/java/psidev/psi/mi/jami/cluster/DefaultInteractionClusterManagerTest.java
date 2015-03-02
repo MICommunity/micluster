@@ -7,6 +7,8 @@ import psidev.psi.mi.jami.cluster.merge.DefaultInteractorMerger;
 import psidev.psi.mi.jami.cluster.merge.InteractorMerger;
 import psidev.psi.mi.jami.cluster.model.InteractionCluster;
 import psidev.psi.mi.jami.cluster.model.summary.InteractionClusterSummary;
+import psidev.psi.mi.jami.cluster.score.DefaultMIScoreCalculator;
+import psidev.psi.mi.jami.cluster.score.MIScoreCalculator;
 import psidev.psi.mi.jami.cluster.util.InteractionClusterUtils;
 import psidev.psi.mi.jami.commons.MIDataSourceOptionFactory;
 import psidev.psi.mi.jami.commons.PsiJami;
@@ -85,6 +87,17 @@ public class DefaultInteractionClusterManagerTest {
         this.manager.process(interactionIterator);
         Collection<InteractionClusterSummary> summaries = InteractionClusterUtils.buildSummaries(this.manager.getResults());
         Assert.assertTrue(summaries.size() == 6);
+    }
+
+    @Test
+    public void testMIScoreCalculator() throws Exception {
+        this.manager.process(interactionIterator);
+        MIScoreCalculator<InteractionCluster<Interaction>> miScoreCalculator = new DefaultMIScoreCalculator<Interaction, InteractionCluster<Interaction>>("score/scoreCategories.properties");
+        Iterator<InteractionCluster<Interaction>> it = this.manager.getResults();
+        while (it.hasNext()) {
+            InteractionCluster<Interaction> interactionCluster = it.next();
+            System.out.println("Interaction: " + interactionCluster.getId() + "; Score: " + miScoreCalculator.computeScore(interactionCluster));
+        }
     }
 
     private int countNumberOfClusters(Iterator<InteractionCluster<Interaction>> iterator){
