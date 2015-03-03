@@ -110,6 +110,7 @@ public class DefaultInteractionClusterManagerTest {
     }
 
     private InteractionClusterManager<Interaction,InteractionCluster<Interaction>> manager;
-    private String filename = "mitab_samples/ndc80_BIND_and_pcna_HPIDb.tsv";
+    private String filename = "mitab_samples/IntAct_for_scoring.tsv";
+    //private String filename = "mitab_samples/ndc80_BIND_and_pcna_HPIDb.tsv";
     private Iterator<Interaction> interactionIterator;
 }
