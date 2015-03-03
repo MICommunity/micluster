@@ -1,5 +1,8 @@
 package psidev.psi.mi.jami.cluster.score;
 
+import psidev.psi.mi.jami.cluster.score.ols.MIONode;
+import psidev.psi.mi.jami.cluster.score.ols.MIOntology;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -18,6 +21,7 @@ public abstract class AbstractMIScore implements MIScore {
         this.methodsValues = new HashMap<String, MIScoreProperty>();
         this.typeWeight = 1.0d;
         this.methodWeight = 1.0d;
+        this.miOntology = new MIOntology();
         //Process the file
         Properties properties = new Properties();
         String [] fields = null; //id,name,score,unNormalizedScore
@@ -95,6 +99,29 @@ public abstract class AbstractMIScore implements MIScore {
 
     protected abstract MIScoreProperty getMIScoreproperty(Properties properties, String prefix, String[] fields);
 
+    protected Double getValue(String id, Map<String, MIScoreProperty> map) {
+        MIScoreProperty miScoreProperty = map.get(id);
+        if (miScoreProperty != null) {
+            return miScoreProperty.getScore();
+        }
+        else {
+            for (String father : this.miOntology.getParents(id)) {
+                if (map.get(father) != null) {
+                    return map.get(father).getScore();
+                }
+            }
+        }
+        return map.get("unknown").getScore();
+    }
+
+    protected Double getMethodValue(String id) {
+        return getValue(id, this.methodsValues);
+    }
+
+    protected Double getTypeValue(String id) {
+        return getValue(id, this.typesValues);
+    }
+
     /********************************/
     /***   Protected Attributes   ***/
     /********************************/
@@ -104,4 +131,5 @@ public abstract class AbstractMIScore implements MIScore {
     protected double typeWeight;
     protected Collection<String> methods;
     protected Collection<String> types;
+    protected MIOntology miOntology;
 }

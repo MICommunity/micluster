@@ -15,7 +15,7 @@ public class DefaultNormalizedMIScore extends AbstractMIScore {
     public double getMethodsScore() {
         double totalMethods = 0.0d;
         for(String methodId : this.methods)
-            totalMethods += this.methodWeight * this.methodsValues.get(methodId).getScore();
+            totalMethods += this.methodWeight * getMethodValue(methodId);
         return totalMethods;
     }
 
@@ -23,7 +23,7 @@ public class DefaultNormalizedMIScore extends AbstractMIScore {
     public double getTypesScore() {
         double totalTypes = 0.0d;
         for(String typeId : this.types)
-            totalTypes += this.typeWeight * this.typesValues.get(typeId).getScore();
+            totalTypes += this.typeWeight * getTypeValue(typeId);
         return totalTypes;
     }
 
