@@ -8,7 +8,9 @@ import psidev.psi.mi.jami.cluster.merge.InteractorMerger;
 import psidev.psi.mi.jami.cluster.model.InteractionCluster;
 import psidev.psi.mi.jami.cluster.model.summary.InteractionClusterSummary;
 import psidev.psi.mi.jami.cluster.score.DefaultMIScoreCalculator;
+import psidev.psi.mi.jami.cluster.score.DefaultMIScoreManager;
 import psidev.psi.mi.jami.cluster.score.MIScoreCalculator;
+import psidev.psi.mi.jami.cluster.score.MIScoreManager;
 import psidev.psi.mi.jami.cluster.util.InteractionClusterUtils;
 import psidev.psi.mi.jami.commons.MIDataSourceOptionFactory;
 import psidev.psi.mi.jami.commons.PsiJami;
@@ -90,13 +92,15 @@ public class DefaultInteractionClusterManagerTest {
     }
 
     @Test
-    public void testMIScoreCalculator() throws Exception {
+    public void testMIScoreManager() throws Exception {
         this.manager.process(interactionIterator);
-        MIScoreCalculator<InteractionCluster<Interaction>> miScoreCalculator = new DefaultMIScoreCalculator<Interaction, InteractionCluster<Interaction>>("score/scoreCategories.properties");
+        MIScoreManager<Interaction, InteractionCluster<Interaction>> miScoreManager = new DefaultMIScoreManager();
         Iterator<InteractionCluster<Interaction>> it = this.manager.getResults();
         while (it.hasNext()) {
             InteractionCluster<Interaction> interactionCluster = it.next();
-            System.out.println("Interaction: " + interactionCluster.getId() + "; Score: " + miScoreCalculator.computeScore(interactionCluster));
+            System.out.println("Interaction: " + interactionCluster);
+            miScoreManager.calculateScoreAndSetIt(interactionCluster);
+            System.out.println("Interaction (scored): " + interactionCluster);
         }
     }
 
@@ -110,7 +114,7 @@ public class DefaultInteractionClusterManagerTest {
     }
 
     private InteractionClusterManager<Interaction,InteractionCluster<Interaction>> manager;
-    private String filename = "mitab_samples/IntAct_for_scoring.tsv";
-    //private String filename = "mitab_samples/ndc80_BIND_and_pcna_HPIDb.tsv";
+//    private String filename = "mitab_samples/IntAct_for_scoring.tsv";
+    private String filename = "mitab_samples/ndc80_BIND_and_pcna_HPIDb.tsv";
     private Iterator<Interaction> interactionIterator;
 }
