@@ -5,12 +5,16 @@ import psidev.psi.mi.jami.model.Interactor;
 import psidev.psi.mi.jami.model.Xref;
 import psidev.psi.mi.jami.model.impl.DefaultInteractor;
 import psidev.psi.mi.jami.utils.comparator.xref.DefaultXrefComparator;
-import psidev.psi.mi.jami.utils.comparator.xref.UnambiguousXrefComparator;
 
 import java.util.*;
 
 
 /**
+ * DefaultInteractorMerger as it name shows is the default implementation
+ * of the InteractorMerger interface based on the Abstract class
+ * AbstractInteractorMerger to use the enricher to have better chances to
+ * merge as much content as it can in the interactor.
+ *
  * Created by maitesin on 31/07/2014.
  */
 public class DefaultInteractorMerger extends AbstractInteractorMerger {
