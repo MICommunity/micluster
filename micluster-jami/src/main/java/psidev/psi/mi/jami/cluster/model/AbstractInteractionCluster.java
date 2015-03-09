@@ -5,6 +5,10 @@ import psidev.psi.mi.jami.model.Interaction;
 import java.util.*;
 
 /**
+ * Abstract class to implement InteractionCluster Interface. Provides a long value
+ * as Identifier (Id) for the "group" of Interactions. Stores the Interactions as
+ * a Collection and it is using an ArrayList to do that.
+ *
  * Created by maitesin on 25/07/2014.
  */
 public abstract class AbstractInteractionCluster<T extends Interaction> implements InteractionCluster<T> {
@@ -16,7 +20,7 @@ public abstract class AbstractInteractionCluster<T extends Interaction> implemen
 
     @Override
     public boolean addInteraction(T interaction){
-        if( this.interactions.contains(interaction) ){
+        if(this.interactions.contains(interaction)){
             return false;
         }
         this.interactions.add(interaction);
@@ -25,9 +29,8 @@ public abstract class AbstractInteractionCluster<T extends Interaction> implemen
 
     @Override
     public void addInteractions(Collection<T> interactions){
-        Iterator<T> iterator = interactions.iterator();
-        while(iterator.hasNext()){
-            addInteraction(iterator.next());
+        for (T interaction : interactions) {
+            addInteraction(interaction);
         }
     }
 

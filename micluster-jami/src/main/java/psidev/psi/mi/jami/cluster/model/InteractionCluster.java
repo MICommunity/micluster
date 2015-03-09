@@ -7,6 +7,8 @@ import java.util.Collection;
 import java.util.Set;
 
 /**
+ * Represents all the Interactions that are equivalent.
+ *
  * Created by maitesin on 25/07/2014.
  */
 public interface InteractionCluster<T extends Interaction> {
