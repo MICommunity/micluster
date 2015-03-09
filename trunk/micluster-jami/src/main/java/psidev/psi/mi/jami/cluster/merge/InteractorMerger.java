@@ -3,6 +3,10 @@ package psidev.psi.mi.jami.cluster.merge;
 import psidev.psi.mi.jami.model.Interactor;
 
 /**
+ * Interface that allows the cluster algorithm to know if two different
+ * interactors are the same and also provides a way to merge two interactors
+ * if both are the same.
+ *
  * Created by maitesin on 31/07/2014.
  */
 public interface InteractorMerger {
