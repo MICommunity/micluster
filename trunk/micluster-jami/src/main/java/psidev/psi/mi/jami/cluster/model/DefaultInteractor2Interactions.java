@@ -6,6 +6,9 @@ import psidev.psi.mi.jami.model.Interactor;
 import java.util.Collection;
 
 /**
+ * DefaultInteractor2Interactions is the default way to represent an Interactor2Interactions.
+ * It just uses the attributes provided by the abstract class AbstractInteractor2Interactions
+ *
  * Created by maitesin on 15/08/2014.
  */
 public class DefaultInteractor2Interactions extends AbstractInteractor2Interactions {

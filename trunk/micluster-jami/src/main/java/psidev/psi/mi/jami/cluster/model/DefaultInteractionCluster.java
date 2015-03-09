@@ -5,6 +5,9 @@ import psidev.psi.mi.jami.model.Interaction;
 import java.util.*;
 
 /**
+ * DefaultInteractionCluster is the default way to represent a ClusterInteraction.
+ * It just uses the attributes provided by the abstract class AbstractInteractionCluster.
+ *
  * Created by maitesin on 12/06/2014.
  */
 public class DefaultInteractionCluster<T extends Interaction> extends AbstractInteractionCluster<T> {
