@@ -16,6 +16,9 @@ import psidev.psi.mi.jami.model.impl.DefaultInteractor;
 import java.util.*;
 
 /**
+ * Here is the "magic" this is the default implementation
+ * for the InteractionClusterManager.
+ *
  * Created by maitesin on 12/06/2014.
  */
 public class DefaultInteractionClusterManager extends AbstractInteractionClusterManager<Interaction,InteractionCluster<Interaction>> {

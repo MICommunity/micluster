@@ -7,6 +7,9 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
+ * Interface that provides different ways to process
+ * Interaction(s) and cluster them.
+ *
  * Created by maitesin on 25/07/2014.
  */
 public interface InteractionClusterManager<I extends Interaction,T extends InteractionCluster<I>> {
