@@ -10,6 +10,9 @@ import psidev.psi.mi.jami.model.*;
 import java.util.*;
 
 /**
+ * Utility class that is used to create the Summary
+ * of InteractionCluster.
+ *
  * Created by maitesin on 17/07/2014.
  */
 public class InteractionClusterUtils {

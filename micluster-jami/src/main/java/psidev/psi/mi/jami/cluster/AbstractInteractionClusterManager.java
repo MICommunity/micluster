@@ -12,6 +12,8 @@ import psidev.psi.mi.jami.utils.comparator.xref.UnambiguousXrefComparator;
 import java.util.*;
 
 /**
+ * Abstract class that implements the InteractionClusterManager Interface.
+ *
  * Created by maitesin on 25/07/2014.
  */
 public abstract class AbstractInteractionClusterManager<I extends Interaction,T extends InteractionCluster<I>> implements InteractionClusterManager<I,T> {
