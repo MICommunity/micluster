@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Class that is used to build the ontology.
+ *
  * Created by maitesin on 03/03/2015.
  */
 public class MIONode {
