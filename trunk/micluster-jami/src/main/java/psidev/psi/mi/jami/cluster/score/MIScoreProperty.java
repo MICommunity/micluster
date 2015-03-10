@@ -1,6 +1,10 @@
 package psidev.psi.mi.jami.cluster.score;
 
 /**
+ * Describes a property to use it in the MIScore algorithm.
+ * ID, Name and Score are the properties needed represented as
+ * two String objects and a Double.
+ *
  * Created by maitesin on 23/07/2014.
  */
 public class MIScoreProperty {

@@ -1,15 +1,12 @@
 package psidev.psi.mi.jami.cluster.score;
 
-import psidev.psi.mi.jami.cluster.model.DefaultInteractionCluster;
 import psidev.psi.mi.jami.cluster.model.InteractionCluster;
-import psidev.psi.mi.jami.model.Experiment;
 import psidev.psi.mi.jami.model.Interaction;
 import psidev.psi.mi.jami.model.InteractionEvidence;
-import psidev.psi.mi.jami.model.Participant;
-import psidev.psi.mi.jami.model.impl.DefaultExperiment;
-import psidev.psi.mi.jami.model.impl.DefaultPublication;
 
 /**
+ * Default implementation for the MIScoreCalculator Interface.
+ *
  * Created by maitesin on 04/08/2014.
  */
 public class DefaultMIScoreCalculator<I extends Interaction,T extends InteractionCluster<I>> extends AbstractMIScoreCalculator<T> {
