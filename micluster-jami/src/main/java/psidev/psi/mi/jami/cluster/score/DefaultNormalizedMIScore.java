@@ -3,6 +3,8 @@ package psidev.psi.mi.jami.cluster.score;
 import java.util.Properties;
 
 /**
+ * This is the default Normalized version for the MIScore.
+ *
  * Created by maitesin on 29/07/2014.
  */
 public class DefaultNormalizedMIScore extends AbstractMIScore {

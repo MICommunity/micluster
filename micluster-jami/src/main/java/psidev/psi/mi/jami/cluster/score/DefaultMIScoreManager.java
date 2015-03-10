@@ -10,6 +10,10 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
+ * Default implementation for the MIScoreManager
+ * and that stores the calculated score within
+ * the Interaction.
+ *
  * Created by maitesin on 05/03/2015.
  */
 public class DefaultMIScoreManager extends AbstractMIScoreManager {

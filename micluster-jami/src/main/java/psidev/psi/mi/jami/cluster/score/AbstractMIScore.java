@@ -1,12 +1,14 @@
 package psidev.psi.mi.jami.cluster.score;
 
-import psidev.psi.mi.jami.cluster.score.ols.MIONode;
 import psidev.psi.mi.jami.cluster.score.ols.MIOntology;
 
 import java.io.IOException;
 import java.util.*;
 
 /**
+ * Abstract class that provides necessary infrastructure to
+ * manage the implementation of MIScore.
+ *
  * Created by maitesin on 18/07/2014.
  */
 public abstract class AbstractMIScore implements MIScore {
