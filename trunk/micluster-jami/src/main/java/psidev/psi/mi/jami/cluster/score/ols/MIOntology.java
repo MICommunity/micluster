@@ -16,6 +16,11 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 /**
+ * Class that uses the MIONode to build in memory
+ * an Ontology. To build it can use the JSON got
+ * it from the ontology-lookup web site or from
+ * the file "psimiOntology.json".
+ *
  * Created by maitesin on 03/03/2015.
  */
 public class MIOntology {
