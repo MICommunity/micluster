@@ -71,6 +71,26 @@
                 </dependencies>
             </plugin>
 
+            <plugin>
+                <groupId>external.atlassian.jgitflow</groupId>
+                <artifactId>jgitflow-maven-plugin</artifactId>
+                <version>1.0-m5.1</version>
+                <configuration>
+                    <flowInitContext>
+                        <masterBranchName>master</masterBranchName>
+                        <developBranchName>develop</developBranchName>
+                        <featureBranchPrefix>feature-</featureBranchPrefix>
+                        <releaseBranchPrefix>release-</releaseBranchPrefix>
+                        <hotfixBranchPrefix>hotfix-</hotfixBranchPrefix>
+                        <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
+                    </flowInitContext>
+                    <!--Need to allow snapshot because of primefaces-->
+                    <allowSnapshots>true</allowSnapshots>
+                    <allowUntracked>true</allowUntracked>
+                    <!--<noDeploy>true</noDeploy>-->
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 
@@ -158,7 +178,7 @@
         <dependency>
             <groupId>uk.ac.ebi.enfin.mi.score</groupId>
             <artifactId>miscore</artifactId>
-            <version>1.3.10</version>
+            <version>1.3.11</version>
         </dependency>
 
     </dependencies>
