@@ -5,7 +5,7 @@
 
     <groupId>uk.ac.ebi.enfin.mi.cluster</groupId>
     <artifactId>micluster</artifactId>
-    <version>1.7.10-SNAPSHOT</version>
+    <version>1.7.10</version>
 
     <name>Molecular interaction cluster</name>
 
