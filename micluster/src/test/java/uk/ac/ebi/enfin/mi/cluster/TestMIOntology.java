@@ -42,7 +42,7 @@ public class TestMIOntology {
     }
 
     @Test
-    public void mintTestForReactome() {
+    public void mintPerformanceTestForReactome() {
         InteractionClusterScore interactionClusterScore=null;
         StopWatch stopwatch = new StopWatch();
         stopwatch.start();
@@ -83,6 +83,8 @@ List<String> stringArray = new ArrayList<String>(Arrays.asList(string.split(",")
         long timeTaken = stopwatch.getTime();
         System.out.println("timeTaken Sub Step"+timeTaken2 );
         System.out.println("timeTaken"+timeTaken );
+
+        Assert.assertTrue(timeTaken<=30000 );
 
     }
 
