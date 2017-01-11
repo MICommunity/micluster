@@ -44,7 +44,7 @@ public class TestMIOntology {
     }
 
     @Test
-    public void mintPerformanceTestForReactome() {
+    public void menthaPerformanceTestForReactome() {
         InteractionClusterScore interactionClusterScore=null;
         final int NTHREDS = 20;
 
