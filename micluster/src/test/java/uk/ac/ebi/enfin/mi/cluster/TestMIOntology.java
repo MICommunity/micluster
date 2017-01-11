@@ -6,10 +6,12 @@ import org.junit.Test;
 import psidev.psi.mi.tab.PsimiTabReader;
 import psidev.psi.mi.tab.model.BinaryInteraction;
 import uk.ac.ebi.enfin.mi.cluster.score.InteractionClusterScore;
+import uk.ac.ebi.enfin.mi.cluster.score.InteractionClusterScoreCache;
 import uk.ac.ebi.enfin.mi.score.ols.MIOntology;
 
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.*;
 
 
 /**
@@ -44,12 +46,19 @@ public class TestMIOntology {
     @Test
     public void mintPerformanceTestForReactome() {
         InteractionClusterScore interactionClusterScore=null;
-        StopWatch stopwatch = new StopWatch();
-        stopwatch.start();
+        final int NTHREDS = 20;
+
+        // new code
+        ConcurrentHashMap<String,List<BinaryInteraction>> proteinInteractionsMap=new ConcurrentHashMap<String, List<BinaryInteraction>>();
+        ExecutorService executor = Executors.newFixedThreadPool(NTHREDS);
+        //new code
         StopWatch stopwatch2=null;
         long timeTaken2=0;
-        String string="P01133,18348,Q9NWQ8,P27986,Q9UBC2,17552,P19174,P42336,P62993-1,P22681,Q13480,Q06124,P29353,Q9Y6I3,15996,Q96B97,O43597,Q07889,P12931-1,P41240,16618,15422,16761,15377,18367,P00533,Q96JA1,Q15262,Q05209,P26045";
-List<String> stringArray = new ArrayList<String>(Arrays.asList(string.split(",")));
+        InteractionClusterScoreCache interactionClusterScoreCache = new InteractionClusterScoreCache();
+        StopWatch stopwatch = new StopWatch();
+        stopwatch.start();
+        String string="P01133,Q9NWQ8,P27986,Q9UBC2,P19174,P42336,P22681,Q13480,Q06124,P29353,Q9Y6I3,Q96B97,O43597,Q07889,P41240,P00533,Q96JA1,Q15262,Q05209,P26045";
+        List<String> stringArray = new ArrayList<String>(Arrays.asList(string.split(",")));
         for(String id:stringArray) {
             try {
 
@@ -57,31 +66,57 @@ List<String> stringArray = new ArrayList<String>(Arrays.asList(string.split(",")
 
                 List<BinaryInteraction> binaryInteractions = new ArrayList<BinaryInteraction>();
 
-                PsimiTabReader mitabReader = new PsimiTabReader();
-                binaryInteractions.addAll(mitabReader.read(url));
-              // Collections.addAll((Collection)binaryInteractions,mitabReader.read(url));
+                //new <code>
+                Runnable worker = new PsimiTabReaderRunnable(id,url,proteinInteractionsMap);
+                executor.submit(worker);
+
+                //new code
+
+
+                                    /*PsimiTabReader mitabReader = new PsimiTabReader();
+                                    StopWatch stopwatchreader = new StopWatch();
+                                    stopwatchreader.start();
+                                    binaryInteractions.addAll(mitabReader.read(url));
+                                    stopwatchreader.stop();*/
+                // System.out.println("Stop Watch reader"+stopwatchreader.getTime());
+                // Collections.addAll((Collection)binaryInteractions,mitabReader.read(url));
 
 
 // Run cluster using list of binary interactions as input
-                interactionClusterScore = new InteractionClusterScore();
+               /* interactionClusterScore = new InteractionClusterScore(interactionClusterScoreCache);
                 interactionClusterScore.setBinaryInteractionIterator(binaryInteractions.iterator());
 
 // This is the dbSource added in the alias
                 interactionClusterScore.setMappingIdDbNames(null);
                 stopwatch2 = new StopWatch();
                 stopwatch2.start();
-                interactionClusterScore.runService();
+                interactionClusterScore.runService();*/
 
             } catch (Exception e) {
-               e.printStackTrace();
+                e.printStackTrace();
             }
-            stopwatch2.stop();
-            timeTaken2 += stopwatch2.getTime();
-            System.out.println("timeTaken Sub Time"+stopwatch2.getTime());
+
+
+
+        }
+        executor.shutdown();
+        try {
+            executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+        } catch (InterruptedException e) {
+
+        }
+        for(String protein:proteinInteractionsMap.keySet()){
+            interactionClusterScore = new InteractionClusterScore(interactionClusterScoreCache);
+            interactionClusterScore.setBinaryInteractionIterator(proteinInteractionsMap.get(protein).iterator());
+
+// This is the dbSource added in the alias
+            interactionClusterScore.setMappingIdDbNames(null);
+
+            interactionClusterScore.runService();
         }
         stopwatch.stop();
         long timeTaken = stopwatch.getTime();
-        System.out.println("timeTaken Sub Step"+timeTaken2 );
+        //  System.out.println("timeTaken Sub Step"+timeTaken2 );
         System.out.println("timeTaken"+timeTaken );
 
         Assert.assertTrue(timeTaken<=30000 );
