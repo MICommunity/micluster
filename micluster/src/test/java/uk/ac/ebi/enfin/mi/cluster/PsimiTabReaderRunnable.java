@@ -26,7 +26,7 @@ public class PsimiTabReaderRunnable implements Runnable {
 
     public void run() {
 
-        System.out.println("Thread no"+Thread.currentThread().getName()+"Id is "+ protienId);
+    //    System.out.println("Thread no"+Thread.currentThread().getName()+"Id is "+ protienId);
 
        // HashMap<String,List<BinaryInteraction>> protienInteractionsMap=new HashMap<String, List<BinaryInteraction>>();
         List<BinaryInteraction> binaryInteractionList=new ArrayList<BinaryInteraction>();

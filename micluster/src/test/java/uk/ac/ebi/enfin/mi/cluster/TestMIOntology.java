@@ -117,7 +117,7 @@ public class TestMIOntology {
         stopwatch.stop();
         long timeTaken = stopwatch.getTime();
         //  System.out.println("timeTaken Sub Step"+timeTaken2 );
-        System.out.println("timeTaken"+timeTaken );
+     //   System.out.println("timeTaken"+timeTaken );
 
         Assert.assertTrue(timeTaken<=30000 );
 
