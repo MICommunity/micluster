@@ -29,7 +29,9 @@ public class InteractionClusterScore extends InteractionCluster {
     protected Float methodWeight = 1.0f;
     protected Float publicationWeight = 1.0f;
     protected String scoreName = "miscore";
-
+    protected boolean fasterAccess=false;
+    private Map<String, Map<String,String>> mapOfMethodTermsCache;
+    private Map<String, Map<String,String>> mapOfTypeTermsCache;
     protected MIScore miscore;
 
     public InteractionClusterScore(){
@@ -38,6 +40,17 @@ public class InteractionClusterScore extends InteractionCluster {
         this.interactionMapping = new HashMap<Integer, EncoreInteraction>();
         this.interactorMapping = new HashMap<String, List<Integer>>();
         this.synonymMapping = new HashMap<String, String>();
+    }
+
+    public InteractionClusterScore(InteractionClusterScoreCache interactionClusterScoreCache){
+        super(0, 200);
+        this.miscore = new MIScore();
+        this.interactionMapping = new HashMap<Integer, EncoreInteraction>();
+        this.interactorMapping = new HashMap<String, List<Integer>>();
+        this.synonymMapping = new HashMap<String, String>();
+        this.mapOfMethodTermsCache=interactionClusterScoreCache.getMapOfMethodTermsCache();
+        this.mapOfTypeTermsCache=interactionClusterScoreCache.getMapOfTypeTermsCache();
+        fasterAccess=true;
     }
 
     //todo: miScore define as well in runService. Look at removing one of them
@@ -165,26 +178,32 @@ public class InteractionClusterScore extends InteractionCluster {
 
     private void processScore() {
         logger.debug("Create a map of method terms using parent terms");
-        ArrayList<String> methodParentTerms = new ArrayList<String>();
-        methodParentTerms.add("MI:0013");
-        methodParentTerms.add("MI:0090");
-        methodParentTerms.add("MI:0254");
-        methodParentTerms.add("MI:0255");
-        methodParentTerms.add("MI:0401");
-        methodParentTerms.add("MI:0428");
-        Map<String, Map<String,String>> mapOfMethodTerms = MIO.getMapOfTerms(methodParentTerms);
+        Map<String, Map<String,String>> mapOfMethodTerms=null;
+        Map<String, Map<String,String>> mapOfTypeTerms=null;
+        if (fasterAccess) {
+            mapOfMethodTerms= getMapOfMethodTermsCache();
+            mapOfTypeTerms= getMapOfTypeTermsCache();
+        }else {
+            ArrayList<String> methodParentTerms = new ArrayList<String>();
+            methodParentTerms.add("MI:0013");
+            methodParentTerms.add("MI:0090");
+            methodParentTerms.add("MI:0254");
+            methodParentTerms.add("MI:0255");
+            methodParentTerms.add("MI:0401");
+            methodParentTerms.add("MI:0428");
+            mapOfMethodTerms = MIO.getMapOfTerms(methodParentTerms);
 
-        logger.debug("Create a map of type terms using parent terms");
-        ArrayList<String> typeParentTerms = new ArrayList<String>();
-        typeParentTerms.add("MI:0208");
-        typeParentTerms.add("MI:0407");
-        Map<String, Map<String,String>> mapOfTypeTerms = MIO.getMapOfTerms(typeParentTerms);
+            logger.debug("Create a map of type terms using parent terms");
+            ArrayList<String> typeParentTerms = new ArrayList<String>();
+            typeParentTerms.add("MI:0208");
+            typeParentTerms.add("MI:0407");
+            mapOfTypeTerms = MIO.getMapOfTerms(typeParentTerms);
         /* No need to look for MI:0403 since it has no children. Just include them in the mappingParentTerms */
-        mapOfTypeTerms.put("MI:0403", new HashMap<String, String>());
+            mapOfTypeTerms.put("MI:0403", new HashMap<String, String>());
         /* No need to look for MI:0914 and "MI:0915 in OLS since they are parent terms of MI:0407 */
-        mapOfTypeTerms.put("MI:0914", new HashMap<String, String>());
-        mapOfTypeTerms.put("MI:0915", new HashMap<String, String>());
-
+            mapOfTypeTerms.put("MI:0914", new HashMap<String, String>());
+            mapOfTypeTerms.put("MI:0915", new HashMap<String, String>());
+        }
 
 
         logger.debug("Update interactions");
@@ -406,5 +425,22 @@ public class InteractionClusterScore extends InteractionCluster {
 
     public void setScoreName(String scoreName) {
         this.scoreName = scoreName;
+    }
+
+
+    public Map<String, Map<String, String>> getMapOfMethodTermsCache() {
+        return mapOfMethodTermsCache;
+    }
+
+    public void setMapOfMethodTermsCache(Map<String, Map<String, String>> mapOfMethodTermsCache) {
+        this.mapOfMethodTermsCache = mapOfMethodTermsCache;
+    }
+
+    public Map<String, Map<String, String>> getMapOfTypeTermsCache() {
+        return mapOfTypeTermsCache;
+    }
+
+    public void setMapOfTypeTermsCache(Map<String, Map<String, String>> mapOfTypeTermsCache) {
+        this.mapOfTypeTermsCache = mapOfTypeTermsCache;
     }
 }
