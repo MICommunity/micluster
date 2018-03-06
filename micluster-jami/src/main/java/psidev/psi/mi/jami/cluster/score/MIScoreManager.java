@@ -16,4 +16,5 @@ public interface MIScoreManager<I extends Interaction, T extends InteractionClus
     public void calculateScoreAndSetIt(T interaction);
     public void calculateScoreAndSetIt(Iterator<T> iterator);
     public void calculateScoreAndSetIt(Collection<T> collection);
+    public double calculateScoreAndReturn(InteractionCluster interaction);
 }

@@ -42,4 +42,10 @@ public class DefaultMIScoreManager extends AbstractMIScoreManager {
             this.calculateScoreAndSetIt(interactionCluster);
         }
     }
+
+    @Override
+    public double calculateScoreAndReturn(InteractionCluster interaction) {
+        double score = this.miScoreCalculator.computeScore(interaction);
+        return score;
+    }
 }
