@@ -23,7 +23,7 @@ public abstract class AbstractMIScore implements MIScore {
         this.methodsValues = new HashMap<String, MIScoreProperty>();
         this.typeWeight = 1.0d;
         this.methodWeight = 1.0d;
-        this.miOntology = new MIOntology();
+        this.miOntology = MIOntology.getInstance(true);
         //Process the file
         Properties properties = new Properties();
         String [] fields = null; //id,name,score,unNormalizedScore
