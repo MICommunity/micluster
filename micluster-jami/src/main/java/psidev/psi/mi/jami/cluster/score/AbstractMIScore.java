@@ -19,6 +19,7 @@ public abstract class AbstractMIScore implements MIScore {
         //Set the default values
         this.methods = new ArrayList<String>();
         this.types = new ArrayList<String>();
+        this.publications = new ArrayList<String>();
         this.typesValues = new HashMap<String, MIScoreProperty>();
         this.methodsValues = new HashMap<String, MIScoreProperty>();
         this.typeWeight = 1.0d;
@@ -58,13 +59,9 @@ public abstract class AbstractMIScore implements MIScore {
 
     @Override
     public void addPublication(String pubId) {
-        //Nothing to do here
+        this.publications.add(pubId);
     }
 
-    @Override
-    public double getPublicationsScore() {
-        return 0.0d;
-    }
 
     @Override
     public void setMethodWeight(double weight) {
@@ -85,6 +82,7 @@ public abstract class AbstractMIScore implements MIScore {
     public void clear() {
         this.methods.clear();
         this.types.clear();
+        this.publications.clear();
     }
     /***************************/
     /***   Private Methods   ***/
@@ -124,6 +122,16 @@ public abstract class AbstractMIScore implements MIScore {
         return getValue(id, this.typesValues);
     }
 
+    /**
+     * Calculates logarithm
+     * @param base
+     * @param num
+     * @return logarithm value
+     */
+    protected Float logOfBase(Float base, Float num) {
+        Double result = Math.log(num) / Math.log(base);
+        return result.floatValue();
+    }
     /********************************/
     /***   Protected Attributes   ***/
     /********************************/
@@ -134,4 +142,5 @@ public abstract class AbstractMIScore implements MIScore {
     protected Collection<String> methods;
     protected Collection<String> types;
     protected MIOntology miOntology;
+    protected Collection<String> publications;
 }

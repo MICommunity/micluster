@@ -12,10 +12,13 @@ public class DefaultUnNormalizedMIScore extends AbstractMIScore {
     public DefaultUnNormalizedMIScore(String filename) {
         super(filename);
     }
+    private float publicationNumberWithHighestScore = 7;
+    private Integer numberOfPublications = 0;
 
     @Override
     public double getMethodsScore() {
         double totalMethods = 0.0d;
+        double max
         for(String methodId : this.methods)
             totalMethods += this.methodWeight * getMethodValue(methodId);
         return totalMethods;
@@ -28,6 +31,24 @@ public class DefaultUnNormalizedMIScore extends AbstractMIScore {
             totalTypes += this.typeWeight * getTypeValue(typeId);
         return totalTypes;
     }
+
+    @Override
+    public double getPublicationsScore(){
+        Float a = 0.0f;
+        Float b = 0.0f;
+        Float score = 0.0f;
+        numberOfPublications = this.publications.size();
+        if(numberOfPublications > publicationNumberWithHighestScore){
+            score = 1.0f;
+        } else {
+            b = publicationNumberWithHighestScore+1.0f;
+            a = numberOfPublications+1.0f;
+            score = logOfBase(b, a);
+        }
+        return score;
+    }
+
+
 
     protected MIScoreProperty getMIScoreproperty(Properties properties, String prefix, String[] fields) {
         MIScoreProperty property = new MIScoreProperty();

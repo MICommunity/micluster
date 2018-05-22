@@ -22,11 +22,11 @@ public class DefaultMIScoreCalculator<I extends Interaction, T extends Interacti
         this.getMiScore().clear();
         double score = 0.0d;
 
-        double a = 0.0;
-        double b = 0.0;
-        double typeScore = 0.0;
-        double methodScore = 0.0f;
-        double publicationScore = 0.0f;
+        float a = 0.0f;
+        float b = 0.0f;
+        float typeScore = 0.0f;
+        float methodScore = 0.0f;
+        float publicationScore = 0.0f;
 
         Float typeWeight = 1.0f;
         Float methodWeight = 1.0f;
@@ -47,8 +47,9 @@ public class DefaultMIScoreCalculator<I extends Interaction, T extends Interacti
             }
         }
 
-        methodScore = this.getMiScore().getMethodsScore();
-        typeScore = this.getMiScore().getTypesScore();
+        methodScore = (float)this.getMiScore().getMethodsScore();
+        typeScore = (float)this.getMiScore().getTypesScore();
+        publicationScore =(float) this.getMiScore().getPublicationsScore();
 
         a = a + (typeScore * typeWeight);
         b = b + typeWeight;
@@ -59,7 +60,19 @@ public class DefaultMIScoreCalculator<I extends Interaction, T extends Interacti
         a = a + (publicationScore * publicationWeight);
         b = b + publicationWeight;
 
+        score = logOfBase(b, a);;
         return score;
+    }
+
+    /**
+     * Calculates logarithm
+     * @param base
+     * @param num
+     * @return logarithm value
+     */
+    protected Float logOfBase(Float base, Float num) {
+        Double result = Math.log(num) / Math.log(base);
+        return result.floatValue();
     }
 
 }

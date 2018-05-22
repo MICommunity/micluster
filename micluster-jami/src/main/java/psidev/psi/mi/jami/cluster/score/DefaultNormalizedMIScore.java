@@ -8,6 +8,8 @@ import java.util.Properties;
  * Created by maitesin on 29/07/2014.
  */
 public class DefaultNormalizedMIScore extends AbstractMIScore {
+    private float publicationNumberWithHighestScore = 7;
+    private Integer numberOfPublications = 0;
 
     public DefaultNormalizedMIScore(String filename) {
         super(filename);
@@ -27,6 +29,22 @@ public class DefaultNormalizedMIScore extends AbstractMIScore {
         for(String typeId : this.types)
             totalTypes += this.typeWeight * getTypeValue(typeId);
         return totalTypes;
+    }
+
+    @Override
+    public double getPublicationsScore(){
+        Float a = 0.0f;
+        Float b = 0.0f;
+        Float score = 0.0f;
+        numberOfPublications = this.publications.size();
+        if(numberOfPublications > publicationNumberWithHighestScore){
+            score = 1.0f;
+        } else {
+            b = publicationNumberWithHighestScore+1.0f;
+            a = numberOfPublications+1.0f;
+            score = logOfBase(b, a);
+        }
+        return score;
     }
 
     @Override
