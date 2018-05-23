@@ -1,5 +1,7 @@
 package psidev.psi.mi.jami.cluster.score;
 
+import uk.ac.ebi.enfin.mi.score.scores.*;
+
 import java.util.Properties;
 
 /**
@@ -18,7 +20,6 @@ public class DefaultUnNormalizedMIScore extends AbstractMIScore {
     @Override
     public double getMethodsScore() {
         double totalMethods = 0.0d;
-        double max
         for(String methodId : this.methods)
             totalMethods += this.methodWeight * getMethodValue(methodId);
         return totalMethods;
