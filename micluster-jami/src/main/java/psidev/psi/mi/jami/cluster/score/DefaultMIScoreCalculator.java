@@ -3,34 +3,34 @@ package psidev.psi.mi.jami.cluster.score;
 import psidev.psi.mi.jami.cluster.model.InteractionCluster;
 import psidev.psi.mi.jami.model.Interaction;
 import psidev.psi.mi.jami.model.InteractionEvidence;
-import uk.ac.ebi.enfin.mi.score.scores.*;
 import uk.ac.ebi.enfin.mi.score.scores.MIScore;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Default implementation for the MIScoreCalculator Interface.
- * <p/>
+ * <p>
  * Created by maitesin on 04/08/2014.
  */
 public class DefaultMIScoreCalculator<I extends Interaction, T extends InteractionCluster<I>> extends AbstractMIScoreCalculator<T> {
     protected MIScore miscore;
-    protected  OLSCache olsCache;
+    protected OLSCache olsCache;
     /***********************/
     /***   Constructor   ***/
     /***********************/
     public DefaultMIScoreCalculator(String filename) {
         super(filename);
-        olsCache=OLSCache.getInstance();
-        if (this.miscore == null){
+        olsCache = OLSCache.getInstance();
+        if (this.miscore == null) {
             this.miscore = new MIScore();
         }
     }
 
-    @Override
+
     public double computeScore(T interactions) {
 
         double score = 0.0d;
@@ -46,9 +46,9 @@ public class DefaultMIScoreCalculator<I extends Interaction, T extends Interacti
         Float publicationWeight = 1.0f;
         ArrayList<String> methods = new ArrayList<String>();
         ArrayList<String> types = new ArrayList<String>();
-        ArrayList<String> publications = new ArrayList<String>();
-        Map<String, Map<String,String>> mapOfMethodTerms=olsCache.getMapOfMethodTermsCache();
-        Map<String, Map<String,String>> mapOfTypeTerms=olsCache.getMapOfTypeTermsCache();
+        Set<String> publications = new HashSet<String>();
+        Map<String, Map<String, String>> mapOfMethodTerms = olsCache.getMapOfMethodTermsCache();
+        Map<String, Map<String, String>> mapOfTypeTerms = olsCache.getMapOfTypeTermsCache();
 
         for (I interaction : interactions.getInteractions()) {
             if (interaction instanceof InteractionEvidence) {
@@ -64,9 +64,9 @@ public class DefaultMIScoreCalculator<I extends Interaction, T extends Interacti
             }
         }
 
-        int numberOfPubmedIds=publications.size();
+        int numberOfPubmedIds = publications.size();
 
-        if (this.miscore != null){
+        if (this.miscore != null) {
             this.miscore.setTypeWeight(typeWeight);
             this.miscore.setMethodWeight(methodWeight);
             this.miscore.setPublicationWeight(publicationWeight);

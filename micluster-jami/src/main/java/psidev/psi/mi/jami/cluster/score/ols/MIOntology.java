@@ -22,13 +22,13 @@ public class MIOntology {
 
     /******************************/
     /***   Private Attributes   ***/
+    private final static String olsUrl = "https://www.ebi.ac.uk/ols/api/ontologies/mi/terms?obo_id=MI:0000";
+    private final static String olsFile = "psimiOntology.json";
+    private static MIOntology miOntology;
     /******************************/
     private MIONode root;
     private Map<String, MIONode> map;
-    private final static String olsUrl = "https://www.ebi.ac.uk/ols/api/ontologies/mi/terms?obo_id=MI:0000";
-    private final static String olsFile = "psimiOntology.json";
     private Logger logger = Logger.getLogger(MIOntology.class);
-    private static MIOntology miOntology;
 
 
     private MIOntology(boolean useOls) {
@@ -98,7 +98,7 @@ public class MIOntology {
                         if (objNode.get("has_children").booleanValue()) {
                             String childrenUrl = objNode.get("_links").get("hierarchicalChildren").get("href").textValue();
 
-                           if (childrenUrl != null && !childrenUrl.trim().equals("")) {
+                            if (childrenUrl != null && !childrenUrl.trim().equals("")) {
                                 String childrenJson = getJsonForUrl(childrenUrl);
                                 if (childrenJson.length() > 0) {
                                     JsonNode descendantJsonNode = mapper.readTree(childrenJson);
@@ -142,8 +142,8 @@ public class MIOntology {
             while ((inputLine = in.readLine()) != null) {
                 //jsonText += inputLine;
                 builder.append(inputLine);
-                /*in.close();
-                break;*/
+                    /*in.close();
+                    break;*/
             }
             jsonText = builder.toString();
         } catch (MalformedURLException e) {
@@ -195,39 +195,39 @@ public class MIOntology {
         MIONode child = null;
 
         try {
-        for (final JsonNode objNode : terms) {
+            for (final JsonNode objNode : terms) {
 
-            String id = objNode.get("obo_id").textValue();
-            String value = objNode.get("label").textValue();
+                String id = objNode.get("obo_id").textValue();
+                String value = objNode.get("label").textValue();
 
-            child = new MIONode(id, value, father);
+                child = new MIONode(id, value, father);
 
 
-            if (objNode.get("has_children").booleanValue()){
-                childrenUrl = objNode.get("_links").get("hierarchicalChildren").get("href").textValue();
-                if (childrenUrl != null && !childrenUrl.trim().equals("")) {
+                if (objNode.get("has_children").booleanValue()) {
+                    childrenUrl = objNode.get("_links").get("hierarchicalChildren").get("href").textValue();
+                    if (childrenUrl != null && !childrenUrl.trim().equals("")) {
 
-                    String childrenJson = getJsonForUrl(childrenUrl);
+                        String childrenJson = getJsonForUrl(childrenUrl);
 
-                    if (childrenJson.length() > 0) {
-                        JsonNode descendantJsonNode = mapper.readTree(childrenJson);
-                        if (descendantJsonNode != null) {
+                        if (childrenJson.length() > 0) {
+                            JsonNode descendantJsonNode = mapper.readTree(childrenJson);
+                            if (descendantJsonNode != null) {
 
-                            JsonNode embedded = descendantJsonNode.get("_embedded");
-                            JsonNode termChildren = embedded.get("terms");
+                                JsonNode embedded = descendantJsonNode.get("_embedded");
+                                JsonNode termChildren = embedded.get("terms");
 
-                            processChildrenForOls(child, termChildren);
+                                processChildrenForOls(child, termChildren);
+                            }
                         }
+
                     }
+
 
                 }
 
-
-        }
-
-            map.put(id, child);
-            father.getChildren().add(child);
-        }
+                map.put(id, child);
+                father.getChildren().add(child);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
