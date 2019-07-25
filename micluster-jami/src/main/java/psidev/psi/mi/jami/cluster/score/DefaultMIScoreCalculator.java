@@ -1,15 +1,13 @@
 package psidev.psi.mi.jami.cluster.score;
 
 import psidev.psi.mi.jami.cluster.model.InteractionCluster;
+import psidev.psi.mi.jami.cluster.model.MethodTypePair;
 import psidev.psi.mi.jami.model.Interaction;
 import psidev.psi.mi.jami.model.InteractionEvidence;
 import uk.ac.ebi.enfin.mi.score.scores.MIScore;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Default implementation for the MIScoreCalculator Interface.
@@ -49,19 +47,20 @@ public class DefaultMIScoreCalculator<I extends Interaction, T extends Interacti
         Set<String> publications = new HashSet<String>();
         Map<String, Map<String, String>> mapOfMethodTerms = olsCache.getMapOfMethodTermsCache();
         Map<String, Map<String, String>> mapOfTypeTerms = olsCache.getMapOfTypeTermsCache();
+        Map<MethodTypePair, Set<String>> methodTypeToPudmed = createMethodTypePublicationMapping(interactions);
 
-        for (I interaction : interactions.getInteractions()) {
-            if (interaction instanceof InteractionEvidence) {
-                InteractionEvidence evidence = (InteractionEvidence) interaction;
-                methods.add(evidence.getExperiment().getInteractionDetectionMethod().getMIIdentifier());
+        for (MethodTypePair methodType : methodTypeToPudmed.keySet()) {
+            Set<String> uniquePublications = methodTypeToPudmed.get(methodType);
+
+            String method = methodType.getMethod();
+            String type = methodType.getType();
+
+            for (int i = 0; i < uniquePublications.size(); i++) {
+                methods.add(method);
+                types.add(type);
             }
-            if (interaction.getInteractionType() != null) {
-                types.add(interaction.getInteractionType().getMIIdentifier());
-            }
-            if (interaction instanceof InteractionEvidence) {
-                InteractionEvidence evidence = (InteractionEvidence) interaction;
-                publications.add(evidence.getExperiment().getPublication().getPubmedId());
-            }
+
+            publications.addAll(uniquePublications);
         }
 
         int numberOfPubmedIds = publications.size();
@@ -79,6 +78,39 @@ public class DefaultMIScoreCalculator<I extends Interaction, T extends Interacti
         }
 
         return score;
+    }
+
+    public Map<MethodTypePair, Set<String>> createMethodTypePublicationMapping(T interactions) {
+
+        Map<MethodTypePair, Set<String>> methodTypePublicationsMap = new HashMap<MethodTypePair, Set<String>>();
+
+        for (I interaction : interactions.getInteractions()) {
+
+            String method = null;
+            String type = null;
+            String publicationId = null;
+            if (interaction instanceof InteractionEvidence) {
+                InteractionEvidence evidence = (InteractionEvidence) interaction;
+                method = evidence.getExperiment().getInteractionDetectionMethod().getMIIdentifier();
+            }
+            if (interaction.getInteractionType() != null) {
+                type = interaction.getInteractionType().getMIIdentifier();
+            }
+            if (interaction instanceof InteractionEvidence) {
+                InteractionEvidence evidence = (InteractionEvidence) interaction;
+                publicationId = evidence.getExperiment().getPublication().getPubmedId();
+            }
+            MethodTypePair methodTypePair = new MethodTypePair(method, type);
+            if (methodTypePublicationsMap.get(methodTypePair) == null) {
+                Set<String> uniquePublications = new HashSet<String>();
+                uniquePublications.add(publicationId);
+                methodTypePublicationsMap.put(methodTypePair, uniquePublications);
+            } else {
+                methodTypePublicationsMap.get(methodTypePair).add(publicationId);
+            }
+
+        }
+        return methodTypePublicationsMap;
     }
 
 }

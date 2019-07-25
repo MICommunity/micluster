@@ -6,7 +6,7 @@
 
     <groupId>psidev.psi.mi.jami.cluster</groupId>
     <artifactId>micluster-jami</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
 
     <name>Molecular Interaction Cluster - JAMI</name>
 
