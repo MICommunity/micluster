@@ -10,9 +10,9 @@
     <name>Molecular interaction cluster</name>
 
     <scm>
-        <connection>scm:git:https://github.com/EBI-IntAct/micluster</connection>
-        <developerConnection>scm:git:https://github.com/EBI-IntAct/micluster</developerConnection>
-        <url>https://github.com/EBI-IntAct/micluster</url>
+        <connection>scm:git:https://github.com/MICommunity/micluster</connection>
+        <developerConnection>scm:git:https://github.com/MICommunity/micluster</developerConnection>
+        <url>https://github.com/MICommunity/micluster</url>
       <tag>HEAD</tag>
   </scm>
 
@@ -22,13 +22,14 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
                 <configuration>
                     <source>1.5</source>
                     <target>1.5</target>
                 </configuration>
             </plugin>
 
-            <!-- This plugin creates a javadoc jar for pride-web. -->
+            <!-- This plugin creates a javadoc jar -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -84,15 +85,45 @@
                         <hotfixBranchPrefix>hotfix-</hotfixBranchPrefix>
                         <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
                     </flowInitContext>
-                    <!--Need to allow snapshot because of primefaces-->
-                    <allowSnapshots>true</allowSnapshots>
+                    <!-- see goals wiki page for configuration options -->
                     <allowUntracked>true</allowUntracked>
-                    <!--<noDeploy>true</noDeploy>-->
+                    <username>${git.user}</username>
+                    <password>${git.password}</password>
+                    <pullMaster>true</pullMaster>
+                    <pullDevelop>true</pullDevelop>
+                    <pushReleases>true</pushReleases>
+                    <pushHotfixes>true</pushHotfixes>
+                    <pushFeatures>true</pushFeatures>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.1.2</version>
+                <executions>
+                    <execution>
+                        <id>attach-source</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>disable-java8-doclint</id>
+            <activation>
+                <jdk>[1.8,)</jdk>
+            </activation>
+            <properties>
+                <additionalparam>-Xdoclint:none</additionalparam>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencies>
 
@@ -135,7 +166,7 @@
         <!-- commons-collections interferes with net.sf.json-lib
         Check with Sam if this inclusing affects EHCACHE -->
         <dependency>
-            <groupId>ehcache</groupId>
+            <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache</artifactId>
             <version>1.2.3</version>
             <!--<exclusions>-->
@@ -151,19 +182,19 @@
         <dependency>
             <groupId>org.hupo.psi.mi.psicquic</groupId>
             <artifactId>psicquic-registry-client</artifactId>
-            <version>1.1.0</version>
+            <version>1.4.0</version>
         </dependency>
 
         <dependency>
             <groupId>org.hupo.psi.mi.psicquic</groupId>
             <artifactId>psicquic-simple-client</artifactId>
-            <version>1.3.3</version>
+            <version>1.4.0</version>
         </dependency>
 
         <dependency>
             <groupId>psidev.psi.mi</groupId>
             <artifactId>psimitab</artifactId>
-            <version>1.8.5</version>
+            <version>1.8.6</version>
         </dependency>
 
         <!-- JSON dependencies -->
@@ -184,11 +215,6 @@
     </dependencies>
 
     <repositories>
-        <repository>
-            <id>intact.nexus</id>
-            <name>IntAct Nexus</name>
-            <url>http://www.ebi.ac.uk/intact/maven/nexus/content/groups/public</url>
-        </repository>
         <repository>
             <id>nexus-ebi-release-repo</id>
             <url>http://www.ebi.ac.uk/Tools/maven/repos/content/groups/ebi-repo/</url>
