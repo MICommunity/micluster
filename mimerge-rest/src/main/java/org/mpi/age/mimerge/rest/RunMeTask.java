@@ -18,11 +18,21 @@
 
 package org.mpi.age.mimerge.rest;
 
+import org.springframework.stereotype.Component;
+
 /**
  * Task that runs the execution cleanance
  */
+@Component
 public class RunMeTask{
+
+	private MergerManager manager;
+
+	public RunMeTask(MergerManager manager) {
+		this.manager = manager;
+	}
+
 	public void printMe() {
-		MergerManager.INSTANCE.checkExecutions();
+		this.manager.checkExecutions();
 	}
 }

@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,7 +79,7 @@ public class PsicquicService {
     public Integer countInteractions(String query) throws IOException {
         Integer psicquicCount = null;
         if (service.isActive()){
-                String encoded = URLEncoder.encode(query, "UTF-8");
+                String encoded = URLEncoder.encode(query, StandardCharsets.UTF_8);
                 encoded = encoded.replaceAll("\\+", "%20");
 
                 String url = service.getRestUrl();

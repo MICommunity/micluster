@@ -146,8 +146,8 @@ public class TestInteractionClusterScore extends TestCase {
         try {
             /* Get binaryInteractions from PSI-MI files */
             URL intactQuery = new URL("http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/P07200");
-            URL irefindexQuery = new URL("http://biotin.uio.no:8080/psicquic-ws/webservices/current/search/query/P07200");
-            List<BinaryInteraction> binaryInteractions = new ArrayList<BinaryInteraction>();
+            URL irefindexQuery = new URL("https://irefindex.vib.be/webservices/current/search/query/P07200");
+            List<BinaryInteraction> binaryInteractions = new ArrayList<>();
             PsimiTabReader mitabReader = new PsimiTabReader();
             binaryInteractions.addAll(mitabReader.read(intactQuery));
             binaryInteractions.addAll(mitabReader.read(irefindexQuery));
@@ -209,7 +209,7 @@ public class TestInteractionClusterScore extends TestCase {
         try {
             /* Get binaryInteractions from PSI-MI files */
             URL intactQuery = new URL("http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/query/P37173");
-            URL irefindexQuery = new URL("http://biotin.uio.no:8080/psicquic-ws/webservices/current/search/query/P37173");
+            URL irefindexQuery = new URL("https://irefindex.vib.be/webservices/current/search/query/P37173");
 
             List<BinaryInteraction> binaryInteractions = new ArrayList<BinaryInteraction>();
             binaryInteractions.addAll(mitabReader.read(intactQuery));

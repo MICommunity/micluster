@@ -24,15 +24,15 @@ public class MiscoreHistogram {
     int width = 500;
     int height = 300;
 
-    public void createChart(){
+    public void createChart() {
         String pngFileName = "scoreDistribution.png";
         createChart(pngFileName);
     }
 
-    public void createChart(String pngFileName){
+    public void createChart(String pngFileName) {
         HistogramDataset dataset = new HistogramDataset();
         dataset.setType(HistogramType.RELATIVE_FREQUENCY);
-        dataset.addSeries(title,values,numberOfBars,minimumScore,maximumScore);
+        dataset.addSeries(title, values, numberOfBars, minimumScore, maximumScore);
         String plotTitle = title;
         String xaxis = "Score";
         String yaxis = "% of interactions";
@@ -40,10 +40,12 @@ public class MiscoreHistogram {
         boolean show = false;
         boolean toolTips = false;
         boolean urls = false;
-        JFreeChart chart = ChartFactory.createHistogram( plotTitle, xaxis, yaxis,
+        JFreeChart chart = ChartFactory.createHistogram(plotTitle, xaxis, yaxis,
                 dataset, orientation, show, toolTips, urls);
         try {
-            ChartUtilities.saveChartAsPNG(new File(pngFileName), chart, width, height);
+            File file = new File(pngFileName);
+            if (file.getParentFile() != null && !file.getParentFile().exists()) file.getParentFile().mkdirs();
+            ChartUtilities.saveChartAsPNG(file, chart, width, height);
         } catch (IOException e) {
             e.printStackTrace();
         }

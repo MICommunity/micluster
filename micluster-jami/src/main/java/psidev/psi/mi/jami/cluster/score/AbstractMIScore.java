@@ -17,10 +17,10 @@ public abstract class AbstractMIScore implements MIScore {
     /***********************/
     public AbstractMIScore(String filename){
         //Set the default values
-        this.methods = new ArrayList<String>();
-        this.types = new ArrayList<String>();
-        this.typesValues = new HashMap<String, MIScoreProperty>();
-        this.methodsValues = new HashMap<String, MIScoreProperty>();
+        this.methods = new ArrayList<>();
+        this.types = new ArrayList<>();
+        this.typesValues = new HashMap<>();
+        this.methodsValues = new HashMap<>();
         this.typeWeight = 1.0d;
         this.methodWeight = 1.0d;
         this.miOntology = new MIOntology();
