@@ -107,18 +107,6 @@
         </plugins>
     </build>
 
-    <profiles>
-        <profile>
-            <id>disable-java8-doclint</id>
-            <activation>
-                <jdk>[1.8,)</jdk>
-            </activation>
-            <properties>
-                <additionalparam>-Xdoclint:none</additionalparam>
-            </properties>
-        </profile>
-    </profiles>
-
     <dependencies>
 
         <dependency>
@@ -188,7 +176,7 @@
         <dependency>
             <groupId>psidev.psi.mi</groupId>
             <artifactId>psimitab</artifactId>
-            <version>1.8.6</version>
+            <version>${psimi.version}</version>
         </dependency>
 
         <!-- JSON dependencies -->
