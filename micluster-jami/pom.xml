@@ -7,7 +7,7 @@
     <parent>
         <groupId>uk.ac.ebi.enfin.mi.cluster</groupId>
         <artifactId>micluster-parent</artifactId>
-        <version>1.8.0-SNAPSHOT</version>
+        <version>1.8.0</version>
     </parent>
 
     <groupId>psidev.psi.mi.jami.cluster</groupId>
@@ -25,30 +25,6 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
-
-    <repositories>
-        <repository>
-            <id>intact.nexus</id>
-            <name>IntAct Nexus</name>
-            <url>http://www.ebi.ac.uk/intact/maven/nexus/content/groups/public</url>
-        </repository>
-    </repositories>
-
-    <distributionManagement>
-        <!-- EBI repo -->
-        <repository>
-            <id>pst-release</id>
-            <name>EBI Nexus Repository</name>
-            <url>http://www.ebi.ac.uk/Tools/maven/repos/content/repositories/pst-release</url>
-        </repository>
-        <!-- EBI SNAPSHOT repo -->
-        <snapshotRepository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>pst-snapshots</id>
-            <name>EBI Nexus Snapshots Repository</name>
-            <url>http://www.ebi.ac.uk/Tools/maven/repos/content/repositories/pst-snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <dependencies>
         <!--JAMI-->
@@ -97,6 +73,12 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.13.3</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

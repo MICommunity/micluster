@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>uk.ac.ebi.enfin.mi.cluster</groupId>
 		<artifactId>micluster-parent</artifactId>
-		<version>1.8.0-SNAPSHOT</version>
+		<version>1.8.0</version>
 	</parent>
 	
 	<groupId>org.mpi</groupId>
@@ -18,19 +18,7 @@
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
-	<repositories>
-    	<!-- EBI Repos -->
-    	<repository>
-			<id>ebi-repo</id>
-		    <name>EBI repository</name>
-		    <url>http://www.ebi.ac.uk/~maven/m2repo</url>
-		</repository>
-		<repository>
-			<id>ebi-repo-snapshots</id>
-		   	<name>EBI snapshots repository</name>
-		    <url>http://www.ebi.ac.uk/~maven/m2repo_snapshots</url>
-		</repository>
-    </repositories>
+
 	<dependencies>
 		<!-- Spring -->
 		<dependency>

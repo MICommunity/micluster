@@ -7,7 +7,7 @@
     <parent>
         <groupId>uk.ac.ebi.enfin.mi.cluster</groupId>
         <artifactId>micluster-parent</artifactId>
-        <version>1.8.0-SNAPSHOT</version>
+        <version>1.8.0</version>
     </parent>
 
     <artifactId>micluster-example</artifactId>
@@ -18,14 +18,6 @@
         <developerConnection>scm:svn:https://micluster.googlecode.com/svn/trunk/micluster-example</developerConnection>
         <url>http://code.google.com/p/micluster/source/browse/#svn/trunk/micluster-example</url>
     </scm>
-
-    <repositories>
-        <repository>
-            <id>intact.nexus</id>
-            <name>IntAct Nexus</name>
-            <url>http://www.ebi.ac.uk/intact/maven/nexus/content/groups/public</url>
-        </repository>
-    </repositories>
 
     <dependencies>
         <!-- MI Score dependency -->
