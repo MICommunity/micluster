@@ -7,7 +7,7 @@
     <parent>
         <groupId>uk.ac.ebi.enfin.mi.cluster</groupId>
         <artifactId>micluster-parent</artifactId>
-        <version>1.8.0</version>
+        <version>1.8.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>micluster-example</artifactId>

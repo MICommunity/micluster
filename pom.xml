@@ -5,7 +5,7 @@
 
     <groupId>uk.ac.ebi.enfin.mi.cluster</groupId>
     <artifactId>micluster-parent</artifactId>
-    <version>1.8.0</version>
+    <version>1.8.1-SNAPSHOT</version>
 
     <name>MI :: Cluster Parent</name>
     <packaging>pom</packaging>
@@ -26,7 +26,7 @@
         <miscore.version>1.4.0</miscore.version>
         <jami.version>3.3.0</jami.version>
         <psicquic.version>1.5.0</psicquic.version>
-        <psimi.version>1.9.0</psimi.version>
+        <psimi.version>1.10.0-SNAPSHOT</psimi.version>
         <lombok.version>1.18.24</lombok.version>
         <log4j.version>1.2.17</log4j.version>
         <spring.version>4.3.30.RELEASE</spring.version>
