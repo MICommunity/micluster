@@ -5,7 +5,7 @@
 
     <groupId>uk.ac.ebi.enfin.mi.cluster</groupId>
     <artifactId>micluster-parent</artifactId>
-    <version>1.8.0</version>
+    <version>1.8.1</version>
 
     <name>MI :: Cluster Parent</name>
     <packaging>pom</packaging>
@@ -24,9 +24,10 @@
         <junit.version>4.13.2</junit.version>
 
         <miscore.version>1.4.0</miscore.version>
-        <jami.version>3.3.0</jami.version>
-        <psicquic.version>1.5.0</psicquic.version>
-        <psimi.version>1.9.0</psimi.version>
+        <jami.version>3.3.1</jami.version>
+        <psicquic.simple.client.version>1.5.1</psicquic.simple.client.version>
+        <psicquic.registry.client.version>1.5.0</psicquic.registry.client.version>
+        <psimi.version>1.10.0</psimi.version>
         <lombok.version>1.18.24</lombok.version>
         <log4j.version>1.2.17</log4j.version>
         <spring.version>4.3.30.RELEASE</spring.version>
@@ -52,6 +53,10 @@
     </build>
 
     <repositories>
+        <repository>
+            <id>intact.nexus</id>
+            <url>https://www.ebi.ac.uk/intact/maven/nexus/content/groups/public/</url>
+        </repository>
         <repository>
             <id>nexus-ebi-repo-old</id>
             <url>https://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo/</url>

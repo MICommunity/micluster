@@ -6,7 +6,7 @@
     <parent>
         <groupId>uk.ac.ebi.enfin.mi.cluster</groupId>
         <artifactId>micluster-parent</artifactId>
-        <version>1.8.0</version>
+        <version>1.8.1</version>
     </parent>
 
     <artifactId>micluster</artifactId>
@@ -164,13 +164,13 @@
         <dependency>
             <groupId>org.hupo.psi.mi.psicquic</groupId>
             <artifactId>psicquic-registry-client</artifactId>
-            <version>${psicquic.version}</version>
+            <version>${psicquic.registry.client.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.hupo.psi.mi.psicquic</groupId>
             <artifactId>psicquic-simple-client</artifactId>
-            <version>${psicquic.version}</version>
+            <version>${psicquic.simple.client.version}</version>
         </dependency>
 
         <dependency>
