@@ -36,7 +36,7 @@ public class Encore2BinaryTest {
             BinaryInteraction bI = iConverter.getBinaryInteractionForScoring(eI);
             binaryInteractionMapping.put(mappingId,bI);
         }
-        Assert.assertTrue(iC != null);
+        Assert.assertNotNull(iC);
         Assert.assertTrue(binaryInteractionMapping.size() > 0);
     }
 

@@ -15,7 +15,6 @@ import uk.ac.ebi.enfin.mi.cluster.ExampleFiles;
  */
 public class TestSaveScore extends ExampleFiles {
     @Test
-    @Ignore
     public void testSaveScores() throws ClusterServiceException {
         InteractionClusterScore iC = new InteractionClusterScore();
         iC.setBinaryInteractionIterator(brca2_intact, false);

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:batch="http://www.springframework.org/schema/batch"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:batch="http://www.springframework.org/schema/batch" xmlns:task="http://www.springframework.org/schema/task"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
@@ -42,27 +42,17 @@
            <batch:tasklet ref="tasklet"/>
        </batch:step>
     </batch:job>
-	
-	<bean id="schedulerTask" class="org.springframework.scheduling.timer.MethodInvokingTimerTaskFactoryBean">
-		<property name="targetObject" ref="runMeTask" />
-		<property name="targetMethod" value="printMe" />
+
+	<bean id="mergerManager" class="org.mpi.age.mimerge.rest.MergerManager"/>
+
+	<bean id="runMeTask" class="org.mpi.age.mimerge.rest.RunMeTask" >
+		<constructor-arg name="manager" ref="mergerManager"/>
 	</bean>
 
-	<bean id="runMeTask" class="org.mpi.age.mimerge.rest.RunMeTask" />
-	
-	<bean id="timerTask" class="org.springframework.scheduling.timer.ScheduledTimerTask">
-		<property name="timerTask" ref="schedulerTask" />
-		<property name="delay" value="1000" />
-		<property name="period" value="60000" />
-	</bean>
+	<task:scheduled-tasks>
+		<task:scheduled ref="runMeTask" method="printMe" fixed-delay="1000" fixed-rate="60000"/>
+	</task:scheduled-tasks>
 
-	<bean class="org.springframework.scheduling.timer.TimerFactoryBean">
-		<property name="scheduledTimerTasks">
-			<list>
-				<ref local="timerTask" />
-			</list>
-		</property>
-	</bean>
 	
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
     	<!-- <property name="maxUploadSize" value="10000"/> -->

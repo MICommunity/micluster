@@ -1,26 +1,26 @@
 package psidev.psi.mi.jami.cluster.score.ols;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.apache.log4j.Logger;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
+import psidev.psi.mi.jami.cluster.score.ols.model.OLSResult;
+import psidev.psi.mi.jami.cluster.score.ols.model.SimpleOLSNode;
+import psidev.psi.mi.jami.cluster.score.ols.model.UrlDeserializer;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Class that uses the MIONode to build in memory
  * an Ontology. To build it can use the JSON got
- * it from the ontology-lookup web site or from
- * the file "psimiOntology.json".
- *
+ * it from the OLS or from
+ * the file "psimiOntology.json", generated with
+ * miscore package.
+ * <p>
  * Created by maitesin on 03/03/2015.
  */
 public class MIOntology {
@@ -32,108 +32,100 @@ public class MIOntology {
         this(true);
     }
 
-    public MIOntology(boolean useOls){
-        this.map = new HashMap<String, MIONode>();
+    public MIOntology(boolean useOls) {
+        this.map = new HashMap<>();
         this.root = null;
-        if (useOls) {
-            loadFromOls();
-        }
-        else {
-            loadFromFile();
-        }
+        this.useOLS = useOls;
+        if (!useOls) loadFromFile();
     }
 
     /**************************/
     /***   Public Methods   ***/
     /**************************/
     public List<String> getParents(String id) {
-        List<String> parents = new ArrayList<String>();
-        MIONode node = this.map.get(id);
-        if (node != null) {
-            while (node.getFather() != null) {
-                parents.add(node.getId());
-                node = node.getFather();
-            }
-        }
-        return parents;
+        if (useOLS) return getAncestors(id);
+        return new ArrayList<>(processParents(id, new LinkedHashSet<>()));
     }
 
     /***************************/
     /***   Private Methods   ***/
     /***************************/
-    private void loadFromOls() {
+
+    private Set<String> processParents(String id, Set<String> parents) {
+        MIONode node = this.map.get(id);
+        if (node == null) return parents;
+
+        for (MIONode parent : node.getParents()) {
+            parents.add(parent.getId());
+            processParents(parent.getId(), parents);
+        }
+
+        return parents;
+    }
+
+    private List<String> getAncestors(String id) {
+        List<String> ancestors;
         try {
-            JSONObject json = getJsonFromOls();
+            URL url = new URL("https://www.ebi.ac.uk/ols/api/ontologies/mi/terms/" +
+                    "http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252F" + id.replace(":", "_") + "/hierarchicalAncestors");
+            OLSResult result = mapper.readValue(url, OLSResult.class);
+            ancestors = result.get_embedded()
+                    .getTerms().stream()
+                    .map(OLSResult.Term::getObo_id)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+            while (result.get_links().containsKey(OLSResult.Link.Type.next)) {
+                mapper.readValue(result.get_links().get(OLSResult.Link.Type.next).getHref(), OLSResult.class);
+                ancestors.addAll(result.get_embedded()
+                        .getTerms().stream()
+                        .map(OLSResult.Term::getObo_id)
+                        .collect(Collectors.toList())
+                );
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return ancestors;
+    }
+
+    private void loadFromFile() {
+        InputStream resource = MIOntology.class.getClassLoader().getResourceAsStream(olsFile);
+        if (resource == null) return;
+        try {
+            SimpleOLSNode json = mapper.readValue(resource, SimpleOLSNode.class);
             if (json != null) {
                 buildTree(json);
             }
         } catch (IOException e) {
-            if(log.isInfoEnabled()) {
-                log.info("Unable to get the Json from the OLS", e);
-            }
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-
     }
 
-    private JSONObject getJsonFromOls() throws IOException {
-        HttpClient client = HttpClientBuilder.create().build();
-        HttpGet request = new HttpGet(olsUrl);
-        HttpResponse response = client.execute(request);
-        if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-            BufferedReader reader = null;
-            reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-            return (JSONObject) JSONValue.parse(reader);
-        }
-        else {
-            if (log.isInfoEnabled()) {
-                log.info("Unable to connect to: " + olsUrl);
-                log.info("Will not load the ontology and only will use the values in the file.");
+    private void buildTree(SimpleOLSNode node) {
+        this.root = processNode(node);
+    }
+
+    private MIONode processNode(SimpleOLSNode simpleNode) {
+        MIONode node = this.map.computeIfAbsent(simpleNode.getId(), key -> new MIONode(key, simpleNode.getName()));
+        if (simpleNode.getChildren() != null) {
+            for (SimpleOLSNode child : simpleNode.getChildren()) {
+                processNode(child).addParent(node);
             }
         }
-        return null;
-    }
-
-    private void loadFromFile() {
-        JSONObject json = (JSONObject) JSONValue.parse(new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(olsFile))));
-        if (json != null) {
-            buildTree(json);
-        }
-    }
-
-    private void buildTree(JSONObject json) {
-        String id = (String) json.get("id");
-        String name = (String) json.get("name");
-        JSONArray children = (JSONArray) json.get("children");
-        this.root = new MIONode(id, name);
-        processChildren(this.root, children);
-        this.map.put(id, this.root);
-    }
-
-    private void processChildren(MIONode father, JSONArray array) {
-        Iterator<JSONObject> it = array.iterator();
-        JSONObject json = null;
-        String id = null, name = null;
-        MIONode child = null;
-        while (it.hasNext()) {
-            json = it.next();
-            id = (String) json.get("id");
-            name = (String) json.get("name");
-            child = new MIONode(id, name, father);
-            if (json.get("children") != null) { //children exist in the json object
-                processChildren(child, (JSONArray) json.get("children"));
-            }
-            father.getChildren().add(child);
-            this.map.put(id, child);
-        }
+        return node;
     }
 
     /******************************/
     /***   Private Attributes   ***/
     /******************************/
     private MIONode root;
-    private Map<String, MIONode> map;
-    private final static String olsUrl = "http://www.ebi.ac.uk/ontology-lookup/json/termchildren?termId=MI:0000&ontology=MI&depth=1000";
-    private final static String olsFile = "psimiOntology.json";
+    private final Map<String, MIONode> map;
+
+    private final boolean useOLS;
+    private static final String olsFile = "psimiOntology.json";
+    private static final ObjectMapper mapper = new ObjectMapper()
+            .registerModule(new SimpleModule().addDeserializer(URL.class, new UrlDeserializer()))
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     private Logger log = Logger.getLogger(MIOntology.class);
 }

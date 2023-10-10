@@ -1,8 +1,7 @@
 package uk.ac.ebi.enfin.mi.cluster.utils;
 
-import com.google.common.io.CharStreams;
+import com.google.common.io.CharSource;
 import com.google.common.io.Files;
-import com.google.common.io.InputSupplier;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -31,12 +30,12 @@ public class CompositeReaderTest {
         File f2 = new File( CompositeReaderTest.class.getResource( "/mitab_samples/brca2_intact.tsv" ).getFile() );
 
         // NOTE downside, I can only give a File, not a Reader or an InputStream
-        InputSupplier<InputStreamReader> rs1 = Files.newReaderSupplier( f1, utf8 );
-        InputSupplier<InputStreamReader> rs2 = Files.newReaderSupplier( f2, utf8 );
+        CharSource rs1 = Files.asCharSource( f1, utf8 );
+        CharSource rs2 = Files.asCharSource( f2, utf8 );
 
-        InputSupplier<Reader> combined = CharStreams.join( rs1, rs2 );
+        CharSource combined = CharSource.concat(rs1, rs2);
 
-        final Reader reader = combined.getInput();
+        final Reader reader = combined.openStream();
 
         int count = 0;
         BufferedReader in = new BufferedReader( reader );

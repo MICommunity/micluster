@@ -48,6 +48,7 @@ public enum FileManager {
 	 */
 	public void saveToFile(String taskId, ArrayList<BinaryInteraction> interactions) throws IOException, ConverterException{
 		File file = new File(FILE_DIR+taskId+TSV);
+		if (file.getParentFile() != null && !file.getParentFile().exists()) file.getParentFile().mkdirs();
 		file.createNewFile();
 		FileOutputStream fop = new FileOutputStream(file);
 	   

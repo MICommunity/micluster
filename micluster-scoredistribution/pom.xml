@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>uk.ac.ebi.enfin.mi.cluster</groupId>
+        <artifactId>micluster-parent</artifactId>
+        <version>1.8.1</version>
+    </parent>
+
     <groupId>uk.ac.ebi.enfin.mi.score.distribution</groupId>
     <artifactId>miscoreDistribution</artifactId>
-    <version>1.3</version>
     <name>Score distribution over molecular interaction databases</name>
 
     <scm>
@@ -18,7 +24,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.4</version>
+                <version>3.2.0</version>
                 <executions>
                     <execution>
                         <id>miscore-javadoc</id>
@@ -37,31 +43,22 @@
         </plugins>
     </build>
 
-
-    <repositories>
-        <repository>
-             <id>intact.nexus</id>
-             <name>IntAct Nexus</name>
-             <url>http://www.ebi.ac.uk/intact/maven/nexus/content/groups/public</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <!-- logging dependencies -->
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
-            <version>1.2.13</version>
+            <version>${log4j.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.3.1</version>
+            <version>${junit.version}</version>
         </dependency>
         <dependency>
             <groupId>jfree</groupId>
             <artifactId>jcommon</artifactId>
-            <version>1.0.9</version>
+            <version>1.0.16</version>
         </dependency>
         
 
@@ -69,7 +66,7 @@
         <dependency>
              <groupId>uk.ac.ebi.enfin.mi.cluster</groupId>
              <artifactId>micluster</artifactId>
-             <version>1.7.3</version>
+             <version>${project.version}</version>
         </dependency>
         
         <dependency>
@@ -79,19 +76,5 @@
         </dependency>
 
     </dependencies>
-    
-    <distributionManagement>
-         <repository>
-             <id>ebi-repo</id>
-             <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo</url>
-         </repository>
-
-        <snapshotRepository>
-            <id>ebi-repo-snapshots</id>
-            <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo-snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
-
-
 
 </project>
