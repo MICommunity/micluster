@@ -66,7 +66,7 @@ public class MIOntology {
     private List<String> getAncestors(String id) {
         List<String> ancestors;
         try {
-            URL url = new URL("https://www.ebi.ac.uk/ols/api/ontologies/mi/terms/" +
+            URL url = new URL("https://www.ebi.ac.uk/ols4/api/ontologies/mi/terms/" +
                     "http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252F" + id.replace(":", "_") + "/hierarchicalAncestors");
             OLSResult result = mapper.readValue(url, OLSResult.class);
             ancestors = result.get_embedded()
