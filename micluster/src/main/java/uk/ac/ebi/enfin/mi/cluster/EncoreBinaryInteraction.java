@@ -136,4 +136,14 @@ public interface EncoreBinaryInteraction extends Serializable{
     public String getMappingIdDbNames();
 
     public void setMappingIdDbNames(String mappingIdDbNames);
+
+    public List<CrossReference> getHostOrganisms();
+
+    public void setHostOrganisms(List<CrossReference> hostOrganisms);
+
+    public void addHostOrganisms(List<CrossReference> hostOrganisms);
+
+    public void addHostOrganism(CrossReference hostOrganism);
+
+    // TODO: add getters and setters for the missing MITAB 2.6, 2.7 and 2.8 fields
 }

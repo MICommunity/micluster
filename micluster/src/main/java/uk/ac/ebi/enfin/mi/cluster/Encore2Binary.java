@@ -70,12 +70,16 @@ public class Encore2Binary {
         psiInteractorA.setAliases(psiAliasA);
         psiInteractorA.setOrganism(psiOrganismA);
 
+        // TODO: add calls to setters for the missing MITAB 2.6, 2.7 and 2.8 interactors fields
+
         /* Create interactor B */
         Interactor psiInteractorB = new Interactor();
         psiInteractorB.setIdentifiers(psiIdentifierB);
         psiInteractorB.setAlternativeIdentifiers(psiAlternativeIdentifierB);
         psiInteractorB.setAliases(psiAliasB);
         psiInteractorB.setOrganism(psiOrganismB);
+
+        // TODO: add calls to setters for the missing MITAB 2.6, 2.7 and 2.8 interactors fields
 
         /* Create detection methods */
         List<CrossReference> psiDetectionMethods = new ArrayList<CrossReference>();
@@ -129,6 +133,15 @@ public class Encore2Binary {
         bI.setDetectionMethods(psiDetectionMethods);
         bI.setInteractionTypes(psiInteractionTypes);
         bI.setPublications(encoreInteraction.getPublicationIds());
+
+        /* Create Host Organism */
+        Organism psiHostOrganism = new OrganismImpl();
+        psiHostOrganism.setIdentifiers(encoreInteraction.getHostOrganisms());
+
+        bI.setHostOrganism(psiHostOrganism);
+
+        // TODO: add calls to setters for the missing MITAB 2.6, 2.7 and 2.8 interaction fields
+
         return bI;
     }
 

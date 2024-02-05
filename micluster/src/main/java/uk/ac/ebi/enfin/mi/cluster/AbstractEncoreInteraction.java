@@ -34,6 +34,9 @@ public abstract class AbstractEncoreInteraction implements EncoreBinaryInteracti
     protected String mappingIdDbNames = "uniprotkb,irefindex,ddbj/embl/genbank,refseq,chebi";
     protected Map<String, List<String>> methodToPubmed = new HashMap<String, List<String>>();
     protected Map<String, List<String>> typeToPubmed = new HashMap<String, List<String>>();
+    protected List<CrossReference> hostOrganisms = new ArrayList<CrossReference>();
+
+    // TODO: add members for the missing MITAB 2.6, 2.7 and 2.8 fields
 
     public int getId() {
         return id;
@@ -453,5 +456,27 @@ public abstract class AbstractEncoreInteraction implements EncoreBinaryInteracti
     public void addTypeToPubmed(String type, String pubmed) {
         typeToPubmed = setMapping(typeToPubmed, type, pubmed);
     }
+
+    public List<CrossReference> getHostOrganisms() {
+        return hostOrganisms;
+    }
+
+    public void setHostOrganisms(List<CrossReference> hostOrganisms) {
+        this.hostOrganisms = hostOrganisms;
+    }
+
+    public void addHostOrganisms(List<CrossReference> hostOrganisms) {
+        for(CrossReference hostOrganism:hostOrganisms){
+            addHostOrganism(hostOrganism);
+        }
+    }
+
+    public void addHostOrganism(CrossReference hostOrganism) {
+        if(!this.hostOrganisms.contains(hostOrganism)){
+            this.hostOrganisms.add(hostOrganism);
+        }
+    }
+
+    // TODO: add getters and setters for the missing MITAB 2.6, 2.7 and 2.8 fields
 
 }

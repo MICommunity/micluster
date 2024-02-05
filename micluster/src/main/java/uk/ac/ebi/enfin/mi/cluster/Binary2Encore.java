@@ -169,6 +169,15 @@ public class Binary2Encore {
             logger.warn("Pubmed missing for \"" + experiment + "\" in \"" + database + "\"");
         }
 
+        /* get host organisms */
+        if(binaryInteraction.getHostOrganism() != null){
+            encoreInteraction.addHostOrganisms(binaryInteraction.getHostOrganism().getIdentifiers());
+        } else {
+            logger.warn("Host Organism is null");
+        }
+
+        // TODO: add calls to setters for the missing MITAB 2.6, 2.7 and 2.8 fields
+
         return validPublication;
     }
 
