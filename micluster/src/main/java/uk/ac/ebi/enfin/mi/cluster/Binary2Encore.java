@@ -111,12 +111,21 @@ public class Binary2Encore {
             EncoreIdentifiers interactorAccsA = getInteractorAccs(iA);
             encoreInteraction.setInteractorAccsA(interactorAccsA.getAccessions());
             encoreInteraction.setOtherInteractorAccsA(interactorAccsA.getOtherAccessions());
-            /* get taxId for interactor A */
             if(iA != null){
+                /* get taxId for interactor A */
                 if(iA.getOrganism() != null){
                     encoreInteraction.addOrganismsA(iA.getOrganism().getIdentifiers());
                 } else {
                     logger.warn("Organism is null");
+                }
+                /* get all types for this interactor */
+                if (iA.getInteractorTypes() != null) {
+                    List<CrossReference> iTypes = iA.getInteractorTypes();
+                    for (CrossReference iType : iTypes) {
+                        encoreInteraction.addInteractorTypeA(iType.getIdentifier());
+                    }
+                } else {
+                    logger.warn("Interactor Types is null");
                 }
             }
         } catch (Exception e){
@@ -130,12 +139,21 @@ public class Binary2Encore {
             EncoreIdentifiers interactorAccsB = getInteractorAccs(iB);
             encoreInteraction.setInteractorAccsB(interactorAccsB.getAccessions());
             encoreInteraction.setOtherInteractorAccsB(interactorAccsB.getOtherAccessions());
-            /* get taxId for interactor B */
             if(iB != null){
+                /* get taxId for interactor B */
                 if(iB.getOrganism() != null){
                     encoreInteraction.addOrganismsB(iB.getOrganism().getIdentifiers());
                 } else {
                     logger.warn("Organism is null");
+                }
+                /* get all types for this interactor */
+                if (iB.getInteractorTypes() != null) {
+                    List<CrossReference> iTypes = iB.getInteractorTypes();
+                    for (CrossReference iType : iTypes) {
+                        encoreInteraction.addInteractorTypeB(iType.getIdentifier());
+                    }
+                } else {
+                    logger.warn("Interactor Types is null");
                 }
             }
         } catch (Exception e){

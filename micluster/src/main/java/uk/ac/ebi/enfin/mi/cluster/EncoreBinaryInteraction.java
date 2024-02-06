@@ -145,5 +145,21 @@ public interface EncoreBinaryInteraction extends Serializable{
 
     public void addHostOrganism(CrossReference hostOrganism);
 
+    public List<String> getInteractorTypesA();
+
+    public void setInteractorTypesA(List<String> interactorType);
+
+    public void addInteractorTypesA(List<String> interactorType);
+
+    public void addInteractorTypeA(String interactorType);
+
+    public List<String> getInteractorTypesB();
+
+    public void setInteractorTypesB(List<String> interactorTypes);
+
+    public void addInteractorTypesB(List<String> interactorTypes);
+
+    public void addInteractorTypeB(String interactorType);
+
     // TODO: add getters and setters for the missing MITAB 2.6, 2.7 and 2.8 fields
 }

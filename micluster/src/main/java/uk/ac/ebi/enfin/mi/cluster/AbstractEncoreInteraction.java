@@ -35,6 +35,8 @@ public abstract class AbstractEncoreInteraction implements EncoreBinaryInteracti
     protected Map<String, List<String>> methodToPubmed = new HashMap<String, List<String>>();
     protected Map<String, List<String>> typeToPubmed = new HashMap<String, List<String>>();
     protected List<CrossReference> hostOrganisms = new ArrayList<CrossReference>();
+    protected List<String> interactorTypesA = new ArrayList<String>();
+    protected List<String> interactorTypesB = new ArrayList<String>();
 
     // TODO: add members for the missing MITAB 2.6, 2.7 and 2.8 fields
 
@@ -474,6 +476,46 @@ public abstract class AbstractEncoreInteraction implements EncoreBinaryInteracti
     public void addHostOrganism(CrossReference hostOrganism) {
         if(!this.hostOrganisms.contains(hostOrganism)){
             this.hostOrganisms.add(hostOrganism);
+        }
+    }
+
+    public List<String> getInteractorTypesA() {
+        return interactorTypesA;
+    }
+
+    public void setInteractorTypesA(List<String> interactorTypes) {
+        this.interactorTypesA = interactorTypes;
+    }
+
+    public void addInteractorTypesA(List<String> interactorTypes) {
+        for(String interactorType:interactorTypes){
+            addInteractorTypeA(interactorType);
+        }
+    }
+
+    public void addInteractorTypeA(String interactorType) {
+        if(!this.interactorTypesA.contains(interactorType)){
+            this.interactorTypesA.add(interactorType);
+        }
+    }
+
+    public List<String> getInteractorTypesB() {
+        return interactorTypesB;
+    }
+
+    public void setInteractorTypesB(List<String> interactorTypes) {
+        this.interactorTypesB = interactorTypes;
+    }
+
+    public void addInteractorTypesB(List<String> interactorTypes) {
+        for(String interactorType:interactorTypes){
+            addInteractorTypeB(interactorType);
+        }
+    }
+
+    public void addInteractorTypeB(String interactorType) {
+        if(!this.interactorTypesB.contains(interactorType)){
+            this.interactorTypesB.add(interactorType);
         }
     }
 

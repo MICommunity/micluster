@@ -18,20 +18,23 @@ public class Encore2Binary {
     private static final Log log = LogFactory.getLog( Encore2Binary.class );
 
     private Map<String,String> miMethodOntologyTerms;
-    private Map<String,String> miTypeOntologyTerms;
+    private Map<String,String> miInteractionTypeOntologyTerms;
+    private Map<String,String> miInteractorTypeOntologyTerms;
     protected String mappingIdDbNames;
 
     public Encore2Binary(String mappingIdDbNames) {
         MIOntology olsHelper = new MIOntology();
         this.miMethodOntologyTerms = olsHelper.getJsonChildren("MI:0001");
-        this.miTypeOntologyTerms = olsHelper.getJsonChildren("MI:0190");
+        this.miInteractionTypeOntologyTerms = olsHelper.getJsonChildren("MI:0190");
+        this.miInteractorTypeOntologyTerms = olsHelper.getJsonChildren("MI:0313");
         this.mappingIdDbNames = mappingIdDbNames;
     }
 
     public Encore2Binary() {
         MIOntology olsHelper = new MIOntology();
         this.miMethodOntologyTerms = olsHelper.getJsonChildren("MI:0001");
-        this.miTypeOntologyTerms = olsHelper.getJsonChildren("MI:0190");
+        this.miInteractionTypeOntologyTerms = olsHelper.getJsonChildren("MI:0190");
+        this.miInteractorTypeOntologyTerms = olsHelper.getJsonChildren("MI:0313");
         this.mappingIdDbNames = null;
     }
 
@@ -69,6 +72,7 @@ public class Encore2Binary {
         psiInteractorA.setAlternativeIdentifiers(psiAlternativeIdentifierA);
         psiInteractorA.setAliases(psiAliasA);
         psiInteractorA.setOrganism(psiOrganismA);
+        psiInteractorA.setInteractorTypes(getPsiInteractorTypes(encoreInteraction.getInteractorTypesA()));
 
         // TODO: add calls to setters for the missing MITAB 2.6, 2.7 and 2.8 interactors fields
 
@@ -78,6 +82,7 @@ public class Encore2Binary {
         psiInteractorB.setAlternativeIdentifiers(psiAlternativeIdentifierB);
         psiInteractorB.setAliases(psiAliasB);
         psiInteractorB.setOrganism(psiOrganismB);
+        psiInteractorB.setInteractorTypes(getPsiInteractorTypes(encoreInteraction.getInteractorTypesB()));
 
         // TODO: add calls to setters for the missing MITAB 2.6, 2.7 and 2.8 interactors fields
 
@@ -98,8 +103,8 @@ public class Encore2Binary {
         for(String typeId:encoreInteraction.getTypeToPubmed().keySet()){
             CrossReference psiInteractionType = new CrossReferenceImpl();
             psiInteractionType.setIdentifier(typeId);
-            if(miTypeOntologyTerms.containsKey(typeId)){
-                psiInteractionType.setText(miTypeOntologyTerms.get(typeId));
+            if(miInteractionTypeOntologyTerms.containsKey(typeId)){
+                psiInteractionType.setText(miInteractionTypeOntologyTerms.get(typeId));
                 psiInteractionType.setDatabase("psi-mi");
             }
             psiInteractionTypes.add(psiInteractionType);
@@ -211,8 +216,8 @@ public class Encore2Binary {
 
                     CrossReference psitype = new CrossReferenceImpl();
                     psitype.setIdentifier(pair.getType());
-                    if(miTypeOntologyTerms.containsKey(pair.getType())){
-                        psitype.setText(miTypeOntologyTerms.get(pair.getType()));
+                    if(miInteractionTypeOntologyTerms.containsKey(pair.getType())){
+                        psitype.setText(miInteractionTypeOntologyTerms.get(pair.getType()));
                         psitype.setDatabase("psi-mi");
                     }
                     psiInteractionTypes.add(psitype);
@@ -272,5 +277,19 @@ public class Encore2Binary {
                 psiAlias.add(pA);
             }
         }
+    }
+
+    private List<CrossReference> getPsiInteractorTypes(List<String> interactorTypes) {
+        List<CrossReference> psiInteractorTypes = new ArrayList<>();
+        for (String typeId: interactorTypes) {
+            CrossReference psiInteractorType = new CrossReferenceImpl();
+            psiInteractorType.setIdentifier(typeId);
+            if (miInteractorTypeOntologyTerms.containsKey(typeId)) {
+                psiInteractorType.setText(miInteractorTypeOntologyTerms.get(typeId));
+                psiInteractorType.setDatabase("psi-mi");
+            }
+            psiInteractorTypes.add(psiInteractorType);
+        }
+        return psiInteractorTypes;
     }
 }
