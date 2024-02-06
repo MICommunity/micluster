@@ -183,6 +183,7 @@ public class Encore2Binary {
         psiInteractorA.setAlternativeIdentifiers(psiAlternativeIdentifierA);
         psiInteractorA.setAliases(psiAliasA);
         psiInteractorA.setOrganism(psiOrganismA);
+        psiInteractorA.setInteractorTypes(getPsiInteractorTypes(encoreInteraction.getInteractorTypesA()));
 
         /* Create interactor B */
         Interactor psiInteractorB = new Interactor();
@@ -190,6 +191,7 @@ public class Encore2Binary {
         psiInteractorB.setAlternativeIdentifiers(psiAlternativeIdentifierB);
         psiInteractorB.setAliases(psiAliasB);
         psiInteractorB.setOrganism(psiOrganismB);
+        psiInteractorB.setInteractorTypes(getPsiInteractorTypes(encoreInteraction.getInteractorTypesB()));
 
         /* Create detection methods */
         List<CrossReference> psiDetectionMethods = new ArrayList<CrossReference>();
@@ -253,6 +255,13 @@ public class Encore2Binary {
         bI.setDetectionMethods(psiDetectionMethods);
         bI.setInteractionTypes(psiInteractionTypes);
         bI.setPublications(encoreInteraction.getPublicationIds());
+
+        /* Create Host Organism */
+        Organism psiHostOrganism = new OrganismImpl();
+        psiHostOrganism.setIdentifiers(encoreInteraction.getHostOrganisms());
+
+        bI.setHostOrganism(psiHostOrganism);
+
         return bI;
     }
 
