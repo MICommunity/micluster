@@ -468,6 +468,8 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
             mappingEcoreInteraction.addOtherInteractorAccsB(encoreInteraction.getOtherInteractorAccsA());
             mappingEcoreInteraction.addOrganismsA(encoreInteraction.getOrganismsB());
             mappingEcoreInteraction.addOrganismsB(encoreInteraction.getOrganismsA());
+            mappingEcoreInteraction.addInteractorTypesA(encoreInteraction.getInteractorTypesB());
+            mappingEcoreInteraction.addInteractorTypesB(encoreInteraction.getInteractorTypesA());
         } else{
             mappingEcoreInteraction.addInteractorAccsA(encoreInteraction.getInteractorAccsA());
             mappingEcoreInteraction.addInteractorAccsB(encoreInteraction.getInteractorAccsB());
@@ -475,6 +477,8 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
             mappingEcoreInteraction.addOtherInteractorAccsB(encoreInteraction.getOtherInteractorAccsB());
             mappingEcoreInteraction.addOrganismsA(encoreInteraction.getOrganismsA());
             mappingEcoreInteraction.addOrganismsB(encoreInteraction.getOrganismsB());
+            mappingEcoreInteraction.addInteractorTypesA(encoreInteraction.getInteractorTypesA());
+            mappingEcoreInteraction.addInteractorTypesB(encoreInteraction.getInteractorTypesB());
         }
         mappingEcoreInteraction.addPublicationId(encoreInteraction.getPublicationIds());
         mappingEcoreInteraction.addExperimentToPubmed(encoreInteraction.getExperimentToPubmed());
@@ -483,6 +487,7 @@ public abstract class AbstractInteractionCluster<T extends EncoreBinaryInteracti
         mappingEcoreInteraction.addAuthors(encoreInteraction.getAuthors());
         mappingEcoreInteraction.addConfidenceValues(encoreInteraction.getConfidenceValues());
         mappingEcoreInteraction.addSourceDatabases(encoreInteraction.getSourceDatabases());
+        mappingEcoreInteraction.setHostOrganisms(encoreInteraction.getHostOrganisms());
         return mappingEcoreInteraction;
     }
 

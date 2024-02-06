@@ -348,6 +348,8 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
 			mappingEcoreInteraction.addOtherInteractorAccsB(encoreInteraction.getOtherInteractorAccsA());
 			mappingEcoreInteraction.addOrganismsA(encoreInteraction.getOrganismsB());
 			mappingEcoreInteraction.addOrganismsB(encoreInteraction.getOrganismsA());
+			mappingEcoreInteraction.addInteractorTypesA(encoreInteraction.getInteractorTypesB());
+			mappingEcoreInteraction.addInteractorTypesB(encoreInteraction.getInteractorTypesA());
 		} else {
 			mappingEcoreInteraction.addInteractorAccsA(encoreInteraction.getInteractorAccsA());
 			mappingEcoreInteraction.addInteractorAccsB(encoreInteraction.getInteractorAccsB());
@@ -355,6 +357,8 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
 			mappingEcoreInteraction.addOtherInteractorAccsB(encoreInteraction.getOtherInteractorAccsB());
 			mappingEcoreInteraction.addOrganismsA(encoreInteraction.getOrganismsA());
 			mappingEcoreInteraction.addOrganismsB(encoreInteraction.getOrganismsB());
+			mappingEcoreInteraction.addInteractorTypesA(encoreInteraction.getInteractorTypesA());
+			mappingEcoreInteraction.addInteractorTypesB(encoreInteraction.getInteractorTypesB());
 		}
 		mappingEcoreInteraction.addPublicationId(encoreInteraction.getPublicationIds());
 		mappingEcoreInteraction.addExperimentToPubmed(encoreInteraction.getExperimentToPubmed());
@@ -364,6 +368,7 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
 		mappingEcoreInteraction.addConfidenceValues(encoreInteraction.getConfidenceValues());
 		mappingEcoreInteraction.addSourceDatabases(encoreInteraction.getSourceDatabases());
 		mappingEcoreInteraction.getDistinctPublications().addAll(encoreInteraction.getDistinctPublications());
+		mappingEcoreInteraction.setHostOrganisms(encoreInteraction.getHostOrganisms());
 		return mappingEcoreInteraction;
 	}
 
