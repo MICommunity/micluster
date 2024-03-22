@@ -229,8 +229,18 @@ public class InteractionCluster extends AbstractInteractionCluster<EncoreInterac
             mappingEcoreInteraction.addOtherInteractorAccsB(encoreInteraction.getOtherInteractorAccsA());
             mappingEcoreInteraction.addOrganismsA(encoreInteraction.getOrganismsB());
             mappingEcoreInteraction.addOrganismsB(encoreInteraction.getOrganismsA());
+            mappingEcoreInteraction.addBiologicalRolesA(encoreInteraction.getBiologicalRolesB());
+            mappingEcoreInteraction.addBiologicalRolesB(encoreInteraction.getBiologicalRolesA());
+            mappingEcoreInteraction.addExperimentalRolesA(encoreInteraction.getExperimentalRolesB());
+            mappingEcoreInteraction.addExperimentalRolesB(encoreInteraction.getExperimentalRolesA());
             mappingEcoreInteraction.addInteractorTypesA(encoreInteraction.getInteractorTypesB());
             mappingEcoreInteraction.addInteractorTypesB(encoreInteraction.getInteractorTypesA());
+            mappingEcoreInteraction.addXrefsA(encoreInteraction.getXrefsB());
+            mappingEcoreInteraction.addXrefsB(encoreInteraction.getXrefsA());
+            mappingEcoreInteraction.addAnnotationsA(encoreInteraction.getAnnotationsB());
+            mappingEcoreInteraction.addAnnotationsB(encoreInteraction.getAnnotationsA());
+            mappingEcoreInteraction.addChecksumsA(encoreInteraction.getChecksumsB());
+            mappingEcoreInteraction.addChecksumsB(encoreInteraction.getChecksumsA());
         } else{
             mappingEcoreInteraction.addInteractorAccsA(encoreInteraction.getInteractorAccsA());
             mappingEcoreInteraction.addInteractorAccsB(encoreInteraction.getInteractorAccsB());
@@ -238,8 +248,18 @@ public class InteractionCluster extends AbstractInteractionCluster<EncoreInterac
             mappingEcoreInteraction.addOtherInteractorAccsB(encoreInteraction.getOtherInteractorAccsB());
             mappingEcoreInteraction.addOrganismsA(encoreInteraction.getOrganismsA());
             mappingEcoreInteraction.addOrganismsB(encoreInteraction.getOrganismsB());
+            mappingEcoreInteraction.addBiologicalRolesA(encoreInteraction.getBiologicalRolesA());
+            mappingEcoreInteraction.addBiologicalRolesB(encoreInteraction.getBiologicalRolesB());
+            mappingEcoreInteraction.addExperimentalRolesA(encoreInteraction.getExperimentalRolesA());
+            mappingEcoreInteraction.addExperimentalRolesB(encoreInteraction.getExperimentalRolesB());
             mappingEcoreInteraction.addInteractorTypesA(encoreInteraction.getInteractorTypesA());
             mappingEcoreInteraction.addInteractorTypesB(encoreInteraction.getInteractorTypesB());
+            mappingEcoreInteraction.addXrefsA(encoreInteraction.getXrefsA());
+            mappingEcoreInteraction.addXrefsB(encoreInteraction.getXrefsB());
+            mappingEcoreInteraction.addAnnotationsA(encoreInteraction.getAnnotationsA());
+            mappingEcoreInteraction.addAnnotationsB(encoreInteraction.getAnnotationsB());
+            mappingEcoreInteraction.addChecksumsA(encoreInteraction.getChecksumsA());
+            mappingEcoreInteraction.addChecksumsB(encoreInteraction.getChecksumsB());
         }
         mappingEcoreInteraction.addPublicationId(encoreInteraction.getPublicationIds());
         mappingEcoreInteraction.addExperimentToPubmed(encoreInteraction.getExperimentToPubmed());
@@ -249,7 +269,15 @@ public class InteractionCluster extends AbstractInteractionCluster<EncoreInterac
         mappingEcoreInteraction.addConfidenceValues(encoreInteraction.getConfidenceValues());
         mappingEcoreInteraction.addSourceDatabases(encoreInteraction.getSourceDatabases());
         mappingEcoreInteraction.getDistinctPublications().addAll(encoreInteraction.getDistinctPublications());
-        mappingEcoreInteraction.setHostOrganisms(encoreInteraction.getHostOrganisms());
+        mappingEcoreInteraction.addExpansions(encoreInteraction.getExpansions());
+        mappingEcoreInteraction.addXrefsInteraction(encoreInteraction.getXrefsInteraction());
+        mappingEcoreInteraction.addAnnotationsInteraction(encoreInteraction.getAnnotationsInteraction());
+        mappingEcoreInteraction.addHostOrganisms(encoreInteraction.getHostOrganisms());
+        mappingEcoreInteraction.addParameters(encoreInteraction.getParameters());
+        mappingEcoreInteraction.addCreationDates(encoreInteraction.getCreationDates());
+        mappingEcoreInteraction.addUpdateDates(encoreInteraction.getUpdateDates());
+        mappingEcoreInteraction.addChecksumsInteraction(encoreInteraction.getChecksumsInteraction());
+        mappingEcoreInteraction.addNegatives(encoreInteraction.getNegatives());
         return mappingEcoreInteraction;
     }
 

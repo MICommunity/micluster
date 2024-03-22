@@ -117,6 +117,24 @@ public class Binary2Encore {
                 } else {
                     logger.warn("Organism is null");
                 }
+                /* get all biologicalRoles for this interactor */
+                if (iA.getBiologicalRoles() != null) {
+                    List<CrossReference> biologicalRoles = iA.getBiologicalRoles();
+                    for (CrossReference biologicalRole : biologicalRoles) {
+                        encoreInteraction.addBiologicalRoleA(biologicalRole.getIdentifier());
+                    }
+                } else {
+                    logger.warn("Biological Role A is null");
+                }
+                /* get all experimentalRoles for this interactor */
+                if (iA.getExperimentalRoles() != null) {
+                    List<CrossReference> experimentalRoles = iA.getExperimentalRoles();
+                    for (CrossReference experimentalRole : experimentalRoles) {
+                        encoreInteraction.addExperimentalRoleA(experimentalRole.getIdentifier());
+                    }
+                } else {
+                    logger.warn("Experimental Role A is null");
+                }
                 /* get all types for this interactor */
                 if (iA.getInteractorTypes() != null) {
                     List<CrossReference> iTypes = iA.getInteractorTypes();
@@ -124,9 +142,26 @@ public class Binary2Encore {
                         encoreInteraction.addInteractorTypeA(iType.getIdentifier());
                     }
                 } else {
-                    logger.warn("Interactor Types is null");
+                    logger.warn("Interactor Type A is null");
                 }
-
+                /* get all xrefs for this interactor */
+                if (iA.getXrefs() != null) {
+                    encoreInteraction.addXrefsA(iA.getXrefs());
+                } else {
+                    logger.warn("Interactor Xrefs A is null");
+                }
+                /* get all annotations for this interactor */
+                if (iA.getAnnotations() != null) {
+                    encoreInteraction.addAnnotationsA(iA.getAnnotations());
+                } else {
+                    logger.warn("Interactor Annotations A is null");
+                }
+                /* get all xrefs for this interactor */
+                if (iA.getChecksums() != null) {
+                    encoreInteraction.addChecksumsA(iA.getChecksums());
+                } else {
+                    logger.warn("Interactor Checksum A is null");
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -146,6 +181,24 @@ public class Binary2Encore {
                 } else {
                     logger.warn("Organism is null");
                 }
+                /* get all biologicalRoles for this interactor */
+                if (iB.getBiologicalRoles() != null) {
+                    List<CrossReference> biologicalRoles = iB.getBiologicalRoles();
+                    for (CrossReference biologicalRole : biologicalRoles) {
+                        encoreInteraction.addBiologicalRoleB(biologicalRole.getIdentifier());
+                    }
+                } else {
+                    logger.warn("Biological Role B is null");
+                }
+                /* get all experimentalRoles for this interactor */
+                if (iB.getExperimentalRoles() != null) {
+                    List<CrossReference> experimentalRoles = iB.getExperimentalRoles();
+                    for (CrossReference experimentalRole : experimentalRoles) {
+                        encoreInteraction.addExperimentalRoleB(experimentalRole.getIdentifier());
+                    }
+                } else {
+                    logger.warn("Experimental Role B is null");
+                }
                 /* get all types for this interactor */
                 if (iB.getInteractorTypes() != null) {
                     List<CrossReference> iTypes = iB.getInteractorTypes();
@@ -153,7 +206,25 @@ public class Binary2Encore {
                         encoreInteraction.addInteractorTypeB(iType.getIdentifier());
                     }
                 } else {
-                    logger.warn("Interactor Types is null");
+                    logger.warn("Interactor Type B is null");
+                }
+                /* get all xrefs for this interactor */
+                if (iB.getXrefs() != null) {
+                    encoreInteraction.addXrefsB(iB.getXrefs());
+                } else {
+                    logger.warn("Interactor Xrefs B is null");
+                }
+                /* get all annotations for this interactor */
+                if (iB.getAnnotations() != null) {
+                    encoreInteraction.addAnnotationsB(iB.getAnnotations());
+                } else {
+                    logger.warn("Interactor Bnnotations B is null");
+                }
+                /* get all xrefs for this interactor */
+                if (iB.getChecksums() != null) {
+                    encoreInteraction.addChecksumsB(iB.getChecksums());
+                } else {
+                    logger.warn("Interactor Checksum B is null");
                 }
             }
         } catch (Exception e) {
@@ -187,6 +258,30 @@ public class Binary2Encore {
             logger.warn("Pubmed missing for \"" + experiment + "\" in \"" + database + "\"");
         }
 
+        /* get expansions */
+        if (binaryInteraction.getComplexExpansion() != null) {
+            List<CrossReference> complexExpansion = binaryInteraction.getComplexExpansion();
+            for (CrossReference expansion : complexExpansion) {
+                encoreInteraction.addExpansion(expansion.getIdentifier());
+            }
+        } else {
+            logger.warn("Expansion is null");
+        }
+
+        /* get xrefs */
+        if (binaryInteraction.getXrefs() != null) {
+            encoreInteraction.addXrefsInteraction(binaryInteraction.getXrefs());
+        } else {
+            logger.warn("Xrefs is null");
+        }
+
+        /* get annotations */
+        if (binaryInteraction.getAnnotations() != null) {
+            encoreInteraction.addAnnotationsInteraction(binaryInteraction.getAnnotations());
+        } else {
+            logger.warn("Annotations is null");
+        }
+
         /* get host organisms */
         if (binaryInteraction.getHostOrganism() != null) {
             encoreInteraction.addHostOrganisms(binaryInteraction.getHostOrganism().getIdentifiers());
@@ -194,7 +289,39 @@ public class Binary2Encore {
             logger.warn("Host Organism is null");
         }
 
-        // TODO: add calls to setters for the missing MITAB 2.6, 2.7 and 2.8 fields
+        /* get parameters */
+        if (binaryInteraction.getParameters() != null) {
+            encoreInteraction.addParameters(binaryInteraction.getParameters());
+        } else {
+            logger.warn("Parameters is null");
+        }
+
+        /* get creation date */
+        if (binaryInteraction.getCreationDate() != null) {
+            encoreInteraction.addCreationDates(binaryInteraction.getCreationDate());
+        } else {
+            logger.warn("Creation date is null");
+        }
+
+        /* get update date */
+        if (binaryInteraction.getUpdateDate() != null) {
+            encoreInteraction.addUpdateDates(binaryInteraction.getUpdateDate());
+        } else {
+            logger.warn("Creation date is null");
+        }
+
+        /* get checksum */
+        if (binaryInteraction.getChecksums() != null) {
+            encoreInteraction.addChecksumsInteraction(binaryInteraction.getChecksums());
+        } else {
+            logger.warn("Checksums is null");
+        }
+
+        /* get negative */
+        encoreInteraction.addNegative(binaryInteraction.isNegativeInteraction());
+
+
+        // TODO: add calls to setters for the missing MITAB 2.7 and 2.8 fields
 
         return validPublication;
     }
