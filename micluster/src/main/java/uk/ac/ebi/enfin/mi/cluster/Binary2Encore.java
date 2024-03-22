@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
  * Class which extends the EncoreInteraction class to create
  * EncoreInteraction from Psicquic Binary Interactions. Include
  * participant databases to map from MI:0473
+ *
  * @author Rafael
  * @since 02-Jun-2010
  * Time: 10:40:20
@@ -30,11 +31,12 @@ public class Binary2Encore {
 
     /**
      * Fill the fields of an encore binary interaction and return the pubmed id
+     *
      * @param encoreInteraction
      * @param binaryInteraction
      * @return
      */
-    private String convertEncoreInteraction(EncoreBinaryInteraction encoreInteraction, BinaryInteraction binaryInteraction){
+    private String convertEncoreInteraction(EncoreBinaryInteraction encoreInteraction, BinaryInteraction binaryInteraction) {
         /* set an ID. Since this is a temporal interaction ID = 0 */
         encoreInteraction.setId(0);
 
@@ -48,32 +50,29 @@ public class Binary2Encore {
         String imex = "";
         String other = "";
         pubLoop:
-        for(CrossReference iPublication:iPublications){
-            if(iPublication.getDatabase().equalsIgnoreCase("pubmed")){
+        for (CrossReference iPublication : iPublications) {
+            if (iPublication.getDatabase().equalsIgnoreCase("pubmed")) {
                 pubmed = iPublication.getIdentifier();
-            } else if(iPublication.getDatabase().equalsIgnoreCase("doi")){
+            } else if (iPublication.getDatabase().equalsIgnoreCase("doi")) {
                 doi = iPublication.getIdentifier();
-            } else if(iPublication.getDatabase().equalsIgnoreCase("imex")){
+            } else if (iPublication.getDatabase().equalsIgnoreCase("imex")) {
                 imex = iPublication.getIdentifier();
             } else {
                 other = iPublication.getIdentifier();
             }
         }
 
-        if (pubmed.length() == 0){
-            if (doi.length() == 0){
-                if (imex.length() == 0){
+        if (pubmed.length() == 0) {
+            if (doi.length() == 0) {
+                if (imex.length() == 0) {
                     validPublication = other;
-                }
-                else {
+                } else {
                     validPublication = imex;
                 }
-            }
-            else {
+            } else {
                 validPublication = doi;
             }
-        }
-        else {
+        } else {
             validPublication = pubmed;
         }
 
@@ -82,7 +81,7 @@ public class Binary2Encore {
         /* get source name */
         String sourceDatabase = "";
         List<CrossReference> iSourceDatabases = binaryInteraction.getSourceDatabases();
-        if(iSourceDatabases.size() > 0){
+        if (iSourceDatabases.size() > 0) {
             sourceDatabase = iSourceDatabases.get(0).getText();
         }
 
@@ -90,7 +89,7 @@ public class Binary2Encore {
         List<CrossReference> iExps = binaryInteraction.getInteractionAcs();
         String experiment = "";
         String database = "";
-        for(CrossReference iExp:iExps){
+        for (CrossReference iExp : iExps) {
             // Just take the first one (the first one normally is the original one and the others xref).
             // It is difficult to rely on xrefs since they might provide different information or miss some data.
             // todo: consider xref
@@ -98,22 +97,22 @@ public class Binary2Encore {
             database = iExp.getDatabase();
             break;
         }
-        encoreInteraction.addExperimentToPubmed(experiment,  validPublication);
-        if(database.length() > 0){
+        encoreInteraction.addExperimentToPubmed(experiment, validPublication);
+        if (database.length() > 0) {
             encoreInteraction.addExperimentToDatabase(experiment, database);
         } else {
             encoreInteraction.addExperimentToDatabase(experiment, sourceDatabase);
         }
 
         /* get the interactor A */
-        try{
+        try {
             Interactor iA = binaryInteraction.getInteractorA();
             EncoreIdentifiers interactorAccsA = getInteractorAccs(iA);
             encoreInteraction.setInteractorAccsA(interactorAccsA.getAccessions());
             encoreInteraction.setOtherInteractorAccsA(interactorAccsA.getOtherAccessions());
-            if(iA != null){
+            if (iA != null) {
                 /* get taxId for interactor A */
-                if(iA.getOrganism() != null){
+                if (iA.getOrganism() != null) {
                     encoreInteraction.addOrganismsA(iA.getOrganism().getIdentifiers());
                 } else {
                     logger.warn("Organism is null");
@@ -127,21 +126,22 @@ public class Binary2Encore {
                 } else {
                     logger.warn("Interactor Types is null");
                 }
+
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         /* get the interactor B */
-        try{
+        try {
             Interactor iB = binaryInteraction.getInteractorB();
 //            if(iB)
             EncoreIdentifiers interactorAccsB = getInteractorAccs(iB);
             encoreInteraction.setInteractorAccsB(interactorAccsB.getAccessions());
             encoreInteraction.setOtherInteractorAccsB(interactorAccsB.getOtherAccessions());
-            if(iB != null){
+            if (iB != null) {
                 /* get taxId for interactor B */
-                if(iB.getOrganism() != null){
+                if (iB.getOrganism() != null) {
                     encoreInteraction.addOrganismsB(iB.getOrganism().getIdentifiers());
                 } else {
                     logger.warn("Organism is null");
@@ -156,7 +156,7 @@ public class Binary2Encore {
                     logger.warn("Interactor Types is null");
                 }
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -164,31 +164,31 @@ public class Binary2Encore {
 
 
         /* get scores */
-        if(binaryInteraction.getConfidenceValues() != null){
+        if (binaryInteraction.getConfidenceValues() != null) {
             encoreInteraction.addConfidenceValues(binaryInteraction.getConfidenceValues());
         } else {
             logger.warn("Confidence Values is null");
         }
 
         /* get authors */
-        if(binaryInteraction.getAuthors() != null){
+        if (binaryInteraction.getAuthors() != null) {
             encoreInteraction.addAuthors(binaryInteraction.getAuthors());
         } else {
             logger.warn("Authors is null");
         }
         /* get SourceDatabases */
-        if(binaryInteraction.getSourceDatabases() != null){
+        if (binaryInteraction.getSourceDatabases() != null) {
             encoreInteraction.addSourceDatabases(binaryInteraction.getSourceDatabases());
         } else {
             logger.warn("SourceDatabases is null");
         }
         /* Warning messages */
-        if(validPublication.length() == 0){
+        if (validPublication.length() == 0) {
             logger.warn("Pubmed missing for \"" + experiment + "\" in \"" + database + "\"");
         }
 
         /* get host organisms */
-        if(binaryInteraction.getHostOrganism() != null){
+        if (binaryInteraction.getHostOrganism() != null) {
             encoreInteraction.addHostOrganisms(binaryInteraction.getHostOrganism().getIdentifiers());
         } else {
             logger.warn("Host Organism is null");
@@ -206,13 +206,13 @@ public class Binary2Encore {
 
         /* get all types for this interaction */
         List<CrossReference> iTypes = binaryInteraction.getInteractionTypes();
-        for(CrossReference iType:iTypes){
+        for (CrossReference iType : iTypes) {
             encoreInteraction.addTypeToPubmed(iType.getIdentifier(), pubmed);
         }
 
         /* get all methods for this interaction */
         List<CrossReference> iMethods = binaryInteraction.getDetectionMethods();
-        for(CrossReference iMethod:iMethods){
+        for (CrossReference iMethod : iMethods) {
             encoreInteraction.addMethodToPubmed(iMethod.getIdentifier(), pubmed);
         }
 
@@ -223,7 +223,7 @@ public class Binary2Encore {
         EncoreInteraction encoreInteraction = new EncoreInteraction();
 
         String pubmed = convertEncoreInteraction(encoreInteraction, binaryInteraction);
-        if (pubmed.length() > 0){
+        if (pubmed.length() > 0) {
             encoreInteraction.getDistinctPublications().add(pubmed);
         }
 
@@ -233,80 +233,71 @@ public class Binary2Encore {
         /* get all methods for this interaction */
         List<CrossReference> iMethods = binaryInteraction.getDetectionMethods();
 
-        if (iTypes.size() == 1 && iMethods.size() > 1){
+        if (iTypes.size() == 1 && iMethods.size() > 1) {
             String type = iTypes.get(0).getIdentifier();
 
-            for (CrossReference meth : iMethods){
+            for (CrossReference meth : iMethods) {
                 MethodTypePair pair = new MethodTypePair(meth.getIdentifier(), type);
 
-                if (encoreInteraction.getMethodTypePairListMap().containsKey(pair)){
+                if (encoreInteraction.getMethodTypePairListMap().containsKey(pair)) {
                     encoreInteraction.getMethodTypePairListMap().get(pair).add(pubmed);
-                }
-                else {
+                } else {
                     List<String> pubmeds = new ArrayList<String>();
                     pubmeds.add(pubmed);
 
                     encoreInteraction.getMethodTypePairListMap().put(pair, pubmeds);
                 }
             }
-        }
-        else if (iTypes.size() > 1 && iMethods.size() == 1){
+        } else if (iTypes.size() > 1 && iMethods.size() == 1) {
             String method = iMethods.get(0).getIdentifier();
 
-            for (CrossReference type : iTypes){
+            for (CrossReference type : iTypes) {
                 MethodTypePair pair = new MethodTypePair(method, type.getIdentifier());
 
-                if (encoreInteraction.getMethodTypePairListMap().containsKey(pair)){
+                if (encoreInteraction.getMethodTypePairListMap().containsKey(pair)) {
                     encoreInteraction.getMethodTypePairListMap().get(pair).add(pubmed);
-                }
-                else {
+                } else {
                     List<String> pubmeds = new ArrayList<String>();
                     pubmeds.add(pubmed);
 
                     encoreInteraction.getMethodTypePairListMap().put(pair, pubmeds);
                 }
             }
-        }
-        else if (iMethods.size() == iTypes.size()) {
-            for (int i = 0; i < iMethods.size() ; i++){
+        } else if (iMethods.size() == iTypes.size()) {
+            for (int i = 0; i < iMethods.size(); i++) {
                 String method = iMethods.get(i).getIdentifier();
                 String type = iTypes.get(i).getIdentifier();
                 MethodTypePair pair = new MethodTypePair(method, type);
 
-                if (encoreInteraction.getMethodTypePairListMap().containsKey(pair)){
+                if (encoreInteraction.getMethodTypePairListMap().containsKey(pair)) {
                     encoreInteraction.getMethodTypePairListMap().get(pair).add(pubmed);
-                }
-                else {
+                } else {
                     List<String> pubmeds = new ArrayList<String>();
                     pubmeds.add(pubmed);
 
                     encoreInteraction.getMethodTypePairListMap().put(pair, pubmeds);
                 }
             }
-        }
-        else if (iMethods.isEmpty() && iTypes.size() > 0){
-            for (CrossReference type : iTypes){
+        } else if (iMethods.isEmpty() && iTypes.size() > 0) {
+            for (CrossReference type : iTypes) {
                 MethodTypePair pair = new MethodTypePair(null, type.getIdentifier());
 
-                if (encoreInteraction.getMethodTypePairListMap().containsKey(pair)){
+                if (encoreInteraction.getMethodTypePairListMap().containsKey(pair)) {
                     encoreInteraction.getMethodTypePairListMap().get(pair).add(pubmed);
-                }
-                else {
+                } else {
                     List<String> pubmeds = new ArrayList<String>();
                     pubmeds.add(pubmed);
 
                     encoreInteraction.getMethodTypePairListMap().put(pair, pubmeds);
                 }
             }
-        }
-        else if (iTypes.isEmpty() && iMethods.size() > 0){
-            for (CrossReference meth : iMethods){
+        } else if (iTypes.isEmpty() && iMethods.size() > 0) {
+            for (CrossReference meth : iMethods) {
                 MethodTypePair pair = new MethodTypePair(meth.getIdentifier(), null);
 
-                if (encoreInteraction.getMethodTypePairListMap().containsKey(pair)){
+                if (encoreInteraction.getMethodTypePairListMap().containsKey(pair)) {
                     encoreInteraction.getMethodTypePairListMap().get(pair).add(pubmed);
-                }
-                else {
+                } else {
                     List<String> pubmeds = new ArrayList<String>();
                     pubmeds.add(pubmed);
 
@@ -316,26 +307,24 @@ public class Binary2Encore {
         }
         // do not associate any interaction type with any detection methods. It will be scored independently
         else {
-            for (CrossReference type : iTypes){
+            for (CrossReference type : iTypes) {
                 MethodTypePair pair = new MethodTypePair(null, type.getIdentifier());
 
-                if (encoreInteraction.getMethodTypePairListMap().containsKey(pair)){
+                if (encoreInteraction.getMethodTypePairListMap().containsKey(pair)) {
                     encoreInteraction.getMethodTypePairListMap().get(pair).add(pubmed);
-                }
-                else {
+                } else {
                     List<String> pubmeds = new ArrayList<String>();
                     pubmeds.add(pubmed);
 
                     encoreInteraction.getMethodTypePairListMap().put(pair, pubmeds);
                 }
             }
-            for (CrossReference meth : iMethods){
+            for (CrossReference meth : iMethods) {
                 MethodTypePair pair = new MethodTypePair(meth.getIdentifier(), null);
 
-                if (encoreInteraction.getMethodTypePairListMap().containsKey(pair)){
+                if (encoreInteraction.getMethodTypePairListMap().containsKey(pair)) {
                     encoreInteraction.getMethodTypePairListMap().get(pair).add(pubmed);
-                }
-                else {
+                } else {
                     List<String> pubmeds = new ArrayList<String>();
                     pubmeds.add(pubmed);
 
@@ -347,32 +336,32 @@ public class Binary2Encore {
         return encoreInteraction;
     }
 
-    private void updateAccMap(Map<String,String> accs, String acc, String[] idDbNameList, String sourceIdDbName){
-        if(idDbNameList != null && idDbNameList.length > 0){
-            for ( int i=0; i<idDbNameList.length; i++ ){
+    private void updateAccMap(Map<String, String> accs, String acc, String[] idDbNameList, String sourceIdDbName) {
+        if (idDbNameList != null && idDbNameList.length > 0) {
+            for (int i = 0; i < idDbNameList.length; i++) {
                 String idDbName = idDbNameList[i];
                 if (sourceIdDbName.equalsIgnoreCase(idDbName)) {
                     //todo: add option to collect more uniprotkb accs and ids. They could be trembla dn swissprot.
                     //todo: add option to collect uniprotkb recomended names
-                    if(idDbName.equalsIgnoreCase("uniprotkb")){
-                        if(accs.containsKey("uniprotkb")){
+                    if (idDbName.equalsIgnoreCase("uniprotkb")) {
+                        if (accs.containsKey("uniprotkb")) {
                             // Uniprot acc already in accs
-                        } else if(!accs.containsKey(sourceIdDbName)){
+                        } else if (!accs.containsKey(sourceIdDbName)) {
                             accs.put(sourceIdDbName, acc);
                         } else {
-                            if(UNIPROT_ACC.matcher(acc).matches()){
+                            if (UNIPROT_ACC.matcher(acc).matches()) {
                                 /* If uniprotKb, do not take into account versions */
                                 String upac = acc;
-                                final int idx = acc.indexOf( "." );
-                                if( idx != -1 ) {
-                                    upac = acc.substring( 0, idx );
+                                final int idx = acc.indexOf(".");
+                                if (idx != -1) {
+                                    upac = acc.substring(0, idx);
                                 }
-                                accs.put(sourceIdDbName, upac );
+                                accs.put(sourceIdDbName, upac);
                             }
                         }
                     } else {
-                        if(!accs.containsKey(sourceIdDbName)){
-                            accs.put(sourceIdDbName,acc);
+                        if (!accs.containsKey(sourceIdDbName)) {
+                            accs.put(sourceIdDbName, acc);
                         }
                     }
                 }
@@ -380,29 +369,29 @@ public class Binary2Encore {
         }
     }
 
-    private void updateOtherAccMap(Map<String,List<String>> otherAccs, String sourceIdDbName, String acc){
+    private void updateOtherAccMap(Map<String, List<String>> otherAccs, String sourceIdDbName, String acc) {
         List<String> otherAccsList = new ArrayList<String>();
-        if(!otherAccs.containsKey(sourceIdDbName)){
+        if (!otherAccs.containsKey(sourceIdDbName)) {
             otherAccsList.add(acc);
             otherAccs.put(sourceIdDbName, otherAccsList);
         } else {
             otherAccsList = otherAccs.get(sourceIdDbName);
-            if(!otherAccsList.contains(acc)){
+            if (!otherAccsList.contains(acc)) {
                 otherAccsList.add(acc);
                 otherAccs.put(sourceIdDbName, otherAccsList);
             }
         }
     }
 
-    private EncoreIdentifiers getInteractorAccs(Interactor interactor){
+    private EncoreIdentifiers getInteractorAccs(Interactor interactor) {
         EncoreIdentifiers eIds = new EncoreIdentifiers();
-        Map<String,String> accs = new HashMap<String,String>();
-        Map<String,List<String>> otherAccs = new HashMap<String,List<String>>();
+        Map<String, String> accs = new HashMap<String, String>();
+        Map<String, List<String>> otherAccs = new HashMap<String, List<String>>();
 
-        if(interactor != null){
+        if (interactor != null) {
             /* FIND ACCS FROM THE LIST OF IDS idBdNameList */
             /* Interactor id column : XREF */
-            if(interactor.getIdentifiers() != null){
+            if (interactor.getIdentifiers() != null) {
                 for (CrossReference xref : interactor.getIdentifiers()) {
                     String acc = xref.getIdentifier();
                     String sourceIdDbName = xref.getDatabase();
@@ -410,13 +399,13 @@ public class Binary2Encore {
                     updateAccMap(accs, acc, idDbNameList, sourceIdDbName);
                     int newSize = accs.size();
                     /* No acc found from the idDbNameList */
-                    if(firtSize == newSize){
+                    if (firtSize == newSize) {
                         updateOtherAccMap(otherAccs, sourceIdDbName, acc);
                     }
                 }
             }
             /* Alternative id column : aXref */
-            if(interactor.getAlternativeIdentifiers() != null){
+            if (interactor.getAlternativeIdentifiers() != null) {
                 for (CrossReference aXref : interactor.getAlternativeIdentifiers()) {
                     String acc = aXref.getIdentifier();
                     String sourceIdDbName = aXref.getDatabase();
@@ -424,13 +413,13 @@ public class Binary2Encore {
                     updateAccMap(accs, acc, idDbNameList, sourceIdDbName);
                     int newSize = accs.size();
                     /* No acc found from the idDbNameList */
-                    if(firtSize == newSize){
+                    if (firtSize == newSize) {
                         updateOtherAccMap(otherAccs, sourceIdDbName, acc);
                     }
                 }
             }
             /* Alias id column : alias */
-            if(interactor.getAliases() != null){
+            if (interactor.getAliases() != null) {
                 for (Alias alias : interactor.getAliases()) {
                     String acc = alias.getName();
                     String sourceIdDbName = alias.getDbSource();
@@ -438,7 +427,7 @@ public class Binary2Encore {
                     updateAccMap(accs, acc, idDbNameList, sourceIdDbName);
                     int newSize = accs.size();
                     /* No acc found from the idDbNameList */
-                    if(firtSize == newSize){
+                    if (firtSize == newSize) {
                         updateOtherAccMap(otherAccs, sourceIdDbName, acc);
                     }
                 }
@@ -446,8 +435,8 @@ public class Binary2Encore {
         }
 
         /* If accs is empty take the first acc from other Accs. Delete first acc from otherAcc */
-        if(accs.size() == 0){
-            for(String otherAccDb:otherAccs.keySet()){
+        if (accs.size() == 0) {
+            for (String otherAccDb : otherAccs.keySet()) {
                 accs.put(otherAccDb, otherAccs.get(otherAccDb).get(0));
                 otherAccs.remove(otherAccDb);
                 break;
