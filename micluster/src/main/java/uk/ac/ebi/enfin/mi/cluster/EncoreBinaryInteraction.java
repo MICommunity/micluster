@@ -1,8 +1,6 @@
 package uk.ac.ebi.enfin.mi.cluster;
 
-import psidev.psi.mi.tab.model.Author;
-import psidev.psi.mi.tab.model.Confidence;
-import psidev.psi.mi.tab.model.CrossReference;
+import psidev.psi.mi.tab.model.*;
 
 import java.io.Serializable;
 import java.util.*;
@@ -15,7 +13,7 @@ import java.util.*;
  * @since <pre>01/04/11</pre>
  */
 
-public interface EncoreBinaryInteraction extends Serializable{
+public interface EncoreBinaryInteraction extends Serializable {
 
     public int getId();
 
@@ -103,7 +101,7 @@ public interface EncoreBinaryInteraction extends Serializable{
 
     public List<Author> getAuthors();
 
-    public void setAuthors(List<Author> authors) ;
+    public void setAuthors(List<Author> authors);
 
     public void addAuthors(List<Author> authors);
 
@@ -136,4 +134,177 @@ public interface EncoreBinaryInteraction extends Serializable{
     public String getMappingIdDbNames();
 
     public void setMappingIdDbNames(String mappingIdDbNames);
+
+    // MI TAB 2.6
+
+    public List<String> getExpansions();
+
+    public void setExpansions(List<String> expansions);
+
+    public void addExpansions(List<String> expansions);
+
+    public void addExpansion(String expansion);
+
+    public List<String> getBiologicalRolesA();
+
+    public void setBiologicalRolesA(List<String> biologicalRolesA);
+
+    public void addBiologicalRolesA(List<String> biologicalRolesA);
+
+    public void addBiologicalRoleA(String biologicalRoleA);
+
+    public List<String> getBiologicalRolesB();
+
+    public void setBiologicalRolesB(List<String> biologicalRolesB);
+
+    public void addBiologicalRolesB(List<String> biologicalRolesB);
+
+    public void addBiologicalRoleB(String biologicalRoleB);
+
+    public List<String> getExperimentalRolesA();
+
+    public void setExperimentalRolesA(List<String> experimentalRolesA);
+
+    public void addExperimentalRolesA(List<String> experimentalRolesA);
+
+    public void addExperimentalRoleA(String experimentalRoleA);
+
+    public List<String> getExperimentalRolesB();
+
+    public void setExperimentalRolesB(List<String> experimentalRolesB);
+
+    public void addExperimentalRolesB(List<String> experimentalRolesB);
+
+    public void addExperimentalRoleB(String experimentalRoleB);
+
+    public List<String> getInteractorTypesA();
+
+    public void setInteractorTypesA(List<String> interactorTypes);
+
+    public void addInteractorTypesA(List<String> interactorTypes);
+
+    public void addInteractorTypeA(String interactorType);
+
+    public List<String> getInteractorTypesB();
+
+    public void setInteractorTypesB(List<String> interactorTypes);
+
+    public void addInteractorTypesB(List<String> interactorTypes);
+
+    public void addInteractorTypeB(String interactorType);
+
+    public List<CrossReference> getXrefsA();
+
+    public void setXrefsA(List<CrossReference> xrefsA);
+
+    public void addXrefsA(List<CrossReference> xrefsA);
+
+    public void addXrefA(CrossReference xrefA);
+
+    public List<CrossReference> getXrefsB();
+
+    public void setXrefsB(List<CrossReference> xrefsB);
+
+    public void addXrefsB(List<CrossReference> xrefsB);
+
+    public void addXrefB(CrossReference xrefB);
+
+    public List<CrossReference> getXrefsInteraction();
+
+    public void setXrefsInteraction(List<CrossReference> xrefsInteraction);
+
+    public void addXrefsInteraction(List<CrossReference> xrefsInteraction);
+
+    public void addXrefInteraction(CrossReference xrefInteraction);
+
+    public List<Annotation> getAnnotationsA();
+
+    public void setAnnotationsA(List<Annotation> annotationsA);
+
+    public void addAnnotationsA(List<Annotation> annotationsA);
+
+    public void addAnnotationA(Annotation annotationA);
+
+    public List<Annotation> getAnnotationsB();
+
+    public void setAnnotationsB(List<Annotation> annotationsB);
+
+    public void addAnnotationsB(List<Annotation> annotationsB);
+
+    public void addAnnotationB(Annotation annotationB);
+
+    public List<Annotation> getAnnotationsInteraction();
+
+    public void setAnnotationsInteraction(List<Annotation> annotationsInteraction);
+
+    public void addAnnotationsInteraction(List<Annotation> annotationsInteraction);
+
+    public void addAnnotationInteraction(Annotation annotationInteraction);
+
+    public List<CrossReference> getHostOrganisms();
+
+    public void setHostOrganisms(List<CrossReference> hostOrganisms);
+
+    public void addHostOrganisms(List<CrossReference> hostOrganisms);
+
+    public void addHostOrganism(CrossReference hostOrganism);
+
+    public List<Parameter> getParameters();
+
+    public void setParameters(List<Parameter> parameters);
+
+    public void addParameters(List<Parameter> parameters);
+
+    public void addParameter(Parameter parameter);
+
+    public List<Date> getCreationDates();
+
+    public void setCreationDates(List<Date> creationDates);
+
+    public void addCreationDates(List<Date> creationDates);
+
+    public void addCreationDate(Date creationDate);
+
+    public List<Date> getUpdateDates();
+
+    public void setUpdateDates(List<Date> updateDates);
+
+    public void addUpdateDates(List<Date> updateDates);
+
+    public void addUpdateDate(Date updateDate);
+
+    public List<Checksum> getChecksumsA();
+
+    public void setChecksumsA(List<Checksum> checksumsA);
+
+    public void addChecksumsA(List<Checksum> checksumsA);
+
+    public void addChecksumA(Checksum checksumA);
+
+    public List<Checksum> getChecksumsB();
+
+    public void setChecksumsB(List<Checksum> checksumsB);
+
+    public void addChecksumsB(List<Checksum> checksumsB);
+
+    public void addChecksumB(Checksum checksumB);
+
+    public List<Checksum> getChecksumsInteraction();
+
+    public void setChecksumsInteraction(List<Checksum> checksumsInteraction);
+
+    public void addChecksumsInteraction(List<Checksum> checksumsInteraction);
+
+    public void addChecksumInteraction(Checksum checksumInteraction);
+
+    public List<Boolean> getNegatives();
+
+    public void setNegatives(List<Boolean> negatives);
+
+    public void addNegatives(List<Boolean> negatives);
+
+    public void addNegative(Boolean negative);
+
+
+    // TODO: add getters and setters for the missing MITAB 2.7 and 2.8 fields
 }
