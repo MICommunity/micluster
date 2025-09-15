@@ -27,8 +27,8 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
 	private static final Logger logger = Logger.getLogger(InteractionClusterScore.class);
 	protected String fileName;
 	protected MIOntology MIO = new MIOntology();
-	protected Map<String, Float> customOntologyTypeScores = new HashMap<String, Float>();
-	protected Map<String, Float> customOntologyMethodScores = new HashMap<String, Float>();
+	protected Map<String, Float> customOntologyTypeScores = new HashMap<>();
+	protected Map<String, Float> customOntologyMethodScores = new HashMap<>();
 	protected Integer customPublicationNumberWithHighestScore = null;
 	protected Float typeWeight = 1.0f;
 	protected Float methodWeight = 1.0f;
@@ -37,99 +37,101 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
 	protected String scoreName = "intactPsiscore";
 
 	/* Query parameters for PSICQUIC */
-	protected List<String> querySources = new ArrayList<String>();
-	protected List<String> queryAccs = new ArrayList<String>();
+	protected List<String> querySources = new ArrayList<>();
+	protected List<String> queryAccs = new ArrayList<>();
 
 	protected MIScore miscore;
+    private Map<String, Map<String, String>> mapOfMethodTerms;
+    private Map<String, Map<String, String>> mapOfTypeTerms;
 
 	public InteractionClusterScore() {
 		super(0, 200);
 		this.miscore = new MIScore();
 
-		this.interactionMapping = new HashMap<Integer, EncoreInteraction>();
-		this.interactorMapping = new HashMap<String, List<Integer>>();
-		this.synonymMapping = new HashMap<String, String>();
+		this.interactionMapping = new HashMap<>();
+		this.interactorMapping = new HashMap<>();
+		this.synonymMapping = new HashMap<>();
 	}
 
 	public InteractionClusterScore(MIScore miScore) {
 		super(0, 200);
 		this.miscore = miScore;
 
-		this.interactionMapping = new HashMap<Integer, EncoreInteraction>();
-		this.interactorMapping = new HashMap<String, List<Integer>>();
-		this.synonymMapping = new HashMap<String, String>();
+		this.interactionMapping = new HashMap<>();
+		this.interactorMapping = new HashMap<>();
+		this.synonymMapping = new HashMap<>();
 	}
 
 	public InteractionClusterScore(List<BinaryInteraction> binaryInteractionList, String mappingIdDbNames) {
 		super(binaryInteractionList, mappingIdDbNames);
 		this.miscore = new MIScore();
 
-		this.interactionMapping = new HashMap<Integer, EncoreInteraction>();
-		this.interactorMapping = new HashMap<String, List<Integer>>();
-		this.synonymMapping = new HashMap<String, String>();
+		this.interactionMapping = new HashMap<>();
+		this.interactorMapping = new HashMap<>();
+		this.synonymMapping = new HashMap<>();
 	}
 
 	public InteractionClusterScore(List<BinaryInteraction> binaryInteractionList) {
 		super(binaryInteractionList);
 		this.miscore = new MIScore();
 
-		this.interactionMapping = new HashMap<Integer, EncoreInteraction>();
-		this.interactorMapping = new HashMap<String, List<Integer>>();
-		this.synonymMapping = new HashMap<String, String>();
+		this.interactionMapping = new HashMap<>();
+		this.interactorMapping = new HashMap<>();
+		this.synonymMapping = new HashMap<>();
 	}
 
 	public InteractionClusterScore(InputStream is, boolean hasHeader) throws ClusterServiceException {
 		super(is, hasHeader);
 		this.miscore = new MIScore();
 
-		this.interactionMapping = new HashMap<Integer, EncoreInteraction>();
-		this.interactorMapping = new HashMap<String, List<Integer>>();
-		this.synonymMapping = new HashMap<String, String>();
+		this.interactionMapping = new HashMap<>();
+		this.interactorMapping = new HashMap<>();
+		this.synonymMapping = new HashMap<>();
 	}
 
 	public InteractionClusterScore(Reader r, boolean hasHeader) throws ClusterServiceException {
 		super(r, hasHeader);
 		this.miscore = new MIScore();
 
-		this.interactionMapping = new HashMap<Integer, EncoreInteraction>();
-		this.interactorMapping = new HashMap<String, List<Integer>>();
-		this.synonymMapping = new HashMap<String, String>();
+		this.interactionMapping = new HashMap<>();
+		this.interactorMapping = new HashMap<>();
+		this.synonymMapping = new HashMap<>();
 	}
 
 	public InteractionClusterScore(Iterator<BinaryInteraction> iterator) throws ClusterServiceException {
 		super(iterator);
 		this.miscore = new MIScore();
 
-		this.interactionMapping = new HashMap<Integer, EncoreInteraction>();
-		this.interactorMapping = new HashMap<String, List<Integer>>();
-		this.synonymMapping = new HashMap<String, String>();
+		this.interactionMapping = new HashMap<>();
+		this.interactorMapping = new HashMap<>();
+		this.synonymMapping = new HashMap<>();
 	}
 
 	public InteractionClusterScore(int queryStart, int queryRange) {
 		super(queryStart, queryRange);
 		this.miscore = new MIScore();
 
-		this.interactionMapping = new HashMap<Integer, EncoreInteraction>();
-		this.interactorMapping = new HashMap<String, List<Integer>>();
-		this.synonymMapping = new HashMap<String, String>();
+		this.interactionMapping = new HashMap<>();
+		this.interactorMapping = new HashMap<>();
+		this.synonymMapping = new HashMap<>();
 	}
 
 	public InteractionClusterScore(int queryStart, int queryRange, String mappingIdDbNames) {
 		super(queryStart, queryRange, mappingIdDbNames);
 		this.miscore = new MIScore();
 
-		this.interactionMapping = new HashMap<Integer, EncoreInteraction>();
-		this.interactorMapping = new HashMap<String, List<Integer>>();
-		this.synonymMapping = new HashMap<String, String>();
+		this.interactionMapping = new HashMap<>();
+		this.interactorMapping = new HashMap<>();
+		this.synonymMapping = new HashMap<>();
 	}
 
 	public InteractionClusterScore(String mappingIdDbNames) {
 		super(mappingIdDbNames);
 		this.miscore = new MIScore();
 
-		this.interactionMapping = new HashMap<Integer, EncoreInteraction>();
-		this.interactorMapping = new HashMap<String, List<Integer>>();
-		this.synonymMapping = new HashMap<String, String>();
+		this.interactionMapping = new HashMap<>();
+		this.interactorMapping = new HashMap<>();
+		this.synonymMapping = new HashMap<>();
 	}
 
 	public InteractionClusterScore(List<String> queryAcc, List<String> querySource, int queryStart, int queryRange) {
@@ -144,9 +146,9 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
 
 		this.miscore = new MIScore();
 
-		this.interactionMapping = new HashMap<Integer, EncoreInteraction>();
-		this.interactorMapping = new HashMap<String, List<Integer>>();
-		this.synonymMapping = new HashMap<String, String>();
+		this.interactionMapping = new HashMap<>();
+		this.interactorMapping = new HashMap<>();
+		this.synonymMapping = new HashMap<>();
 	}
 
 	public InteractionClusterScore(List<String> queryAcc, List<String> querySource, int queryStart, int queryRange, String mappingIdDbNames) {
@@ -160,31 +162,21 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
 
 		this.miscore = new MIScore();
 
-		this.interactionMapping = new HashMap<Integer, EncoreInteraction>();
-		this.interactorMapping = new HashMap<String, List<Integer>>();
-		this.synonymMapping = new HashMap<String, String>();
+		this.interactionMapping = new HashMap<>();
+		this.interactorMapping = new HashMap<>();
+		this.synonymMapping = new HashMap<>();
 	}
 
 	protected void runService(MIScore scoreGenerator) {
 		logger.debug("runService");
 		super.runService();
 
-		logger.debug("Create a map of method terms using parent terms");
-		ArrayList<String> methodParentTerms = new ArrayList<String>();
-		methodParentTerms.add("MI:0013");
-		methodParentTerms.add("MI:0090");
-		methodParentTerms.add("MI:0254");
-		methodParentTerms.add("MI:0255");
-		methodParentTerms.add("MI:0401");
-		methodParentTerms.add("MI:0428");
-		Map<String, Map<String, String>> mapOfMethodTerms = MIO.getMapOfTerms(methodParentTerms);
-
-		logger.debug("Create a map of type terms using parent terms");
-		ArrayList<String> typeParentTerms = new ArrayList<String>();
-		typeParentTerms.add("MI:0208");
-		typeParentTerms.add("MI:0403");
-		typeParentTerms.add("MI:0407");
-		Map<String, Map<String, String>> mapOfTypeTerms = MIO.getMapOfTerms(typeParentTerms);
+        if (mapOfMethodTerms == null) {
+            mapOfMethodTerms = getMapOfMethodTerms();
+        }
+        if (mapOfTypeTerms == null) {
+            mapOfTypeTerms = getMapOfTypeTerms();
+        }
 
 		logger.debug("Update interactions");
 		for (Integer interactionId : this.getInteractionMapping().keySet()) {
@@ -194,8 +186,8 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
 			logger.info("IntA: " + eI.getInteractorA() + " , IntB: " + eI.getInteractorB());
 
 			logger.debug("Find methods and types per publication");
-			ArrayList<String> methods = new ArrayList<String>();
-			ArrayList<String> types = new ArrayList<String>();
+			ArrayList<String> methods = new ArrayList<>();
+			ArrayList<String> types = new ArrayList<>();
 			Map<MethodTypePair, List<String>> methodTypeToPudmed = eI.getMethodTypePairListMap();
 			for (MethodTypePair methodType : methodTypeToPudmed.keySet()) {
 				List<String> uniquePublications = eI.getMethodTypePairListMap().get(methodType);
@@ -262,7 +254,7 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
 
 	@Override
 	protected void setMappingForPsicquic() {
-		if (queryAccs.size() > 0 && querySources.size() > 0) {
+		if (!queryAccs.isEmpty() && !querySources.isEmpty()) {
 			for (String queryAcc : queryAccs) {
 				for (String querySource : querySources) {
 					/* Run cluster service */
@@ -611,4 +603,25 @@ public class InteractionClusterScore extends AbstractInteractionCluster<EncoreIn
 	public void setScoreName(String scoreName) {
 		this.scoreName = scoreName;
 	}
+
+    private Map<String, Map<String, String>> getMapOfMethodTerms() {
+        logger.debug("Create a map of method terms using parent terms");
+        ArrayList<String> methodParentTerms = new ArrayList<>();
+        methodParentTerms.add("MI:0013");
+        methodParentTerms.add("MI:0090");
+        methodParentTerms.add("MI:0254");
+        methodParentTerms.add("MI:0255");
+        methodParentTerms.add("MI:0401");
+        methodParentTerms.add("MI:0428");
+        return MIO.getMapOfTerms(methodParentTerms);
+    }
+
+    private Map<String, Map<String, String>> getMapOfTypeTerms() {
+        logger.debug("Create a map of type terms using parent terms");
+        ArrayList<String> typeParentTerms = new ArrayList<>();
+        typeParentTerms.add("MI:0208");
+        typeParentTerms.add("MI:0403");
+        typeParentTerms.add("MI:0407");
+        return MIO.getMapOfTerms(typeParentTerms);
+    }
 }
